@@ -21,3 +21,32 @@ Manager
 
 Admin
 - Quản lý các tài khoản (customer, staff(employee, manager)) 
+
+
+Giao diện:
+Customer
+- Sign Up / Login (Quên mật khẩu)
+- Homepage
+- Cart
+- Order
+<Đăng Đức>
+- Order Detail
+- Product Detail (Bình luận, đánh giá, giá, tên, des,...)
+- Thanh toán (Xem Stripe)
+- Quản lý tài khoản cá nhân
+<Tiến Đạt>
+
+Employee - <Tuấn Đạt>
+- Hiển thị các đơn hàng
+- Xem thông tin khách hàng
+- Xem chi tiết các đơn hàng
+- Xem chi tiết hàng
+
+<Phạm Đạt>
+Manager
+- Dashboard
+- xem các tài khoản
+- CRUD Hàng
+
+Admin
+- Xem các tài khoản > manager
