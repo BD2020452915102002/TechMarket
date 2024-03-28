@@ -33,3 +33,5 @@ const isManager = (req, res, next) => {
         }
     });
 };
+
+module.exports = { isCustomer, isEmployee, isManager };
