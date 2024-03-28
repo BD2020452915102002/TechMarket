@@ -11,3 +11,7 @@ exports.getUserById = async (id) => {
 exports.getAllUsers = async () => {
     return await User.find();
 }
+
+exports.updateUser = async (id, user) => {
+    return await User.findByIdAndUpdate(id, user);
+}
