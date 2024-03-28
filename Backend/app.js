@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRouter");
-const registerRouter = require("./routes/RegisterRouter")
-
+const registerRouter = require("./routes/RegisterRouter");
+const loginRouter = require("./routes/LoginRouter");
 
 require("dotenv").config();
 
@@ -25,5 +25,6 @@ mongoose.connect(uri, {
 
 app.use("/api/user", userRouter);
 app.use("/api/register", registerRouter);
+app.use("/api/login", loginRouter);
 
 module.exports = app;
