@@ -20,4 +20,13 @@ exports.getUserById = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
-}; 
+};
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await userService.getAllUsers();
+        res.json({ data: users, status: "success"});
+    } catch {
+        res.status(500).json({ error: err.message })
+    }
+}

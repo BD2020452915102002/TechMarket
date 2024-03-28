@@ -7,3 +7,7 @@ exports.createUser = async (user) => {
 exports.getUserById = async (id) => {
     return await User.findById(id);
 };
+
+exports.getAllUsers = async () => {
+    return await User.find();
+}
