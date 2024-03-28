@@ -39,3 +39,12 @@ exports.updateUser = async (req, res) => {
         res.status(500).json({ error: err.message })
     }
 }
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const user = userService.deleteUser(req.params.id);
+        res.json({ data: user, status: "success" });
+    } catch {
+        res.status(500).json({ error: err.message })
+    }
+}
