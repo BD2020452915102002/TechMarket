@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRouter");
+const registerRouter = require("./routes/RegisterRouter")
 
 
 require("dotenv").config();
@@ -23,5 +24,6 @@ mongoose.connect(uri, {
     .catch((err) => { console.log("MongoDB connection failed", err.message); });
 
 app.use("/api/user", userRouter);
+app.use("/api/register", registerRouter);
 
 module.exports = app;
