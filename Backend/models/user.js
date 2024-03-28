@@ -31,21 +31,6 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "customer" },
 });
 
-userSchema.pre('save', async function (next) {
-  try {
-    const counterDoc = await Counter.findByIdAndUpdate(
-      { _id: 'userId' },
-      { $inc: { seq: 1 } },
-      { new: true, upsert: true }
-    );
-
-    this.userId = counterDoc.seq;
-    next();
-  } catch (error) {
-    return next(error);
-  }
-});
-
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
