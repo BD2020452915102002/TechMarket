@@ -7,9 +7,13 @@ const productSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 200
     },
-    description: {
+    desc: {
         type: String,
         required: true,
+    },
+    brand: {
+        type: String,
+        required: true
     },
     price: {
         type: Number,
@@ -25,20 +29,9 @@ const productSchema = new mongoose.Schema({
         required: true,
         min: 0
     },
-    alias: {
-        type: String,
-        unique: true
-    },
-    images: [String], 
-    created_at: {
-        type: Date,
-        default: Date.now
-    },
-    updated_at: {
-        type: Date,
-        default: Date.now
-    }
-});
+    images: [String],
+},
+    { timestamps: true });
 
 const Product = mongoose.model("Product", productSchema);
 
