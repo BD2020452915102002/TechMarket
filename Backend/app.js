@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRouter");
 const registerRouter = require("./routes/RegisterRouter");
 const loginRouter = require("./routes/LoginRouter");
+const productRouter = require("./routes/ProductRouter");
 
 require("dotenv").config();
 
@@ -26,5 +27,7 @@ mongoose.connect(uri, {
 app.use("/api/user", userRouter);
 app.use("/api/register", registerRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/product", productRouter);
+
 
 module.exports = app;
