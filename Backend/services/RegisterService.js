@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const crypto = require("crypto");
-const {sendConfirmationEmail} = require("../utils/mailserver");
+const { sendConfirmationEmail } = require("../utils/mailserver");
 
 function generateToken() {
     return crypto.randomBytes(20).toString('hex');
@@ -20,11 +20,11 @@ exports.registerUser = async (user) => {
         confirmationExpires,
     });
     try {
-        const savedUser = await newUser.save(); 
-        sendConfirmationEmail(email, confirmationToken); 
-        return savedUser; 
+        const savedUser = await newUser.save();
+        sendConfirmationEmail(email, confirmationToken);
+        return savedUser;
     } catch (error) {
-        throw error; 
+        throw error;
     }
 };
 
