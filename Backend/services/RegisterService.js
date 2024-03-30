@@ -7,7 +7,7 @@ function generateToken() {
 }
 
 exports.registerUser = async (user) => {
-    const { name, email, password, phone } = user;
+    const { name, email, password, phone, address } = user;
     const confirmationToken = generateToken();
     const confirmationExpires = Date.now() + 3600000;
     const newUser = new User({
@@ -15,6 +15,7 @@ exports.registerUser = async (user) => {
         email,
         password,
         phone,
+        address,
         confirmationToken,
         confirmationExpires,
     });
