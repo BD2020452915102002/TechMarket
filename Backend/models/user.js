@@ -27,7 +27,13 @@ const userSchema = new mongoose.Schema({
     minlength: 3,
     maxlength: 1024
   },
+  emailConfirmed: {
+    type: Boolean,
+    default: false,
+  },
   role: { type: String, default: "customer" },
+  confirmationToken: String,
+  confirmationExpires: Date,
 },
   { timestamps: true }
 );
