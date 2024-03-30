@@ -19,6 +19,7 @@ import jwtDecode from "jwt-decode";
 //...
 const user = jwtDecode(token);
 ```
+Can use [jwt.io](https://jwt.io) to view decoding !
 
 ### User API
 
