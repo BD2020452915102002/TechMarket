@@ -1,18 +1,39 @@
 const loginService = require("../services/LoginService");
+const bcrypt = require("bcrypt");
+const Joi = require("joi");
+const genAuthToken = require("../utils/genAuthToken");
+
 
 exports.loginUser = async (req, res) => {
+
+    const schema = Joi.object({
+        email: Joi.string().min(3).max(200).required().email(),
+        password: Joi.string().min(8).max(1024).required()
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) return res.status(400).send(error.details[0].message);
+
     try {
         if (!req.body.email || !req.body.password) {
             throw new Error("Email and password are required.");
         }
-        const user = await loginService.loginUser(req.body.email);
-        if (!user) {
-            throw new Error("Invalid email or password.");
+
+        let userInDB = await loginService.loginUser(req.body.email);
+
+        if (!userInDB) {
+            res.status(400).send("Invalid email or password.");
         }
-        if (user.password !== req.body.password) {
-            throw new Error("Invalid email or password.");
-        }
-        res.json({ data: user, status: "success" });
+
+        const isValid = await bcrypt.compare(req.body.password, userInDB.password);
+
+        if (!isValid) return res.status(400).send("Invalid email or password...");
+
+        const token = genAuthToken(userInDB);
+
+        res.send(token);
+
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

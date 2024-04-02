@@ -1,26 +1,52 @@
+import TextField from "@mui/material/TextField";
+import { Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
+
+
 function Login() {
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
     return (
-        <>
-            <div className="w-screen h-screen bg-slate-500 flex justify-center items-center">
-                <div className=""></div>
-                <div className="avatar"></div>
-                <form action="" className="w-[600px] h-[500px] bg-white shadow-md px-8 pt-6 pb-8 mt-8">
-                    <h1 className="text-2xl text-center font-bold">Sign in</h1>
-                    <label htmlFor="email" className="block m-2">Email or Phone</label>
-                    <input type="text" name="email" id="email" className="shadow appearance-none border rounded-2xl w-full py-2 px-3 text-gray-700 leading-tight" />
-                    <label htmlFor="password" className="block m-2">Password</label>
-                    <input type="password" name="password" id="password" className="shadow appearance-none border rounded-3xl w-full py-2 px-3 text-gray-700 leading-tight" />
-                    <button className="w-full mt-9 py-2 px-4 bg-gray-200 text-white font-bold rounded-2xl hover:bg-blue-500" >Login</button>
-                    <div className="mt-6 text-center"><p>By continuing, you agree to the <a href="" className="underline">Terms of use</a> and <a href="" className="underline">Privacy Policy</a></p></div>
-                    <div className="flex justify-between mt-9">
-                        <a href="" className="underline">Other issue with sign in</a>
-                        <a href="" className="underline">Forgot password</a>
-                    </div>
-                </form>
+        <div className="flex flex-col justify-center items-center w-[36vw] bg-white rounded-2xl shadow-[0px_0px_10px] shadow-cyan-600 ">
+            <img src="/src/assets/techlogo2.png" alt="" className="w-20 h-20 mt-6" />
+            <div
+                className="px-10 pb-5 rounded-md  flex flex-col justify-center items-center w-full " >
+                <h1 className="font-medium text-2xl mb-6 mt-3">Đăng nhập</h1>
+                <TextField label="Email" className="w-full !my-4" />
+                <FormControl variant="outlined" className={'w-full !my-4'}>
+                    <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
+                    <OutlinedInput
+
+                        type={showPassword ? 'text' : 'password'}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={handleClickShowPassword}
+                                    onMouseDown={handleMouseDownPassword}
+                                    edge="end"
+                                >
+                                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                        label="Mật khẩu"
+                    />
+                </FormControl>
+                <Button variant="contained" className={'!my-4'}>Đăng nhập</Button>
+                <div className={'flex items-center justify-between w-full mb-6 hover:cursor-pointer'}>
+                    <div className={'underline text-md font-medium hover:text-blue-600'}>Đăng ký tài khoản</div>
+                    <div className={'underline text-md font-medium  hover:text-blue-600'}>Quên mật khẩu</div>
+                </div>
             </div>
-        </>
+        </div>
     );
 }
 
 export default Login;
-
