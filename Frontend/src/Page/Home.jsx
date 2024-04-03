@@ -1,6 +1,8 @@
 import Slide from "../Component/Slide.jsx";
 import Sale from "../Component/Sale.jsx";
-import {createContext} from "react";
+import Navbar from "../Component/Navbar.jsx"
+import Footer from "../Component/Footer.jsx"
+import { createContext } from "react";
 
 const ProductContext = createContext();
 
@@ -65,12 +67,14 @@ function Home() {
     return (
         <div>
             <ProductContext.Provider value={products}>
-                <Slide/>
-                <Sale/>
+                <Navbar />
+                <Slide />
+                <Sale />
+                <Footer />
             </ProductContext.Provider>
         </div>
 
     );
 }
 
-export  {Home, ProductContext};
+export { Home, ProductContext };
