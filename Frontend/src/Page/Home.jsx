@@ -73,6 +73,7 @@ function Home() {
             images: 'https://th.bing.com/th/id/OIP.CLQyvU9pmkqmJwbUe9eyfQHaE7?w=300&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7',
         },
     ]
+
     return (
         <div>
             <ProductContext.Provider value={products}>
