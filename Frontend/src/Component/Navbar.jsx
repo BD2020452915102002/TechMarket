@@ -1,27 +1,53 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaRegUser } from "react-icons/fa";
+import MenuIcon from '@mui/icons-material/Menu';
 
 function Navbar(props) {
-    return (
-        <div className="navbar-start flex bg-base-100">
-            <div className="flex-1">
-                <a className="btn btn-ghost text-xl flex absolute left-5">LOGO</a>
-            </div>
-            <ul className="menu menu-horizontal ">
-                <li><a>Item 1</a></li>
-                <li>
-                    <details>
-                        <summary>Parent</summary>
-                        <ul className="p-1">
-                            <li><a>Submenu 1</a></li>
-                            <li><a>Submenu 2</a></li>
-                        </ul>
-                    </details>
-                </li>
-                <li><a>Item 3</a></li>
-            </ul>
+    const category = [
 
-            <div className='flex absolute right-10'>
+        'Điện Thoại',
+        'Laptop',
+        'Smart Watch',
+        'Tai Nghe',
+        'Điện Thoại',
+        'Laptop',
+        'Smart Watch',
+        'Tai Nghe',
+        'Điện Thoại',
+        'Laptop',
+        'Smart Watch',
+        'Tai Nghe',
+        'Điện Thoại',
+        'Laptop',
+        'Smart Watch',
+        'Tai Nghe',
+
+    ]
+    const [isHover, setIsHover] = useState(false)
+    const categoryArr = category.filter((e, i) => {
+        return i < 5
+    })
+    console.log(categoryArr)
+    return (
+        <div className="fixed flex bg-black right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
+            <div className='flex items-center'>
+                <div className='hidden max-lg:block'><MenuIcon /></div>
+                <div className="font-bold text-2xl ml-4  ">TECH MARKET</div>
+
+                <div className=" ml-4 flex items-center w-[60vw]" >
+                    <div className={`mx-3 font-bold text-xl `} onMouseOver={() => setIsHover(true)} onMouseLeave={() => setIsHover(false)}
+                    >Tất cả
+                        <div className={`absolute bg-slate-400 w-20 h-20 top-[80px]  ${isHover ? 'block' : 'hidden'}`} >Hello World</div>
+                    </div>
+                    {
+                        categoryArr.map((e, i) => (
+                            <div key={i} className='mx-2 font-bold' >{e}</div>
+                        ))
+
+                    }
+                </div>
+            </div>
+            <div className=''>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
                         <div className="indicator">
@@ -44,13 +70,12 @@ function Navbar(props) {
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar ">
                         <FaRegUser />
                     </div>
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 text-black">
                         <li><a>Đăng nhập</a></li>
                         <li><a>Đăng xuất</a></li>
                     </ul>
                 </div>
             </div>
-
         </div >
     );
 }
