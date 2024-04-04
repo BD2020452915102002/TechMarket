@@ -23,7 +23,7 @@ function Slide() {
         cssEase: "linear"
     };
     return (
-        <div className={'slider-container p-10'}>
+        <div className={'slider-container'}>
             <Slider {...settings} className={''}>
                 {
                     slider.map((e,i)=>(
