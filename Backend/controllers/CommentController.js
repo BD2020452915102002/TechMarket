@@ -44,3 +44,14 @@ exports.deleteComment = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+
+exports.repComment = async (req, res) => {
+    try {
+        const { replyTo } = req.query;
+        const reply = await commentService.repCommentTo(req.body, replyTo);
+        res.json({ data: reply, status: "success"});
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
