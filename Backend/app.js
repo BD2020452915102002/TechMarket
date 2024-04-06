@@ -7,6 +7,7 @@ const loginRouter = require("./routes/LoginRouter");
 const productRouter = require("./routes/ProductRouter");
 const orderRouter = require("./routes/OrderRouter");
 const confirmRouter = require("./routes/ConfirmRouter");
+const commentRouter = require("./routes/CommentRouter");
 
 require("dotenv").config();
 
@@ -32,5 +33,6 @@ app.use("/api/login", loginRouter);
 app.use("/api/product", productRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/confirm", confirmRouter);
+app.use("/api/comment", commentRouter);
 
 module.exports = app;
