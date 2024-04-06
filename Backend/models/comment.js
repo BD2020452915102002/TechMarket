@@ -13,6 +13,7 @@ const commentSchema = new mongoose.Schema({
     },
     comment: {
         type: String,
+        maxlength: 1024,
         required: true
     },
     rate: {

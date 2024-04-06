@@ -53,3 +53,33 @@ export const setHeaders = () => {
 //...
 const response = await axios.get(`${url}/user`, setHeaders());
 ```
+
+### Comment
+
+Example Json
+```json
+{
+  "_id": "comment_id",
+  "productId": "product_id",
+  "userId": "user_id",
+  "comment": "Nội dung của comment",
+  "rating": 4,
+  "createdAt": "2024-04-06T12:00:00.000Z",
+  "updatedAt": "2024-04-06T12:00:00.000Z"
+}
+```
+
+```json
+{
+{
+  "_id": "reply_id",
+  "productId": "product_id",
+  "userId": "user_id",
+  "comment": "Nội dung của comment phản hồi",
+  "rating": 5,
+  "parentCommentId": "parent_comment_id",
+  "createdAt": "2024-04-06T12:00:00.000Z",
+  "updatedAt": "2024-04-06T12:00:00.000Z"
+}
+}
+```
