@@ -71,7 +71,6 @@ Example Json
 
 ```json
 {
-{
   "_id": "reply_id",
   "productId": "product_id",
   "userId": "user_id",
@@ -81,5 +80,20 @@ Example Json
   "createdAt": "2024-04-06T12:00:00.000Z",
   "updatedAt": "2024-04-06T12:00:00.000Z"
 }
+```
+
+### Product
+
+```json
+{
+    "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",
+    "alias": "laptop-lenovo-ideapad-slim-3-14iah8-83eq0005vn",
+    "desc":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN (Core i5-12450H | 16GB | 512GB | Intel UHD | 14 inch FHD | Win 11 | Xám)",
+    "brand": "Lenovo",
+    "price": 12990000,
+    "category": ["Laptop", "Computer"],
+    "stock": 100,
+    "image": "https://laptopworld.vn/media/product/14758_lenovo_ideapad_slim_3_14iah8_logo.jpg",
+    "rate": 2
 }
 ```

@@ -7,6 +7,12 @@ const productSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 200
     },
+    alias: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 200
+    },
     desc: {
         type: String,
         required: true,
@@ -29,7 +35,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         min: 0
     },
-    images: [String],
+    image: { type: Object, required: true },
     rate: {
         type: Number,
         required: true,
