@@ -82,8 +82,16 @@ Example Json
 }
 ```
 
-### Product
+### Product API
 
+| API              | Method    | Response | Role |
+|------------------|--------|--------|--------|
+| http://localhost:5000/product/user|  GET | JSON | customer |
+| http://localhost:5000/product/user|  POST | JSON | employee |
+| http://localhost:5000/api/product/:id|  GET  | JSON | customer |
+| http://localhost:5000/api/product/:id|  DELETE PUT  | JSON | employee |
+
+Example Request
 ```json
 {
     "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",

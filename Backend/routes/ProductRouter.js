@@ -3,6 +3,6 @@ const { createProduct, getProductById, getAllProducts, updateProduct, deleteProd
 const { isEmployee } = require("../middleware/auth.js");
 const router = express.Router()
 
-router.route("/").get(getAllProducts).post(createProduct);
-router.route("/:id").get(isEmployee, getProductById).put(isEmployee, updateProduct).delete(isEmployee, deleteProduct);
+router.route("/").get(getAllProducts).post(isEmployee, createProduct);
+router.route("/:id").get(getProductById).put(isEmployee, updateProduct).delete(isEmployee, deleteProduct);
 module.exports = router;
