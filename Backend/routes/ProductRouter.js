@@ -1,7 +1,8 @@
 const express = require("express")
 const { createProduct, getProductById, getAllProducts, updateProduct, deleteProduct } = require("../controllers/ProductController.js");
+const { isEmployee } = require("../middleware/auth.js");
 const router = express.Router()
 
 router.route("/").get(getAllProducts).post(createProduct);
-router.route("/:id").get(getProductById).put(updateProduct).delete(deleteProduct);
+router.route("/:id").get(isEmployee, getProductById).put(isEmployee, updateProduct).delete(isEmployee, deleteProduct);
 module.exports = router;
