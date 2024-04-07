@@ -1,6 +1,5 @@
 const register = require("../services/RegisterService");
 const Joi = require("joi");
-const bcrypt = require("bcrypt");
 const genAuthToken = require("../utils/genAuthToken");
 
 exports.registerUser = async (req, res) => {
@@ -23,11 +22,6 @@ exports.registerUser = async (req, res) => {
         if (userInDB) return res.status(400).send("User already exist...");
 
         const user = await register.registerUser(req.body);
-
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-
-        await user.save();
 
         const token = genAuthToken(user);
 

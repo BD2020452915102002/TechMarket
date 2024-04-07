@@ -2,7 +2,7 @@ const express = require("express")
 const User = require("../models/user")
 
 exports.confirmEmail = async (req, res) => {
-    const { token } = req.query;
+    const { token  } = req.query;
     const user = await User.findOne({ confirmationToken: token, confirmationExpires: { $gt: Date.now() } });
   
     if (!user) {
