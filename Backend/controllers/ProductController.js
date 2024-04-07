@@ -44,56 +44,45 @@ exports.getAllProducts = async (req, res) => {
 }
 
 exports.updateProduct = async (req, res) => {
-    if (req.body.productImg) {
-        try {
+    try {
+        if (req.body.image) {
+            const product = await productService.getProductById(req.params.id);
 
-            const destroyResponse = await cloudinary.uploader.destroy(
-                req.body.product.image.public_id
-            );
-            if (destroyResponse) {
-                const uploadedResponse = await cloudinary.uploader.upload(
-                    req.body.productImg,
-                    {
-                        upload_preset: "TechMarket-Product",
-                    }
-                );
-                if (uploadedResponse) {
-                    const updatedProduct = await productService.updateProduct(
-                        req.params.id,
-                        {
-                            $set: {
-                                ...req.body.product,
-                                image: uploadedResponse,
-                            },
-                        },
-                        {
-                            new: true,
-                        }
-                    );
-                    res.status(200).send(updatedProduct);
-                }
+            if (!product) {
+                return res.status(404).json({ error: "Product not found" });
             }
-            // const product = await productService.updateProduct(req.params.id, req.body);
-            // res.status(200).json({ data: product, status: "success" });
-        } catch (err) {
-            res.status(500).json({ error: err.message })
-        }
-    }
-    else {
-        try {
-            const updatedProduct = await productService.updateProduct(
-                req.params.id,
-                {
-                    $set: req.body.product,
+
+            if (product.image && product.image.public_id) {
+                await cloudinary.uploader.destroy(product.image.public_id);
+            }
+
+            const uploadedResponse = await cloudinary.uploader.upload(req.body.image, {
+                upload_preset: "TechMarket-Product",
+            });
+
+            if (!uploadedResponse) {
+                throw new Error("Failed to upload image to cloudinary");
+            }
+
+            const updatedProduct = await productService.updateProduct(req.params.id, {
+                $set: {
+                    ...req.body,
+                    image: uploadedResponse,
                 },
-                { new: true }
-            );
-            res.status(200).send(updatedProduct);
-        } catch (error) {
-            res.status(500).send(error);
+            }, { new: true });
+
+            res.status(200).json({ data: updatedProduct, status: "success" });
+        } else {
+            const updatedProduct = await productService.updateProduct(req.params.id, {
+                $set: req.body,
+            }, { new: true });
+            res.status(200).json({ data: updatedProduct, status: "success" });
         }
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-}
+};
+
 
 exports.deleteProduct = async (req, res) => {
     try {
