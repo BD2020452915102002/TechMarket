@@ -1,7 +1,21 @@
 const Product = require("../models/product.js");
 
+function genAlias(productName) {
+    let alias = productName.toLowerCase();
+  
+    alias = alias.replace(/[^a-z0-9 ]/g, "");
+  
+    alias = alias.replace(/\s+/g, "-");
+  
+    return alias;
+}
+
+
 exports.createProduct = async (product) => {
-    return await Product.create(product);
+    const savedProduct = await Product.create(product);
+    savedProduct.alias = genAlias(savedProduct.name);
+    await savedProduct.save();
+    return savedProduct;
 };
 
 exports.getAllProducts = async () => {

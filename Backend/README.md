@@ -104,4 +104,22 @@ Example Request
     "image": "https://laptopworld.vn/media/product/14758_lenovo_ideapad_slim_3_14iah8_logo.jpg",
     "rate": 2
 }
+
+{
+    "name":"Quest 2 — Advanced All-In-One Virtual Reality Headset — 128 GB",
+    "desc":"Meta Quest 2 is the all-in-one system that truly sets you free to explore in VR. Simply put on the headset and enter fully-immersive, imagination-defying worlds. A built-in battery, fast processor and immersive graphics keep your experience smooth and seamless, while 3D positional audio, hand tracking and easy-to-use controllers make virtual worlds feel real. Meet, play and build communities with people from all over the world. Start an epic new adventure, squad up with friends or add more fun to your fitness routine. Invite others into your VR experience by screen-casting to a compatible TV or screen as it unfolds. See child safety guidance online; Accounts for 10+.",
+    "brand": "Meta",
+    "price": 4936140,
+    "category": ["Electronics", "VR"],
+    "stock": 100,
+    "image": "https://m.media-amazon.com/images/I/61GhF+JUXGL._AC_SL1500_.jpg",
+    "rate": 4.7
+}
 ```
+
+// Manager account for testing purpose
+
+{
+    "email": "Dat.NDT215562@sis.hust.edu.vn",
+    "password": "1234567890"
+}

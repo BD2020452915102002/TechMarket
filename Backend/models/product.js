@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
     },
     alias: {
         type: String,
-        required: true,
+        required: false,
         minlength: 3,
         maxlength: 200
     },
@@ -48,3 +48,4 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;
+
