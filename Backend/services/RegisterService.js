@@ -8,9 +8,9 @@ function generateToken() {
 }
 
 exports.registerUser = async (user) => {
-    const { name, email, password, phone, address } = user;
+    const { name, email, password, phone, avatar } = user;
     const confirmationToken = generateToken();
-    const confirmationExpires = Date.now() + 120000; 
+    const confirmationExpires = Date.now() + 120000;
 
     const salt = await bcrypt.genSalt(10);
     hashPassword = await bcrypt.hash(password, salt);
@@ -20,7 +20,7 @@ exports.registerUser = async (user) => {
         email,
         password: hashPassword,
         phone,
-        address,
+        avatar,
         confirmationToken,
         confirmationExpires,
     });
@@ -40,7 +40,7 @@ exports.registerUser = async (user) => {
             if (user && user.emailConfirmed) {
                 return resolve(user);
             } else {
-                setTimeout(() => checkConfirmation(resolve, reject, startTime), 5000); 
+                setTimeout(() => checkConfirmation(resolve, reject, startTime), 5000);
             }
         };
 

@@ -31,6 +31,7 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  avatar: { type: Object, required: true },
   role: { type: String, default: "customer" },
   confirmationToken: String,
   confirmationExpires: Date,
