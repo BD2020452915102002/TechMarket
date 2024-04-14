@@ -54,6 +54,11 @@ export const setHeaders = () => {
 const response = await axios.get(`${url}/user`, setHeaders());
 ```
 
+#### User avatar
+
+- Customer avatar default: `https://res.cloudinary.com/dlgyapagf/image/upload/v1712984661/TechMarket-User/avatar_default/avatar-default_l2kmh0.jpg`
+
+- Staff avatar default: `https://res.cloudinary.com/dlgyapagf/image/upload/v1713006089/TechMarket-User/avatar_default/staff-default_irff75.jpg`
 ### Comment
 
 Example Json
