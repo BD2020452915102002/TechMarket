@@ -1,32 +1,37 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import BoltIcon from '@mui/icons-material/Bolt';
 import Card from "./Card.jsx";
 import Context from "../store/Context.jsx";
 
 function Sale() {
-    const productsSale = useContext(Context)[0].data.filter((e)=>{return e.sale !==''});
+    const productsSale = useContext(Context)[0].data.filter((e) => {
+        return e.sale !== ''
+    });
     const targetTime = new Date();
     targetTime.setHours(targetTime.getHours() + 3);
 
-    const interval = setInterval(() => {
-        const currentTime = new Date().getTime();
-        const remainingTime = targetTime - currentTime;
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const currentTime = new Date().getTime();
+            const remainingTime = targetTime - currentTime;
 
-        const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+            const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
 
-        const formattedHours = String(hours).padStart(2, '0');
-        const formattedMinutes = String(minutes).padStart(2, '0');
-        const formattedSeconds = String(seconds).padStart(2, '0');
+            const formattedHours = String(hours).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            const formattedSeconds = String(seconds).padStart(2, '0');
 
-        document.getElementById('countdown').innerText = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            document.getElementById('countdown').innerText = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+            if (remainingTime <= 0) {
+                clearInterval(interval);
+                document.getElementById('countdown').innerText = '00:00:00';
+            }
+        }, 1000)
 
-        if (remainingTime <= 0) {
-            clearInterval(interval);
-            document.getElementById('countdown').innerText = '00:00:00';
-        }
-    }, 1000)
+    }, []);
+
 
     return (
         <div className={'mt-20'}>
@@ -39,9 +44,9 @@ function Sale() {
             </div>
             <div className={'carousel carousel-center w-full'}>
                 {productsSale.map((e, i) => (
-                    <div key={i} className={'carousel-item'}>
-                    <Card  product={e} className={''}/>
-                   </div>
+                    <div key={i} className={'carousel-item m-2'}>
+                        <Card product={e} className={''}/>
+                    </div>
                 ))}
             </div>
 
