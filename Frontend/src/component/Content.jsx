@@ -1,14 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react';
-import Context from "../store/Context.jsx";
+import {Products} from "../store/Products.jsx";
 import SearchIcon from '@mui/icons-material/Search';
 import unidecode from "unidecode";
 import Card from "./Card.jsx";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import {Button, FormControlLabel, Radio} from "@mui/material";
-import ClearIcon from '@mui/icons-material/Clear';
 
 function Content() {
-    const [product, setProduct] = useState(useContext(Context)[0].data)
+    const [product, setProduct] = useState(useContext(Products)[0].data)
     const [productShow, setProductShow] = useState(product)
     const [isPrice, setIsPrice] = useState()
     const [isBrand, setIsBrand] = useState()

@@ -1,16 +1,17 @@
 import React, {useContext, useEffect} from 'react';
 import BoltIcon from '@mui/icons-material/Bolt';
 import Card from "./Card.jsx";
-import Context from "../store/Context.jsx";
+import {Products} from "../store/Products.jsx";
 
 function Sale() {
-    const productsSale = useContext(Context)[0].data.filter((e) => {
+    const productsSale = useContext(Products)[0].data.filter((e) => {
         return e.sale !== ''
     });
     const targetTime = new Date();
     targetTime.setHours(targetTime.getHours() + 3);
 
     useEffect(() => {
+
         const interval = setInterval(() => {
             const currentTime = new Date().getTime();
             const remainingTime = targetTime - currentTime;
@@ -29,9 +30,8 @@ function Sale() {
                 document.getElementById('countdown').innerText = '00:00:00';
             }
         }, 1000)
-
+        return ()=> clearInterval(interval);
     }, []);
-
 
     return (
         <div className={'mt-20'}>

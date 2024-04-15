@@ -1,15 +1,14 @@
 import React, {useContext, useState} from 'react';
-import Context from "../store/Context.jsx";
+import {Products}from "../store/Products.jsx";
 
 function Category() {
-    const [product, setProduct] = useState(useContext(Context)[0].data)
+    const [product, setProduct] = useState(useContext(Products)[0].data)
 
     const category = product.map(e => (e.category)).filter((value, index, self) => self.indexOf(value) === index)
     const arr = []
     for (let i=0;i<50;i++){
        arr.push(category[0])
     }
-    console.log(arr)
     return (
         <div className={' mt-20 '}>
             <h1 className={'text-2xl font-bold text-start mb-4'}>DANH MỤC</h1>

@@ -3,12 +3,12 @@ import Sale from "../component/Sale.jsx";
 import Navbar from "../component/Navbar.jsx"
 import Footer from "../component/Footer.jsx"
 import Content from "../component/Content.jsx";
-import Provider from "../store/Provider.jsx";
 import Category from "../component/Category.jsx";
+import {AllProduct} from "../store/Provider.jsx";
 
 function Home() {
     return (
-        <Provider>
+        <AllProduct>
             <div className={'bg-gray-50 '}>
                 <div className={'mx-20 '}>
                     <Navbar/>
@@ -19,7 +19,7 @@ function Home() {
                     <Footer/>
                 </div>
             </div>
-        </Provider>
+        </AllProduct>
     );
 }
 

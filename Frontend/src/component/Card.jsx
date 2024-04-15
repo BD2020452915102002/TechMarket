@@ -8,7 +8,7 @@ function Card({product}) {
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
 
     return (
-        <Link to={'/'} className={''}>
+        <Link to={`/products/${product.id}`} className={''}>
             <div
                 className=" w-[260px] h-[360px] hover:scale-[102%]  bg-white  grid grid-rows-[55%,45%]">
                 <figure
