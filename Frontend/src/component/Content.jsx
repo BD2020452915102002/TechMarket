@@ -239,7 +239,7 @@ function Content() {
                             <SearchIcon className={'text-gray-400'} />
                         </div>
                     </div>
-                    <div className={'flex flex-wrap mt-4 overflow-y-auto h-[1500px]'}>
+                    <div className={'flex flex-wrap mt-4 overflow-y-auto max-h-[1500px]'}>
                         {
                             productShow.map((e, i) => (
                                 <div key={i} className={'mr-2 mb-2'}>

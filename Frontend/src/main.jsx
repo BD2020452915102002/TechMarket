@@ -2,9 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
-import Home from "./page/Home.jsx";
-import Comments from './component/Comments.jsx';
 import DetailProduct from "./page/DetailProduct.jsx";
+import Comments from "./component/comments/Comments.jsx";
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

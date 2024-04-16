@@ -1,16 +1,17 @@
 import CommentForm from "./CommentForm";
+import { faker } from '@faker-js/faker';
 
 const Comment = ({
-    comment,
-    replies,
-    setActiveComment,
-    activeComment,
-    updateComment,
-    deleteComment,
-    addComment,
-    parentId = null,
-    currentUserId,
-}) => {
+                     comment,
+                     replies,
+                     setActiveComment,
+                     activeComment,
+                     updateComment,
+                     deleteComment,
+                     addComment,
+                     parentId = null,
+                     currentUserId,
+                 }) => {
     const isEditing =
         activeComment &&
         activeComment.id === comment.id &&
@@ -30,7 +31,7 @@ const Comment = ({
     return (
         <div key={comment.id} className="comment">
             <div className="comment-image-container">
-                <img src="/user-icon.png" />
+                <img src={faker.image.avatar()} className={'w-10 h-10'}/>
             </div>
             <div className="comment-right-part">
                 <div className="comment-content">

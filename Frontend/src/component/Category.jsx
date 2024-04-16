@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Products}from "../store/Products.jsx";
+import {Products} from "../store/Products.jsx";
 
 function Category() {
     const [product, setProduct] = useState(useContext(Products)[0].data)
@@ -12,10 +12,10 @@ function Category() {
     return (
         <div className={' mt-20 '}>
             <h1 className={'text-2xl font-bold text-start mb-4'}>DANH MỤC</h1>
-            <div className={'grid grid-rows-2 grid-flow-col gap-2 carousel'}>
+            <div className={'grid grid-rows-2 grid-flow-col gap-1 carousel'}>
                 {
                     arr.map((e,i)=>(
-                        <div key={i}>
+                        <div key={i} className={'w-20'}>
                             <img src="" alt="" className={'h-20 w-20 bg-gray-400 hover:outline hover:outline-1 hover:outline-gray-500 '}/>
                             <h1>{e}</h1>
                         </div>
