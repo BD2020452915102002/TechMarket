@@ -1,10 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Products} from "../store/Products.jsx";
+import React, { useContext, useEffect, useState } from 'react';
+import { Products } from "../store/Products.jsx";
 import SearchIcon from '@mui/icons-material/Search';
-import unidecode from "unidecode";
+// import unidecode from "unidecode";
 import Card from "./Card.jsx";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import {Button, FormControlLabel, Radio} from "@mui/material";
+import { Button, FormControlLabel, Radio } from "@mui/material";
 
 function Content() {
     const [product, setProduct] = useState(useContext(Products)[0].data)
@@ -65,17 +65,17 @@ function Content() {
     function searchSegment(e, i) {
         setIsPrice(i)
         switch (i) {
-            case 0 :
+            case 0:
                 setFilterPrice(product.filter(e => {
                     return e.price < 1000000
                 }))
                 break
-            case 1 :
+            case 1:
                 setFilterPrice(product.filter(e => {
                     return e.price >= 1000000 && e.price < 5000000
                 }))
                 break
-            case 2 :
+            case 2:
                 setFilterPrice(product.filter(e => {
                     return e.price >= 5000000
                 }))
@@ -140,8 +140,8 @@ function Content() {
     }
 
     useEffect(() => {
-            generalSearch()
-        }, [filterName, filterBrand, filterStock, filterCategory, filterPrice, filterSale]
+        generalSearch()
+    }, [filterName, filterBrand, filterStock, filterCategory, filterPrice, filterSale]
     )
 
 
@@ -151,7 +151,7 @@ function Content() {
             <div className={'grid grid-cols-[17%,83%] mt-6'}>
                 <div className={'bg-white  w-[95%] p-2'}>
                     <div className={'flex items-center'}>
-                        <FilterAltIcon className={'scale-75'}/>
+                        <FilterAltIcon className={'scale-75'} />
                         <h1> Bộ lọc</h1>
                     </div>
                     <div className={' font-medium  my-4 '}>
@@ -160,8 +160,8 @@ function Content() {
                             {
                                 segment.map((e, i) => (
                                     <div key={i}>
-                                        <FormControlLabel value={e} control={<Radio/>} label={e} checked={isPrice === i}
-                                                          onChange={() => searchSegment(e, i)}/>
+                                        <FormControlLabel value={e} control={<Radio />} label={e} checked={isPrice === i}
+                                            onChange={() => searchSegment(e, i)} />
                                     </div>
                                 ))
                             }
@@ -174,8 +174,8 @@ function Content() {
                             {
                                 brand.map((e, i) => (
                                     <div key={i}>
-                                        <FormControlLabel value={e} control={<Radio/>} label={e} checked={isBrand === i}
-                                                          onChange={() => searchBrand(e, i)}/>
+                                        <FormControlLabel value={e} control={<Radio />} label={e} checked={isBrand === i}
+                                            onChange={() => searchBrand(e, i)} />
                                     </div>
                                 ))
 
@@ -188,8 +188,8 @@ function Content() {
                             {
                                 sale.map((e, i) => (
                                     <div key={i}>
-                                        <FormControlLabel value={e} control={<Radio/>} label={e} checked={isSale === i}
-                                                          onChange={() => searchSale(e, i)}/>
+                                        <FormControlLabel value={e} control={<Radio />} label={e} checked={isSale === i}
+                                            onChange={() => searchSale(e, i)} />
                                     </div>
                                 ))
 
@@ -202,8 +202,8 @@ function Content() {
                             {
                                 stock.map((e, i) => (
                                     <div key={i}>
-                                        <FormControlLabel value={e} control={<Radio/>} label={e} checked={isStock === i}
-                                                          onChange={() => searchStock(e, i)}/>
+                                        <FormControlLabel value={e} control={<Radio />} label={e} checked={isStock === i}
+                                            onChange={() => searchStock(e, i)} />
                                     </div>
                                 ))
 
@@ -216,9 +216,9 @@ function Content() {
                             {
                                 category.map((e, i) => (
                                     <div key={i}>
-                                        <FormControlLabel value={e} control={<Radio/>} label={e}
-                                                          checked={isCategory === i}
-                                                          onChange={() => searchCategory(e, i)}/>
+                                        <FormControlLabel value={e} control={<Radio />} label={e}
+                                            checked={isCategory === i}
+                                            onChange={() => searchCategory(e, i)} />
                                     </div>
                                 ))
 
@@ -234,16 +234,16 @@ function Content() {
                 <div className={''}>
                     <div className={'flex items-center relative w-full outline outline-1 outline-gray-400'}>
                         <input type="text" placeholder={'Tìm kiếm tên sản phẩm muốn mua'} className={'p-4 w-full '}
-                               onChange={onInputSearch}/>
+                            onChange={onInputSearch} />
                         <div className={'absolute top-1/2  right-0 hover:cursor-pointer translate-y-[-50%] mr-4 '}>
-                            <SearchIcon className={'text-gray-400'}/>
+                            <SearchIcon className={'text-gray-400'} />
                         </div>
                     </div>
                     <div className={'flex flex-wrap mt-4 overflow-y-auto h-[1500px]'}>
                         {
                             productShow.map((e, i) => (
                                 <div key={i} className={'mr-2 mb-2'}>
-                                    <Card product={e}/>
+                                    <Card product={e} />
                                 </div>
                             ))
                         }

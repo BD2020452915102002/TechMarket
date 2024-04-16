@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { FaRegUser } from "react-icons/fa";
 import MenuIcon from '@mui/icons-material/Menu';
 
-function Navbar() {
+function Navbar(props) {
     const category = [
+
         'Điện Thoại',
         'Laptop',
         'Smart Watch',
@@ -26,6 +27,7 @@ function Navbar() {
     const categoryArr = category.filter((e, i) => {
         return i < 5
     })
+    console.log(categoryArr)
     return (
         <div className="fixed flex bg-black right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
             <div className='flex items-center'>
