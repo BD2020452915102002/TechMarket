@@ -181,6 +181,16 @@ const  initState = {
             stock: 5,
             images: 'https://th.bing.com/th/id/OIP.CLQyvU9pmkqmJwbUe9eyfQHaE7?w=300&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7',
         },
+        {id:19,
+            name: 'Sạc dự phòng OPO',
+            desc: 'Thiết kế sang trọng, kiểu dáng mới Thiết kế sang trọng, kiểu dáng mới Thiết kế sang trọng, kiểu dáng mới',
+            brand: 'w',
+            price: 32000000,
+            sale: '',
+            category: 'aaaa',
+            stock: 5,
+            images: 'https://th.bing.com/th/id/OIP.CLQyvU9pmkqmJwbUe9eyfQHaE7?w=300&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7',
+        },
 
 
     ],

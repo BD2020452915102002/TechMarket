@@ -1,8 +1,11 @@
 import React from 'react';
+import Comments from "./comments/Comments.jsx";
 
-function Comment(props) {
+function Comment() {
     return (
-        <div></div>
+        <div>
+            <Comments currentUserId="1" />
+        </div>
     );
 }
 

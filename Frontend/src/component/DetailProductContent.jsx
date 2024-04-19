@@ -8,6 +8,7 @@ import {TbBoxMultiple} from "react-icons/tb";
 import {Carousel} from "react-responsive-carousel";
 import {Button} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
 function DetailProductContent() {
@@ -44,9 +45,7 @@ function DetailProductContent() {
     function subCount() {
         setCount(count - 1)
     }
-    useEffect(()=>{
-        if (count > product.stock ) setCount(5)
-    },[count])
+
 
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
@@ -54,7 +53,7 @@ function DetailProductContent() {
 
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
     return (
-        <div className={' mx-20 mt-20'}>
+        <div className={'  mt-24'}>
             <div className={'flex items-center text-[#BCBCBC] font-medium '}>
                 <Link to={'/'} className={'flex items-center'}> <AiOutlineHome className={'mr-2'}/>Trang chủ</Link>
                 <FaAngleRight/>
@@ -62,11 +61,11 @@ function DetailProductContent() {
                     {product.name}
                 </h1>
             </div>
-            <div className={'flex'}>
-                <div className={'basis-[40%]'}>
-                    <img src={product.images} alt="" className={'bg-cover bg-no-repeat bg-center'}/>
+            <div className={'flex mt-4'}>
+                <div className={'basis-[50%]'}>
+                    <img src={product.images} alt="" className={'bg-cover bg-no-repeat bg-center w-[90%] '}/>
                 </div>
-                <div>
+                <div className={'basis-[50%]'}>
                     <h1 className={'font-bold text-2xl '}>{product.name}</h1>
                     <p className={'mb-4'}> Thương hiêu: <span> {product.brand}</span></p>
 
@@ -95,13 +94,14 @@ function DetailProductContent() {
                         <p className={'mr-10'}>Số lượng</p>
                         <Button variant="outlined" onClick={subCount} className={'!min-w-0'} disabled={count < 1}>-</Button>
                         <div className={'px-4'}>{count}</div>
-                        <Button variant="outlined" onClick={addCount} className={'!min-w-0'} disabled={count > 4}>+</Button>
-                        <h1 className={'ml-4'}>Còn:{product.stock}</h1>
+                        <Button variant="outlined" onClick={addCount} className={'!min-w-0'} disabled={count >= product.stock}>+</Button>
+                        <h1 className={'ml-4'}>Còn: {product.stock}</h1>
 
                     </div>
-                    <Button variant="contained" startIcon={<ShoppingCartIcon />}>Thêm vào giỏ hàng</Button>
-                    <Button variant="contained">Mua ngay</Button>
-
+                  <div className={'grid grid-cols-[50%,50%] mt-8 gap-3'}>
+                      <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count <1}>Thêm vào giỏ hàng</Button>
+                      <Button variant="contained" disabled={count <1}>Mua ngay</Button>
+                  </div>
 
                 </div>
             </div>
