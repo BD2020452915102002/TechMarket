@@ -9,6 +9,7 @@ import {Carousel} from "react-responsive-carousel";
 import {Button} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import eventEmitter from "../utils/eventEmitter.js";
 
 
 function DetailProductContent() {
@@ -52,6 +53,14 @@ function DetailProductContent() {
     }
 
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
+
+    function addShoppingCart() {
+    eventEmitter.emit('addShoppingCart', {
+        id:product.id,
+        quantity:count
+    })
+    }
+
     return (
         <div className={'  mt-24'}>
             <div className={'flex items-center text-[#BCBCBC] font-medium '}>
@@ -99,7 +108,7 @@ function DetailProductContent() {
 
                     </div>
                   <div className={'grid grid-cols-[50%,50%] mt-8 gap-3'}>
-                      <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count <1}>Thêm vào giỏ hàng</Button>
+                      <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count <1} onClick={addShoppingCart}>Thêm vào giỏ hàng</Button>
                       <Button variant="contained" disabled={count <1}>Mua ngay</Button>
                   </div>
 
