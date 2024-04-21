@@ -1,14 +1,18 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
-import Home from "../page/Home.jsx";
+import Home from "../page/customer/Home.jsx";
 import Login from "../page/Login.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
-import CategoryItem from "../page/CategoryItem.jsx";
-import DetailProduct from "../page/DetailProduct.jsx";
+import CategoryItem from "../page/customer/CategoryItem.jsx";
+import DetailProduct from "../page/customer/DetailProduct.jsx";
+import CreateAccount from "../page/CreateAccount.jsx";
+import ShoppingCart from "../page/customer/ShoppingCart.jsx";
 
 function AppRouters(props) {
     return (
         <Routes>
+            <Route path={"/createAccount"} element={<CreateAccount/>}/>
+            <Route path={"/cart"} element={<ShoppingCart/>}/>
             <Route path={"/"} element={<Home/>}/>
             <Route path={"/login"} element={<Login/>}/>
             <Route path={"/category/:categoryID"} element={

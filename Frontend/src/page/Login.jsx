@@ -3,7 +3,7 @@ import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInp
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {useState} from "react";
 import {useAuth} from "../utils/AuthContext.jsx";
-import {redirect, useNavigate} from "react-router-dom";
+import {Link, redirect, useNavigate} from "react-router-dom";
 
 
 function Login() {
@@ -85,7 +85,7 @@ function Login() {
     return (
         <div className={' w-full h-[100vh] flex justify-center items-center'}>
             <div
-                className="flex flex-col justify-center items-center w-[36vw] bg-white rounded-2xl shadow-[0px_0px_10px] shadow-gray-500 ">
+                className="flex flex-col justify-center items-center w-[36vw] bg-white  shadow-[0px_0px_10px] shadow-gray-500 ">
                 <div className={'uppercase font-bold text-3xl mt-8'}>TeckMarket</div>
                 <div
                     className="px-10 pb-5 rounded-md  flex flex-col justify-center items-center w-full mt-10 ">
@@ -115,7 +115,7 @@ function Login() {
                     </FormControl>
                     <Button variant="contained" className={'!my-4'} onClick={loginHandling}>Đăng nhập</Button>
                     <div className={'flex items-center justify-between w-full mb-6 hover:cursor-pointer'}>
-                        <div className={'underline text-md font-medium hover:text-blue-600'}>Đăng ký tài khoản</div>
+                        <a href={'/createAccount'} className={'underline text-md font-medium hover:text-blue-600'}>Đăng ký tài khoản</a>
                         <div className={'underline text-md font-medium  hover:text-blue-600'}>Quên mật khẩu</div>
                     </div>
                 </div>

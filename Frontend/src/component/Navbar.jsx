@@ -8,8 +8,12 @@ import {useAuth} from "../utils/AuthContext.jsx";
 function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const [cart, setCart] = useState(() => {
-        const storedCart = localStorage.getItem('cart');
-        return storedCart ? JSON.parse(storedCart) : [{ id: 5, quantity: 3 }];
+        const sessionData = localStorage.getItem('session');
+        if ( sessionData) {
+            const { storedCart } = JSON.parse(sessionData);
+            return storedCart ? storedCart : [];
+        }
+        return  [];
     });
 
     useEffect(() => {
@@ -33,7 +37,17 @@ function Navbar() {
     }, [cart]);
 
     useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart));
+        const existingSession = localStorage.getItem('session');
+        let updatedSession;
+        if (existingSession) {
+            const parsedSession = JSON.parse(existingSession);
+            parsedSession.storedCart = cart;
+
+            updatedSession = JSON.stringify(parsedSession);
+        } else {
+            updatedSession = JSON.stringify({ storedCart: cart });
+        }
+        localStorage.setItem('session', updatedSession);
     }, [cart]);
 
     const category = [
@@ -90,23 +104,23 @@ function Navbar() {
                 </div>
             </div>
             <div className='flex items-center mr-16  '>
-                <div className="indicator mx-8 hover:scale-110 " >
+                <Link to={'/cart'} className="indicator mx-8 hover:scale-110 " >
                     <ShoppingCartIcon className={'!text-3xl'}/>
                     <span className="badge badge-sm indicator-item">{cart.length}</span>
-                </div>
+                </Link>
 
                 <div className="dropdown dropdown-end ">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar ">
                         <FaRegUser className={'text-3xl'}/>
                     </div>
                     <ul tabIndex={0}
-                        className="menu menu-sm dropdown-content  z-[1] p-4  bg-white  w-52 text-black  shadow-[0px_0px_20px] shadow-gray-500 ">
-                        { !isLoggedIn ? <li><Link to={'/login'}>Đăng nhập</Link></li> :
+                        className="menu menu-sm dropdown-content  z-[1]   bg-white  w-52 text-black  shadow-[0px_0px_20px] shadow-gray-500 !p-0 ">
+                        { !isLoggedIn ? <li><Link to={'/login'} className={'!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  '}>Đăng nhập</Link></li> :
                             <div>
-                                <li><Link to={'/infor'} >
+                                <li ><Link to={'/infor'} className={'!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   '} >
                                     Thông tin tài khoản
                                 </Link></li>
-                                <li><a href="/" onClick={logout}>Đăng xuất</a></li>
+                                <li ><a href="/" onClick={logout} className={'!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  '}>Đăng xuất</a></li>
                             </div>
                         }
                     </ul>
