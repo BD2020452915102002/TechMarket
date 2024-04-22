@@ -4,14 +4,15 @@ import './index.css'
 import {AuthProvider} from "./utils/AuthContext.jsx";
 import AppRouters from "./routes/AppRouters.jsx";
 import {BrowserRouter} from "react-router-dom";
-
+import { Provider } from "react-redux";
+import store from "../src/store/store.js";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <AuthProvider>
+        <Provider store={store}>
             <BrowserRouter>
                <AppRouters/>
             </BrowserRouter>
-        </AuthProvider>
+        </Provider>
     </React.StrictMode>,
 )

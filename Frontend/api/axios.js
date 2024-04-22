@@ -1,16 +1,48 @@
 //feature: apj.js
 import axios from "axios";
 
-export const url = "http://localhost:5000/api";
+const apiClient = axios.create({
+  baseURL: "http://localhost:5000/api",
+  timeout: 1000,
+});
 
-export const setHeaders = () => {
-    const headers = {
-        headers: {
-            "x-auth-token": localStorage.getItem("token"),
-        },
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     const userDetails = localStorage.getItem("user");
+
+//     if (userDetails) {
+//       const token = JSON.parse(userDetails).token;
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+
+//     return config;
+//   },
+//   (err) => {
+//     return Promise.reject(err);
+//   }
+// );
+
+export const login = async (data) => {
+  try {
+    return await apiClient.post("/login", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
     };
-
-    return headers;
+  }
 };
+
+// export const url = "http://localhost:5000/api";
+
+// export const setHeaders = () => {
+//   const headers = {
+//     headers: {
+//       "x-auth-token": localStorage.getItem("token"),
+//     },
+//   };
+
+//   return headers;
+// };
 //...
-await axios.get(`${url}/user`, setHeaders());
+// await axios.get(`${url}/user`, setHeaders());

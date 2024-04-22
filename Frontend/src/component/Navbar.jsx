@@ -4,9 +4,14 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {Link} from "react-router-dom";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import eventEmitter from "../utils/eventEmitter.js";
-import {useAuth} from "../utils/AuthContext.jsx";
-function Navbar() {
-    const { isLoggedIn, logout } = useAuth();
+import { connect } from 'react-redux';
+
+function Navbar({ userDetails }) {
+    const isLoggedIn = (userDetails != null) ? true : false;
+
+    // thêm log out vào 
+    const logout = () => {};
+
     const [cart, setCart] = useState(() => {
         const sessionData = localStorage.getItem('session');
         if ( sessionData) {
@@ -130,4 +135,10 @@ function Navbar() {
     );
 }
 
-export default Navbar;
+const mapStoreStateToProps = ({ auth }) => {
+    return {
+        ...auth,
+    }
+}
+
+export default connect(mapStoreStateToProps)(Navbar);

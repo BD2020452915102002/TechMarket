@@ -2,37 +2,13 @@ import TextField from "@mui/material/TextField";
 import {Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {useState} from "react";
-import {useAuth} from "../utils/AuthContext.jsx";
 import {Link, redirect, useNavigate} from "react-router-dom";
+import { connect } from "react-redux";
+import { getActions } from "../store/actions/authActions.js";
 
-
-function Login() {
+function Login({ login }) {
     const navigate = useNavigate();
-    const account = [
-        {
-            Email: 'customer@gmail.com',
-            Password: '123456',
-            Role: 'customer'
-        },
-        {
-            Email: 'emloyee@gmail.com',
-            Password: '123456',
-            Role: 'emloyee'
-        },
-        {
-            Email: 'mannage@gmail.com',
-            Password: '123456',
-            Role: 'mannage'
-        },
-        {
-            Email: 'admin@gmail.com',
-            Password: '123456',
-            Role: 'admin'
-        },
-
-    ]
     const [showPassword, setShowPassword] = useState(false);
-    const {login} = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const handleEmailChange = (e) => {
@@ -51,35 +27,13 @@ function Login() {
         e.preventDefault();
     };
 
-
-    const checkCredentials = (email, password) => {
-
-        const matchedAccount = account.find(
-            acc => acc.Email === email && acc.Password === password
-        );
-
-        return matchedAccount ? matchedAccount.Role : false;
-    };
-
     function loginHandling() {
-        if (checkCredentials(email, password)) {
-            login(email)
-            switch (checkCredentials(email, password)) {
-                case 'customer':
-                    navigate('/')
-                    break
-                case 'emloyee':
-                    console.log('emloyee')
-                    break
-                case 'mannage':
-                    console.log('mannage')
-                    break
-                case 'admin':
-                    console.log('admin')
-                    break
-            }
-        } else console.log('login faile')
+        const userDetails = {
+            email,
+            password,
+        };
 
+        login(userDetails, navigate);
     }
 
     return (
@@ -124,4 +78,10 @@ function Login() {
     );
 }
 
-export default Login;
+const mapActionsToProps = (dispatch) => {
+    return {
+      ...getActions(dispatch),
+    };
+  };
+  
+export default connect(null, mapActionsToProps)(Login);

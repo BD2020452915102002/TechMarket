@@ -9,12 +9,15 @@ import {initState} from "../../store/Reducer.jsx";
 import React, {useEffect, useState} from "react";
 import {Box, CircularProgress} from "@mui/material";
 
+import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection.js";
+
 function Home() {
     const products =initState.data
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
        setLoading(false)
+       connectWithSocketServer();
     }, []);
 
     if (loading) {
