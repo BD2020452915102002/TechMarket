@@ -36,3 +36,18 @@ const login = (userDetails, navigate) => {
     }
   };
 };
+
+const register = (userDetails, navigate) => {
+  return async (dispatch) => {
+    const response = await api.register(userDetails);
+    console.log(response);
+    if (response.error) {
+      console.log("Fail to register");
+    } else {
+      const userDetails = jwtDecode(response?.data);
+      localStorage.setItem("user", JSON.stringify(userDetails));
+      dispatch(setUserDetails(userDetails));
+      navigate("/");
+    }
+  };
+};
