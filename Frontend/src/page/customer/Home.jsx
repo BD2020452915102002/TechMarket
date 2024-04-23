@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { getActions } from "../../store/actions/authActions.js";
 import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection.js";
 import { logout } from "../../utils/auth.js";
+import Messenger from "./messenger/Messenger.jsx";
 
 function Home({ setUserDetails }) {
   const products = initState.data;
@@ -52,6 +53,7 @@ function Home({ setUserDetails }) {
               stockShow={true}
               product={products}
             />
+            <Messenger />
             <Footer />
           </div>
         </div>

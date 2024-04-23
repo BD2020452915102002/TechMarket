@@ -3,7 +3,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: "http://localhost:5000/api",
-  timeout: 1000,
+  timeout: 130000,
 });
 
 // apiClient.interceptors.request.use(
@@ -25,6 +25,17 @@ const apiClient = axios.create({
 export const login = async (data) => {
   try {
     return await apiClient.post("/login", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+
+export const register = async (data) => {
+  try {
+    return await apiClient.post("/register", data);
   } catch (exception) {
     return {
       error: true,
