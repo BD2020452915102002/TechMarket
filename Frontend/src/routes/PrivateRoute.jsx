@@ -5,7 +5,7 @@ import { Box, CircularProgress } from "@mui/material";
 import { connect } from "react-redux";
 
 function PrivateRoute(props, { userDetails }) {
-  const isLoggedIn = userDetails != null ? true : false;
+    const {isLoggedIn} =JSON.parse(localStorage.getItem('session'))|| {isLoggedIn:false}
 
   const [loading, setLoading] = useState(true);
 

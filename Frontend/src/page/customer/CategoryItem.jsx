@@ -4,13 +4,14 @@ import Reducer, {initState} from "../../store/Reducer.jsx";
 import Content from "../../component/Content.jsx";
 import Navbar from "../../component/Navbar.jsx";
 import Footer from "../../component/Footer.jsx";
+import {useSelector} from "react-redux";
 
 function CategoryItem() {
     const {categoryID} = useParams();
-    const [products, dispatch] = useReducer(Reducer, initState.data.filter(e => {
-        return e.category === categoryID
-    }))
+
+    const products = useSelector(state => state.products.data).filter(p => p.category.includes(categoryID))
     console.log(products)
+
     return (
         <div className={'bg-gray-50 '}>
             <div className={'mx-20'}>

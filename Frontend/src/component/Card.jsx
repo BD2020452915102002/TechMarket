@@ -8,12 +8,12 @@ function Card({product}) {
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
 
     return (
-        <a href={ ` /products/${product.id}`}>
+        <a href={ ` /products/${product?.id}`}>
             <div
                 className=" w-[260px] h-[360px] hover:scale-[102%]  bg-white  grid grid-rows-[55%,45%]">
                 <figure
                     style={{
-                        backgroundImage: `url(${product.images})`,
+                        backgroundImage: `url(${product?.image?.url})`,
                         backgroundRepeat: 'no-repeat',
                         backgroundSize: 'cover',
                         backgroundPosition: 'center'

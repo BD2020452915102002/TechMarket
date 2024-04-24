@@ -8,26 +8,45 @@ import { AllProduct } from "../../store/Provider.jsx";
 import { initState } from "../../store/Reducer.jsx";
 import React, { useEffect, useState } from "react";
 import { Box, CircularProgress } from "@mui/material";
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import { getActions } from "../../store/actions/authActions.js";
 import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection.js";
-import { logout } from "../../utils/auth.js";
 import Messenger from "./messenger/Messenger.jsx";
+import {productApi} from "../../../api/productApi.js";
+import {fetchData} from "../../store/actions/productsAction.js";
+import productsReducer from "../../store/reducers/productsReducer.js";
 
-function Home({ setUserDetails }) {
-  const products = initState.data;
+function Home({ setUserDetails ,logout }) {
+  const products = useSelector(state => state.products.data)
+  const dispatch= useDispatch()
   const [loading, setLoading] = useState(true);
 
+  console.log('llll',products)
   useEffect(() => {
-    setLoading(false);
-    const userDetails = localStorage.getItem("user");
+    const fetchDataAsync = async () => {
+      try {
+        const res = await productApi.getProduct();
+        dispatch(fetchData(res.data.data));
+        setLoading(false);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
 
-    if (!userDetails) {
-      logout;
-    } else {
-      setUserDetails(JSON.parse(userDetails));
-      connectWithSocketServer(JSON.parse(userDetails));
-    }
+    fetchDataAsync();
+
+  }, []);
+
+  useEffect(() => {
+
+    // const {userDetails} = localStorage.getItem("session");
+    //
+    // if (!userDetails) {
+    //   logout
+    // } else {
+    //   setUserDetails(JSON.parse(userDetails));
+    //   connectWithSocketServer(JSON.parse(userDetails));
+    // }
   }, []);
 
   if (loading) {
@@ -37,14 +56,14 @@ function Home({ setUserDetails }) {
       </Box>
     );
   } else
-    return (
-      <AllProduct>
+  return (
+
         <div className={"bg-gray-50 "}>
           <div className={"mx-20 "}>
             <Navbar />
             <Slide />
             <Category />
-            <Sale />
+            {/*<Sale />*/}
             <Content
               priceShow={true}
               brandShow={true}
@@ -57,7 +76,6 @@ function Home({ setUserDetails }) {
             <Footer />
           </div>
         </div>
-      </AllProduct>
     );
 }
 
