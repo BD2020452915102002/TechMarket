@@ -21,7 +21,6 @@ function Home({ setUserDetails ,logout }) {
   const dispatch= useDispatch()
   const [loading, setLoading] = useState(true);
 
-  console.log('llll',products)
   useEffect(() => {
     const fetchDataAsync = async () => {
       try {

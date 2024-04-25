@@ -6,11 +6,13 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import eventEmitter from "../utils/eventEmitter.js";
 import {connect, useDispatch, useSelector} from "react-redux";
 import {getActions, logout} from "../store/actions/authActions.js";
+import {productApi} from "../../api/productApi.js";
+import {fetchData} from "../store/actions/productsAction.js";
 
 function Navbar({ userDetails }) {
   const product = useSelector(state => state.products.data)
+  const dispatch= useDispatch()
   const {isLoggedIn} =JSON.parse(localStorage.getItem('session'))|| {isLoggedIn:false}
-const dispatch = useDispatch()
   const [cart, setCart] = useState(() => {
     const sessionData = localStorage.getItem("session");
     if (sessionData) {
@@ -19,7 +21,17 @@ const dispatch = useDispatch()
     }
     return [];
   });
-
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      try {
+        const res = await productApi.getProduct();
+        dispatch(fetchData(res.data.data));
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchDataAsync();
+  }, []);
   useEffect(() => {
     const handleAddToCart = (e) => {
       const existingProductIndex = cart.findIndex((item) => item.id === e.id);
@@ -92,15 +104,15 @@ const dispatch = useDispatch()
               }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
             >
               {category.map((e, i) => (
-                <a
-                  href={`/category/${e}`}
+                <Link
+                  to={`/category/${e}`}
                   key={i}
                   className={
                     "text-black font-medium text-[12px] text-center hover:bg-[#231f20] hover:text-white  p-2 w-24 line-clamp-1"
                   }
                 >
                   {e}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

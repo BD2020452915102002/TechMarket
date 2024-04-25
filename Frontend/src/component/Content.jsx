@@ -30,6 +30,16 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
     const stock = ['Còn hàng', 'Hết hàng']
     const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
 
+    useEffect(() => {
+        setProductShow(product)
+        setFilterName(product)
+        setFilterStock(product)
+        setFilterCategory(product)
+        setFilterSale(product)
+        setFilterPrice(product)
+        setFilterBrand(product)
+    }, [product]);
+
     function removeAccents(str) {
         return unidecode(str);
     }
