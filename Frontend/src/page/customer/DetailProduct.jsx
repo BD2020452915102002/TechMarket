@@ -39,24 +39,29 @@ function a11yProps(index) {
 function DetailProduct() {
     const [value, setValue] = useState(0);
     const { productID } = useParams();
-    const [product,setProduct] = useState([])
     const productList = useSelector(state => state.products.data)
+    const filteredProduct = productList.filter(product => product._id === productID)||[];
+    const [product,setProduct] = useState(filteredProduct[0])
     useEffect(()=>{
-        setProduct(
-            ()=>{
-             return    productList.filter(e=>{return e.id === parseInt(productID)})
-            }
-        )
+        console.log('aaaa')
+        const filteredProduct = productList.filter(product => product._id === productID);
+        if (filteredProduct.length > 0) {
+            console.log('filteredProduct ',filteredProduct )
+            setProduct(filteredProduct[0]);
+        } else {
+            console.log("Không tìm thấy sản phẩm với ID này.");
+        }
     },[productID])
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+    console.log('>>detailproduct',product,'>>',productID,'>>',productList)
     return (
 
             <div className={'bg-gray-50 '}>
                 <div className={'mx-20'}>
                     <Navbar/>
-                    <DetailProductContent/>
+                    <DetailProductContent product={product}/>
                     <Box sx={{width: '100%'}}>
                         <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -65,7 +70,7 @@ function DetailProduct() {
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
-                            Thông tin chi tiết sẽ được cập nhật sau
+                            {product.desc}
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
                             <Comment/>

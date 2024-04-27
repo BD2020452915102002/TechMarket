@@ -1,5 +1,5 @@
-import React from 'react';
-import {Route, Routes} from "react-router-dom";
+import React, {useEffect} from 'react';
+import {Route, Routes, useLocation} from "react-router-dom";
 import Home from "../page/customer/Home.jsx";
 import Login from "../page/Login.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -8,24 +8,36 @@ import DetailProduct from "../page/customer/DetailProduct.jsx";
 import CreateAccount from "../page/CreateAccount.jsx";
 import ShoppingCart from "../page/customer/ShoppingCart.jsx";
 
+function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+}
 function AppRouters(props) {
     return (
-        <Routes>
-            <Route path={"/createAccount"} element={<CreateAccount/>}/>
-            <Route path={"/cart"} element={<ShoppingCart/>}/>
-            <Route path={"/"} element={<Home/>}/>
-            <Route path={"/login"} element={<Login/>}/>
-            <Route path={"/category/:categoryID"} element={
-                <PrivateRoute>
-                    <CategoryItem/>
-                </PrivateRoute>
-            }/>
-            <Route path={"/products/:productID"} element={
-                <PrivateRoute>
-                    <DetailProduct/>
-                </PrivateRoute>
-            }/>
-        </Routes>
+       <div>
+           <ScrollToTop/>
+           <Routes>
+               <Route path={"/createAccount"} element={<CreateAccount/>}/>
+               <Route path={"/cart"} element={<ShoppingCart/>}/>
+               <Route path={"/"} element={<Home/>}/>
+               <Route path={"/login"} element={<Login/>}/>
+               <Route path={"/category/:categoryID"} element={
+                   <PrivateRoute>
+                       <CategoryItem/>
+                   </PrivateRoute>
+               }/>
+               <Route path={"/products/:productID"} element={
+                   <PrivateRoute>
+                       <DetailProduct/>
+                   </PrivateRoute>
+               }/>
+           </Routes>
+       </div>
     );
 }
 

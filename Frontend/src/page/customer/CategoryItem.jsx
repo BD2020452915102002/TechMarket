@@ -36,7 +36,7 @@ function CategoryItem() {
             <div className={'mx-20'}>
                 <Navbar/>
                 <Breadcrumbs  separator={<NavigateNextIcon fontSize="small" />}
-                              aria-label="breadcrumb" className={'!mt-[100px] cursor-pointer'}>
+                              aria-label="breadcrumb" className={'!mt-[80px] cursor-pointer pt-5'}>
                     <Link className={'hover:underline'} color="inherit" to="/">
                         <div  className={'flex items-center'}>
                             <HomeIcon className={'mr-2'}/><div>Trang chủ</div>

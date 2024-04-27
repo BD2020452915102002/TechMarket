@@ -1,7 +1,6 @@
 import {Link} from "react-router-dom";
 
 function Card({product}) {
-    console.log(product)
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
@@ -9,7 +8,7 @@ function Card({product}) {
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
 
     return (
-        <Link to={ ` /products/${product?.id}`}>
+        <Link to={ `/products/${product._id}`}>
             <div
                 className=" w-[260px] h-[360px] hover:scale-[102%]  bg-white  grid grid-rows-[55%,45%]">
                 <figure
