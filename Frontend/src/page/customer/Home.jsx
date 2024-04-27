@@ -20,18 +20,7 @@ function Home({ setUserDetails ,logout }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const res = await productApi.getProduct();
-        dispatch(fetchData(res.data.data));
-        setLoading(false);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-
-    fetchDataAsync();
-
+    setLoading(false);
   }, []);
 
   useEffect(() => {

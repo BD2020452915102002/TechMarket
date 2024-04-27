@@ -11,6 +11,10 @@ const initialState = {
                ...state,
                data: state.data = action.data
            }
+        case productsActionType.UPDATE_DATA:
+            return {
+                ...state
+            }
         default:
             return (state)
     }

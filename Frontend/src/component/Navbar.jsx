@@ -11,7 +11,7 @@ import {fetchData} from "../store/actions/productsAction.js";
 
 function Navbar({ userDetails }) {
   const product = useSelector(state => state.products.data)
-  const dispatch= useDispatch()
+  const dispatch = useDispatch()
   const {isLoggedIn} =JSON.parse(localStorage.getItem('session'))|| {isLoggedIn:false}
   const [cart, setCart] = useState(() => {
     const sessionData = localStorage.getItem("session");
@@ -21,17 +21,6 @@ function Navbar({ userDetails }) {
     }
     return [];
   });
-  useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const res = await productApi.getProduct();
-        dispatch(fetchData(res.data.data));
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    fetchDataAsync();
-  }, []);
   useEffect(() => {
     const handleAddToCart = (e) => {
       const existingProductIndex = cart.findIndex((item) => item.id === e.id);
@@ -65,9 +54,7 @@ function Navbar({ userDetails }) {
     }
     localStorage.setItem("session", updatedSession);
   }, [cart]);
-
   const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
-
   const [isHover, setIsHover] = useState(false);
   const categoryArr = category?.filter((e, i) => {
     return i < 5;

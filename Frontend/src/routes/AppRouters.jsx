@@ -7,6 +7,10 @@ import CategoryItem from "../page/customer/CategoryItem.jsx";
 import DetailProduct from "../page/customer/DetailProduct.jsx";
 import CreateAccount from "../page/CreateAccount.jsx";
 import ShoppingCart from "../page/customer/ShoppingCart.jsx";
+import {productApi} from "../../api/productApi.js";
+import {fetchData} from "../store/actions/productsAction.js";
+import {useDispatch, useSelector} from "react-redux";
+import eventEmitter from "../utils/eventEmitter.js";
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -18,6 +22,22 @@ function ScrollToTop() {
     return null;
 }
 function AppRouters(props) {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        const fetchDataAsync = async () => {
+            try {
+                const res = await productApi.getProduct();
+                dispatch(fetchData(res.data.data));
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchDataAsync();
+    }, []);
+    const products = useSelector(state => state.products.data)
+
+    console.log('>>>>',products)
     return (
        <div>
            <ScrollToTop/>

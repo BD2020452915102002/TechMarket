@@ -6,7 +6,9 @@ import {Box, Tab, Tabs, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import SuggestProduct from "../../component/SuggestProduct.jsx";
 import {useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {productApi} from "../../../api/productApi.js";
+import {fetchData} from "../../store/actions/productsAction.js";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -49,7 +51,8 @@ function DetailProduct() {
         } else {
             console.log("Không tìm thấy sản phẩm với ID này.");
         }
-    },[productID])
+    },[productID,productList])
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -67,7 +70,7 @@ function DetailProduct() {
                             </Tabs>
                         </Box>
                         <CustomTabPanel value={value} index={0}>
-                            {product.desc}
+                            {product?.desc}
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
                             <Comment/>

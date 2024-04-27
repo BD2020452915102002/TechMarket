@@ -4,33 +4,18 @@ import Content from "../../component/Content.jsx";
 import Navbar from "../../component/Navbar.jsx";
 import Footer from "../../component/Footer.jsx";
 import {useDispatch, useSelector} from "react-redux";
-import {productApi} from "../../../api/productApi.js";
-import {fetchData} from "../../store/actions/productsAction.js";
 import {Breadcrumbs, Typography} from "@mui/material";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 
 function CategoryItem() {
     const {categoryID} = useParams();
-    const dispatch= useDispatch()
     const [products, setProducts] = useState([])
     const productList = useSelector(state => state.products.data)
 
     useEffect(() => {
         setProducts(productList.filter(p => p.category.includes(categoryID)))
-    }, [categoryID]);
-
-    useEffect(() => {
-        const fetchDataAsync = async () => {
-            try {
-                const res = await productApi.getProduct();
-                dispatch(fetchData(res.data.data));
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        };
-        fetchDataAsync();
-    }, []);
+    }, [categoryID,productList]);
     return (
         <div className={'bg-gray-50 '}>
             <div className={'mx-20'}>

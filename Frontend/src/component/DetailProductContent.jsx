@@ -57,7 +57,7 @@ function DetailProductContent({product}) {
 
 
     function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
     const discountedPrice = productShow?.price * (100 - parseFloat(productShow?.sale)) / 100
@@ -78,7 +78,7 @@ function DetailProductContent({product}) {
                         <HomeIcon className={'mr-2'}/><div>Trang chủ</div>
                     </div>
                 </Link>
-                <Typography color="text.primary" className={'line-clamp-1 w-[300px]'}>{productShow.name}</Typography>
+                <Typography color="text.primary" className={'line-clamp-1 w-[300px]'}>{productShow?.name}</Typography>
             </Breadcrumbs>
             <div className={'flex mt-4'}>
                 <div className={'basis-[50%]'}>
@@ -96,7 +96,7 @@ function DetailProductContent({product}) {
                                 <div className={' text-start'}>
                                     <p className={'text-gray-500  font-normal'}>
                                             <span
-                                                className={'line-through'}> {formatNumber(productShow.price)}<span>đ</span></span>
+                                                className={'line-through'}> {formatNumber(productShow?.price)}<span>đ</span></span>
                                         <span className={'text-red-600 ml-2'}>-{productShow?.sale}</span>
                                     </p>
                                     <p className={'text-black text-xl font-medium'}>
@@ -106,7 +106,7 @@ function DetailProductContent({product}) {
                                 </div>
                             </div> :
                             <p className={'text-black text-xl font-medium'}>
-                                {formatNumber(productShow.price)}
+                                {formatNumber(productShow?.price)}
                                 <span className={'text-lg'}>đ</span>
                             </p>
                     }
