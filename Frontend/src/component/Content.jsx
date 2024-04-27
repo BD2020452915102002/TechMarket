@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Products } from "../store/Products.jsx";
 import SearchIcon from '@mui/icons-material/Search';
 import unidecode from "unidecode";
 import Card from "./Card.jsx";

@@ -1,5 +1,4 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Product} from "../store/Products.jsx";
 import {AiOutlineHome} from "react-icons/ai";
 import {Link} from "react-router-dom";
 import {FaAngleRight} from "react-icons/fa";
@@ -10,10 +9,11 @@ import {Button} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import eventEmitter from "../utils/eventEmitter.js";
+import {useSelector} from "react-redux";
 
 
 function DetailProductContent() {
-    const [product, setProduct] = useState(useContext(Product)[0])
+    const [product, setProduct] = useSelector(state => state.products.data)
     const [more, setMore] = useState({
             desc: [
                 'đẹp quá',

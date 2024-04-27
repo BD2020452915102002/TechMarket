@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 
 function Card({product}) {
+    console.log(product)
     function formatNumber(number) {
         return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }

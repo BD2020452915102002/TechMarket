@@ -1,12 +1,12 @@
-import {OnceProduct} from "../../store/Provider.jsx";
 import Navbar from "../../component/Navbar.jsx";
 import Footer from "../../component/Footer.jsx";
 import DetailProductContent from "../../component/DetailProductContent.jsx";
 import Comment from "../../component/Comment.jsx";
 import {Box, Tab, Tabs, Typography} from "@mui/material";
-import {useState} from "react";
-import PropTypes from "prop-types";
+import {useEffect, useState} from "react";
 import SuggestProduct from "../../component/SuggestProduct.jsx";
+import {useParams} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 function CustomTabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -28,11 +28,6 @@ function CustomTabPanel(props) {
     );
 }
 
-CustomTabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.number.isRequired,
-    value: PropTypes.number.isRequired,
-};
 
 function a11yProps(index) {
     return {
@@ -43,14 +38,22 @@ function a11yProps(index) {
 
 function DetailProduct() {
     const [value, setValue] = useState(0);
-
+    const { productID } = useParams();
+    const [product,setProduct] = useState([])
+    const productList = useSelector(state => state.products.data)
+    useEffect(()=>{
+        setProduct(
+            ()=>{
+             return    productList.filter(e=>{return e.id === parseInt(productID)})
+            }
+        )
+    },[productID])
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
     return (
-        <OnceProduct>
-            <div className={'bg-gray-50 '}>
 
+            <div className={'bg-gray-50 '}>
                 <div className={'mx-20'}>
                     <Navbar/>
                     <DetailProductContent/>
@@ -73,7 +76,6 @@ function DetailProduct() {
                     <Footer/>
                 </div>
             </div>
-        </OnceProduct>
 
     );
 }

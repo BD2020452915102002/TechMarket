@@ -4,8 +4,6 @@ import Navbar from "../../component/Navbar.jsx";
 import Footer from "../../component/Footer.jsx";
 import Content from "../../component/Content.jsx";
 import Category from "../../component/Category.jsx";
-import { AllProduct } from "../../store/Provider.jsx";
-import { initState } from "../../store/Reducer.jsx";
 import React, { useEffect, useState } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import {connect, useDispatch, useSelector} from "react-redux";

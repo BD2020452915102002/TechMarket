@@ -1,9 +1,9 @@
 import React from 'react';
 import Card from "./Card.jsx";
-import {initState} from "../store/Reducer.jsx";
+import {useSelector} from "react-redux";
 
 function SuggestProduct() {
-    const productsSuggest = initState.data
+    const productsSuggest = useSelector(state => state.products.data)
     return (
         <div className={'mt-10'}>
             <div className={'font-medium text-xl text-start'}>Gợi ý cho bạn</div>

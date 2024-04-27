@@ -1,5 +1,3 @@
-import React, {useContext, useState} from 'react';
-import {Products} from "../store/Products.jsx";
 import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 
