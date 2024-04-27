@@ -23,7 +23,6 @@ function DetailProductContent({product}) {
         setCount(0)
     }, [product]);
 
-    console.log('productShow',productShow)
     const [more, setMore] = useState({
             desc: [
                 'đẹp quá',

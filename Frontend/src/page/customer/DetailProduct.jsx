@@ -43,10 +43,8 @@ function DetailProduct() {
     const filteredProduct = productList.filter(product => product._id === productID)||[];
     const [product,setProduct] = useState(filteredProduct[0])
     useEffect(()=>{
-        console.log('aaaa')
         const filteredProduct = productList.filter(product => product._id === productID);
         if (filteredProduct.length > 0) {
-            console.log('filteredProduct ',filteredProduct )
             setProduct(filteredProduct[0]);
         } else {
             console.log("Không tìm thấy sản phẩm với ID này.");
@@ -55,7 +53,6 @@ function DetailProduct() {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    console.log('>>detailproduct',product,'>>',productID,'>>',productList)
     return (
 
             <div className={'bg-gray-50 '}>
