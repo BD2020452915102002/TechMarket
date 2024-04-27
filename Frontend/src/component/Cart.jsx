@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Products} from "../store/Products.jsx";
 import { DataGrid } from '@mui/x-data-grid';
+import {useSelector} from "react-redux";
 
 
 function Cart() {
-    const products = useContext(Products)[0].data
+    const products = useSelector(state => state.products.data)
     const [productsWithQuantity, setProductsWithQuantity] = useState([]);
 
     useEffect(() => {

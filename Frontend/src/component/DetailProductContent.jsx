@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import React, { useContext, useEffect, useState } from 'react';
 import { Product } from "../store/Products.jsx";
 import { AiOutlineHome } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { FaAngleRight } from "react-icons/fa";
+=======
+import React, {useContext, useEffect, useState} from 'react';
+import {AiOutlineHome} from "react-icons/ai";
+import {Link} from "react-router-dom";
+import {FaAngleRight} from "react-icons/fa";
+>>>>>>> 89c77e6d57cd1c48b0a54a161e8b3708a8efd2b7
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { TbBoxMultiple } from "react-icons/tb";
 import { Carousel } from "react-responsive-carousel";
@@ -10,10 +17,11 @@ import { Button } from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import eventEmitter from "../utils/eventEmitter.js";
+import {useSelector} from "react-redux";
 
 
 function DetailProductContent() {
-    const [product, setProduct] = useState(useContext(Product)[0])
+    const [product, setProduct] = useSelector(state => state.products.data)
     const [more, setMore] = useState({
         desc: [
             'đẹp quá',

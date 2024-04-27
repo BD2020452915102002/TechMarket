@@ -4,12 +4,15 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import eventEmitter from "../utils/eventEmitter.js";
-import { connect } from "react-redux";
-import { logout } from "../utils/auth.js";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {getActions, logout} from "../store/actions/authActions.js";
+import {productApi} from "../../api/productApi.js";
+import {fetchData} from "../store/actions/productsAction.js";
 
 function Navbar({ userDetails }) {
-  const isLoggedIn = userDetails != null ? true : false;
-
+  const product = useSelector(state => state.products.data)
+  const dispatch= useDispatch()
+  const {isLoggedIn} =JSON.parse(localStorage.getItem('session'))|| {isLoggedIn:false}
   const [cart, setCart] = useState(() => {
     const sessionData = localStorage.getItem("session");
     if (sessionData) {
@@ -18,7 +21,17 @@ function Navbar({ userDetails }) {
     }
     return [];
   });
-
+  useEffect(() => {
+    const fetchDataAsync = async () => {
+      try {
+        const res = await productApi.getProduct();
+        dispatch(fetchData(res.data.data));
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchDataAsync();
+  }, []);
   useEffect(() => {
     const handleAddToCart = (e) => {
       const existingProductIndex = cart.findIndex((item) => item.id === e.id);
@@ -53,28 +66,18 @@ function Navbar({ userDetails }) {
     localStorage.setItem("session", updatedSession);
   }, [cart]);
 
-  const category = [
-    "Điện thoại",
-    "Laptop",
-    "Smart Watch",
-    "Tai Nghe",
-    "Điện thoại",
-    "Laptop",
-    "Smart Watch",
-    "Tai Nghe",
-    "Điện thoại",
-    "Laptop",
-    "Smart Watch",
-    "Tai Nghe",
-    "Điện thoại",
-    "Laptop",
-    "Smart Watch",
-    "Tai Nghe",
-  ];
+  const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
+
   const [isHover, setIsHover] = useState(false);
-  const categoryArr = category.filter((e, i) => {
+  const categoryArr = category?.filter((e, i) => {
     return i < 5;
   });
+
+  function logoutX() {
+    dispatch(logout())
+    localStorage.removeItem('session');
+  }
+
   return (
     <div className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
       <div className="flex items-center">
@@ -105,7 +108,7 @@ function Navbar({ userDetails }) {
                   to={`/category/${e}`}
                   key={i}
                   className={
-                    "text-black font-medium text-[12px] text-center hover:bg-[#231f20] hover:text-white  p-2 w-28 "
+                    "text-black font-medium text-[12px] text-center hover:bg-[#231f20] hover:text-white  p-2 w-24 line-clamp-1"
                   }
                 >
                   {e}
@@ -113,7 +116,7 @@ function Navbar({ userDetails }) {
               ))}
             </div>
           </div>
-          {categoryArr.map((e, i) => (
+          {categoryArr?.map((e, i) => (
             <Link
               to={`/category/${e}`}
               key={i}
@@ -168,7 +171,7 @@ function Navbar({ userDetails }) {
                 <li>
                   <a
                     href="/"
-                    onClick={logout}
+                    onClick={logoutX}
                     className={
                       "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  "
                     }
@@ -185,9 +188,11 @@ function Navbar({ userDetails }) {
   );
 }
 
-const mapStoreStateToProps = ({ auth }) => {
+const mapStoreStateToProps = ({ auth ,dispatch}) => {
   return {
     ...auth,
+    ...getActions(dispatch),
+
   };
 };
 

@@ -1,15 +1,16 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import BoltIcon from '@mui/icons-material/Bolt';
 import Card from "./Card.jsx";
-import {Products} from "../store/Products.jsx";
+import {useSelector} from "react-redux";
 
 function Sale() {
-    const productsSale = useContext(Products)[0].data.filter((e) => {
-        return e.sale !== ''
-    });
+    const [productsSale, setProductsSale] = useState()
+    const products= useSelector(state => state.products.data)
     const targetTime = new Date();
     targetTime.setHours(targetTime.getHours() + 3);
-
+useEffect(()=>{
+    s
+},[products])
     useEffect(() => {
 
         const interval = setInterval(() => {
@@ -43,11 +44,11 @@ function Sale() {
                 <span id={'countdown'} className={'font-bold text-lg text-black ml-2'}></span>
             </div>
             <div className={'carousel carousel-center w-full'}>
-                {productsSale.map((e, i) => (
-                    <div key={i} className={'carousel-item m-2'}>
-                        <Card product={e} className={''}/>
-                    </div>
-                ))}
+                {/*{productsSale.map((e, i) => (*/}
+                {/*    <div key={i} className={'carousel-item m-2'}>*/}
+                {/*        <Card product={e} className={''}/>*/}
+                {/*    </div>*/}
+                {/*))}*/}
             </div>
 
         </div>

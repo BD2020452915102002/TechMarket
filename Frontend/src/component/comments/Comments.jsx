@@ -6,7 +6,7 @@ import {
     createComment as createCommentApi,
     updateComment as updateCommentApi,
     deleteComment as deleteCommentApi,
-} from "../../store/Reducer.jsx";
+} from "../../store/actions/commentsProductAction.jsx";
 
 const Comments = ({ commentsUrl, currentUserId }) => {
     const [backendComments, setBackendComments] = useState([]);

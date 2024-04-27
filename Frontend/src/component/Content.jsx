@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Products } from "../store/Products.jsx";
 import SearchIcon from '@mui/icons-material/Search';
-// import unidecode from "unidecode";
+import unidecode from "unidecode";
 import Card from "./Card.jsx";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Button, FormControlLabel, Radio } from "@mui/material";
@@ -25,10 +24,20 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
         'Từ 1.000.000 đến 5.000.000',
         'Từ 5.000.000'
     ]
-    const brand = product.map(e => (e.brand)).filter((value, index, self) => self.indexOf(value) === index)
+    const brand = product?.map(e => (e.brand)).filter((value, index, self) => self.indexOf(value) === index)
     const sale = ['Yes', 'No']
     const stock = ['Còn hàng', 'Hết hàng']
-    const category = product.map(e => (e.category)).filter((value, index, self) => self.indexOf(value) === index)
+    const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
+
+    useEffect(() => {
+        setProductShow(product)
+        setFilterName(product)
+        setFilterStock(product)
+        setFilterCategory(product)
+        setFilterSale(product)
+        setFilterPrice(product)
+        setFilterBrand(product)
+    }, [product]);
 
     function removeAccents(str) {
         return unidecode(str);
@@ -124,9 +133,8 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
 
     function searchCategory(e, i) {
         setIsCategory(i)
-        setFilterCategory(product.filter(p => {
-            return p.category === e
-        }))
+        const filteredProducts = product.filter(p => p.category.includes(e));
+        setFilterCategory(filteredProducts);
     }
 
 
@@ -142,7 +150,6 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
         generalSearch()
     }, [filterName, filterBrand, filterStock, filterCategory, filterPrice, filterSale]
     )
-
 
     return (
         <div className={'mt-20 '}>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 const apiClient = axios.create({
   baseURL: "http://localhost:5000/api",
-  timeout: 1000,
+  timeout: 130000,
 });
 
 // apiClient.interceptors.request.use(
@@ -32,6 +32,23 @@ export const login = async (data) => {
     };
   }
 };
+
+export const register = async (data) => {
+  try {
+    return await apiClient.post("/register", data);
+  } catch (exception) {
+    return {
+      error: true,
+      exception,
+    };
+  }
+};
+export const api = axios.create({
+  baseURL: 'http://localhost:5000/api',
+  headers: {
+
+  }
+})
 
 // export const url = "http://localhost:5000/api";
 
