@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "@mui/system";
+import { connect } from "react-redux";
+import { sendDirectMessage } from "../../../../realtimeCommunication/socketConnection";
 
 const MainContainer = styled("div")({
   height: "60px",
@@ -20,7 +22,7 @@ const Input = styled("input")({
   padding: "0 10px",
 });
 
-const NewMessageInput = () => {
+const NewMessageInput = ({ chosenChatDetails }) => {
   const [message, setMessage] = useState("");
 
   const handleMessageValueChange = (event) => {
@@ -35,7 +37,10 @@ const NewMessageInput = () => {
 
   const handleSendMessage = () => {
     if (message.length > 0) {
-      console.log(message);
+      sendDirectMessage({
+        receiverUserId: chosenChatDetails.id,
+        content: message,
+      });
       setMessage("");
     }
   };
@@ -43,7 +48,7 @@ const NewMessageInput = () => {
   return (
     <MainContainer>
       <Input
-        placeholder={`Write message to`}
+        placeholder={`Write message to ${chosenChatDetails.name}`}
         value={message}
         onChange={handleMessageValueChange}
         onKeyDown={handleKeyPressed}
@@ -52,4 +57,10 @@ const NewMessageInput = () => {
   );
 };
 
-export default NewMessageInput;
+const mapStoreStateToProps = ({ chat }) => {
+  return {
+    ...chat,
+  };
+};
+
+export default connect(mapStoreStateToProps)(NewMessageInput);

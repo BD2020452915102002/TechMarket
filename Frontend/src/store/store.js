@@ -4,10 +4,14 @@ import { thunk } from "redux-thunk";
 
 import authReducer from "./reducers/authReducer";
 import productsReducer from "./reducers/productsReducer.js";
+import chatReducer from "./reducers/chatReducer.js";
+import customersReducer from "./reducers/customersReducer.js";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   products: productsReducer,
+  customers: customersReducer,
+  chat: chatReducer,
 });
 
 const store = createStore(

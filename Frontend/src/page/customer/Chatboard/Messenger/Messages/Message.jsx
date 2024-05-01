@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@mui/system";
-import Avatar from "../../../shared/components/Avatar";
+import Avatar from "../../../../../component/Avatar";
 import Typography from "@mui/material/Typography";
 
 const MainContainer = styled("div")({
@@ -31,7 +31,7 @@ const SameAuthorMessageText = styled("span")({
   marginLeft: "70px",
 });
 
-const Message = ({ content, sameAuthor, username, date, sameDay }) => {
+const Message = ({ content, sameAuthor, name, date, sameDay }) => {
   if (sameAuthor && sameDay) {
     return (
       <SameAuthorMessageContent>
@@ -43,11 +43,11 @@ const Message = ({ content, sameAuthor, username, date, sameDay }) => {
   return (
     <MainContainer>
       <AvatarContainer>
-        <Avatar username={username} />
+        <Avatar username={name} />
       </AvatarContainer>
       <MessageContainer>
         <Typography style={{ fontSize: "16px", color: "white" }}>
-          {username}{" "}
+          {name}{" "}
           <span style={{ fontSize: "12px", color: "#72767d" }}>{date}</span>
         </Typography>
         <MessageContent>{content}</MessageContent>
