@@ -12,6 +12,7 @@ import { connectWithSocketServer } from "../../realtimeCommunication/socketConne
 import { productApi } from "../../../api/productApi.js";
 import { fetchData } from "../../store/actions/productsAction.js";
 import productsReducer from "../../store/reducers/productsReducer.js";
+import ChatIcon from "./Chatboard/ChatIcon.jsx";
 
 function Home({ setUserDetails, logout }) {
   const products = useSelector((state) => state.products.data);
@@ -32,7 +33,7 @@ function Home({ setUserDetails, logout }) {
     );
   } else
     return (
-      <div className={"bg-gray-50 "}>
+      <div className={"bg-gray-50  relative"}>
         <div className={"mx-20 "}>
           <Navbar />
           <Slide />
@@ -48,6 +49,8 @@ function Home({ setUserDetails, logout }) {
           />
           <Footer />
         </div>
+        <ChatIcon/>
+
       </div>
     );
 }
