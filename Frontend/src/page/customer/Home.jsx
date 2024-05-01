@@ -14,7 +14,7 @@ import { fetchData } from "../../store/actions/productsAction.js";
 import productsReducer from "../../store/reducers/productsReducer.js";
 import ChatIcon from "./Chatboard/ChatIcon.jsx";
 
-function Home({ setUserDetails, logout }) {
+function Home() {
   const products = useSelector((state) => state.products.data);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -54,10 +54,4 @@ function Home({ setUserDetails, logout }) {
     );
 }
 
-const mapActionsToProps = (dispatch) => {
-  return {
-    ...getActions(dispatch),
-  };
-};
-
-export default connect(null, mapActionsToProps)(Home);
+export default Home;

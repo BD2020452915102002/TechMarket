@@ -36,12 +36,9 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
   const [open, setOpen] = useState(false);
   const [start, setStart] = useState(false);
 
-  useEffect(() => {
-    setChosenChatDetails(
-      { id: customers[0].id, name: customers[0].name },
-      chatTypes.DIRECT
-    );
-  }, []);
+  const handleStart = () => {
+    setOpen(false);
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -50,7 +47,7 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
       chatTypes.DIRECT
     );
     getDirectChatHistory({
-      receiverUserId: chosenChatDetails.id,
+      receiverUserId: "6631eca7cdb504839a6da6d1",
     });
   };
 
@@ -95,10 +92,7 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
             }
           >
             <Typography id="transition-modal-title" variant="h6" component="h2">
-              <div
-                className={"flex justify-between"}
-                onClick={() => setOpen(false)}
-              >
+              <div className={"flex justify-between"} onClick={handleStart}>
                 <p>Trò chuyện với shop</p>
                 <div className={"px-2 hover:bg-gray-200"}>
                   <RemoveIcon />
