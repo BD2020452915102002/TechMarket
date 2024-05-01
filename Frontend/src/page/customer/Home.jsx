@@ -21,8 +21,8 @@ function Home({ setUserDetails, logout }) {
 
   useEffect(() => {
     setLoading(false);
-    // const userDetails = localStorage.getItem("token");
-    // connectWithSocketServer(userDetails);
+    const userDetails = localStorage.getItem("token");
+    connectWithSocketServer(userDetails);
   }, []);
 
   if (loading) {
@@ -49,8 +49,7 @@ function Home({ setUserDetails, logout }) {
           />
           <Footer />
         </div>
-        <ChatIcon/>
-
+        <ChatIcon />
       </div>
     );
 }
