@@ -22,6 +22,7 @@ function Navbar({ userDetails }) {
     return [];
   });
   useEffect(() => {
+    console.log('aaaaabbbbb')
     const handleAddToCart = (e) => {
       const existingProductIndex = cart.findIndex((item) => item.id === e.id);
       if (existingProductIndex !== -1) {
@@ -32,16 +33,14 @@ function Navbar({ userDetails }) {
         setCart([...cart, e]);
       }
     };
-
     eventEmitter.on("addShoppingCart", handleAddToCart);
-
-    // Cleanup function
     return () => {
       eventEmitter.off("addShoppingCart", handleAddToCart);
     };
   }, [cart]);
 
   useEffect(() => {
+    console.log('sssss')
     const existingSession = localStorage.getItem("session");
     let updatedSession;
     if (existingSession) {
