@@ -3,6 +3,7 @@ import {Backdrop, Badge, Box, Button, Fade, FormControlLabel, Modal, Switch, Typ
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import RemoveIcon from '@mui/icons-material/Remove';
 import SendIcon from '@mui/icons-material/Send';
+import CommentList from "./CommentList.jsx";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -59,8 +60,8 @@ function ChatIcon(props) {
                                 <div className={'flex justify-center items-center !h-full'}>
                                     <Button variant={'contained'} onClick={()=>setStart(true)}>Bắt đầu nào</Button>
                                 </div>:
-                                <div>
-                                    nội dung tin nhăn hiện ở đây
+                                <div className={'h-full'}>
+                                    <CommentList/>
                                 </div>
                             }
                         </Typography>
