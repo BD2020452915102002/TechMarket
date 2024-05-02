@@ -20,17 +20,6 @@ import NewMessageInput from "../Chatboard/Messenger/NewMessageInput.jsx";
 import Messages from "./Messenger/Messages/Messages.jsx";
 import { getDirectChatHistory } from "../../../realtimeCommunication/socketConnection.js";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  outlined: "none",
-  boxShadow: 24,
-  p: 4,
-};
 
 function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
   const [open, setOpen] = useState(false);
@@ -88,13 +77,13 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
         <Fade in={open}>
           <Box
             className={
-              "absolute w-[360px] h-[400px] bg-slate-500  bottom-0 right-0 p-4 outline-0 -translate-y-[20px] -translate-x-[20px] "
+              "absolute w-[360px] h-[500px] bg-white  bottom-0 right-0 p-4 outline-0 -translate-y-[20px] -translate-x-[20px] "
             }
           >
             <Typography id="transition-modal-title" variant="h6" component="h2">
-              <div className={"flex justify-between"} onClick={handleStart}>
+              <div className={"flex justify-between"} >
                 <p>Trò chuyện với shop</p>
-                <div className={"px-2 hover:bg-gray-200"}>
+                <div className={"px-2 hover:bg-gray-200"} onClick={handleStart}>
                   <RemoveIcon />
                 </div>
               </div>

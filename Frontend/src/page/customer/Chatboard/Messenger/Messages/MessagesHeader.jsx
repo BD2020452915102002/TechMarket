@@ -11,24 +11,26 @@ const MainContainer = styled("div")({
 
 const MessagesHeader = ({ name = "" }) => {
   return (
-    <MainContainer>
-      <Avatar large username={name} />
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: "bold",
-          color: "white",
-          marginLeft: "5px",
-          marginRight: "5px",
-        }}
-      >
-        {name}
-      </Typography>
+    <MainContainer >
+     <div className={'flex items-center '}>
+         <Avatar large username={name} />
+         <Typography
+             variant="h6"
+             sx={{
+                 fontWeight: "bold",
+                 color: "black",
+                 marginLeft: "20px",
+                 marginRight: "5px",
+             }}
+         >
+             {name}
+         </Typography>
+     </div>
       <Typography
         sx={{
           color: "#b9bbbe",
-          marginLeft: "5px",
-          marginRight: "5px",
+          marginTop: "10px",
+
         }}
       >
         This is the beginning of your conversation with {name}

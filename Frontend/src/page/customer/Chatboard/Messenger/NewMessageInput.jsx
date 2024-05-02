@@ -15,11 +15,11 @@ const Input = styled("input")({
   backgroundColor: "#2f3136",
   width: "98%",
   height: "44px",
-  color: "white",
-  border: "none",
+  color: "black",
   borderRadius: "8px",
   fontSize: "14px",
   padding: "0 10px",
+  background: "white"
 });
 
 const NewMessageInput = ({ chosenChatDetails }) => {
@@ -52,6 +52,7 @@ const NewMessageInput = ({ chosenChatDetails }) => {
         value={message}
         onChange={handleMessageValueChange}
         onKeyDown={handleKeyPressed}
+        className={'border-[1px] border-gray-300 outline-1 outline-gray-500'}
       />
     </MainContainer>
   );

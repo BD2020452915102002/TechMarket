@@ -17,7 +17,7 @@ const AvatarPreview = styled("div")({
 
 const Avatar = ({ username, large }) => {
   return (
-    <AvatarPreview style={large ? { height: "80px", width: "80px" } : {}}>
+    <AvatarPreview style={large ? { height: "60px", width: "60px" } : { height: "40px", width: "40px"}} className={'flex justify-center items-center'}>
       {username.substring(0, 2)}
     </AvatarPreview>
   );
