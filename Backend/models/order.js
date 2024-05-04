@@ -18,11 +18,19 @@ const orderSchema = new mongoose.Schema({
       min: 1
     }
   }],
-  status: {
+  delivery_status: {
     type: String,
     required: true,
     enum: ['Pending', 'Completed', 'Cancelled'],
     default: 'Pending',
+  },
+  payment_status: {
+    type: String,
+    required: true,
+  },
+  shipping: {
+    type: String,
+    required: true,
   },
   totalCost: {
     type: Number,
