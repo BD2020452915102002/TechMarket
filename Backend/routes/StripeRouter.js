@@ -12,7 +12,7 @@ router.post("/create-checkout-session", async (req, res) => {
         },
     });
 
-    console.log(customer);
+    // console.log(customer);
 
     // const line_items = req.body.cartItems.map((item) => {
     //     return {
@@ -35,7 +35,7 @@ router.post("/create-checkout-session", async (req, res) => {
     const line_items = [
         {
             price_data: {
-                currency: "usd",
+                currency: "VND",
                 product_data: {
                     name: "item.name",
                     images: [],
@@ -44,10 +44,25 @@ router.post("/create-checkout-session", async (req, res) => {
                         id: "item.id",
                     },
                 },
-                unit_amount: 100,
+                unit_amount: 100000,
             },
             quantity: 1,
         },
+        {
+            price_data: {
+                currency: "VND",
+                product_data: {
+                    name: "item.name2",
+                    images: [],
+                    description: "item.desc2",
+                    metadata: {
+                        id: "item.id2",
+                    },
+                },
+                unit_amount: 200 * 100,
+            },
+            quantity: 2,
+        }
     ]
 
     const session = await stripe.checkout.sessions.create({
@@ -61,7 +76,7 @@ router.post("/create-checkout-session", async (req, res) => {
                     type: "fixed_amount",
                     fixed_amount: {
                         amount: 0,
-                        currency: "usd",
+                        currency: "vnd",
                     },
                     display_name: "Free shipping",
                     // Delivers between 5-7 business days
@@ -82,7 +97,7 @@ router.post("/create-checkout-session", async (req, res) => {
                     type: "fixed_amount",
                     fixed_amount: {
                         amount: 1500,
-                        currency: "usd",
+                        currency: "vnd",
                     },
                     display_name: "Next day air",
                     // Delivers in exactly 1 business day
