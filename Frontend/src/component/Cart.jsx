@@ -22,7 +22,7 @@ function Cart() {
        const arr = productsWithQuantity.filter(e=>{return e.checked})
         const isCheckAll = arr.length === productsWithQuantity.length
         const totalPrice = arr.reduce((total, item) => {
-            return total + item.price;
+            return total + item.price * item.quantity;
         }, 0);
         isCheckAll? setIsCheckAll(true):setIsCheckAll(false)
         setNumberOfProductsPurchased(arr.length)
