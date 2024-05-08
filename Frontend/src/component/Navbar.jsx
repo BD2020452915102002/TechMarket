@@ -8,51 +8,13 @@ import {connect, useDispatch, useSelector} from "react-redux";
 import {getActions, logout} from "../store/actions/authActions.js";
 import {productApi} from "../../api/productApi.js";
 import {fetchData} from "../store/actions/productsAction.js";
+import {deleteAll} from "../store/actions/cartAction.js";
 
 function Navbar({ userDetails }) {
   const product = useSelector(state => state.products.data)
   const dispatch = useDispatch()
   const {isLoggedIn} =JSON.parse(localStorage.getItem('session'))|| {isLoggedIn:false}
-  const [cart, setCart] = useState(() => {
-    const sessionData = localStorage.getItem("session");
-    if (sessionData) {
-      const { storedCart } = JSON.parse(sessionData);
-      return storedCart ? storedCart : [];
-    }
-    return [];
-  });
-  useEffect(() => {
-    console.log('aaaaabbbbb')
-    const handleAddToCart = (e) => {
-      const existingProductIndex = cart.findIndex((item) => item.id === e.id);
-      if (existingProductIndex !== -1) {
-        const updatedCart = [...cart];
-        updatedCart[existingProductIndex].quantity = e.quantity;
-        setCart(updatedCart);
-      } else {
-        setCart([...cart, e]);
-      }
-    };
-    eventEmitter.on("addShoppingCart", handleAddToCart);
-    return () => {
-      eventEmitter.off("addShoppingCart", handleAddToCart);
-    };
-  }, [cart]);
-
-  useEffect(() => {
-    console.log('sssss')
-    const existingSession = localStorage.getItem("session");
-    let updatedSession;
-    if (existingSession) {
-      const parsedSession = JSON.parse(existingSession);
-      parsedSession.storedCart = cart;
-
-      updatedSession = JSON.stringify(parsedSession);
-    } else {
-      updatedSession = JSON.stringify({ storedCart: cart });
-    }
-    localStorage.setItem("session", updatedSession);
-  }, [cart]);
+  const cart = useSelector(state => state.cart.data)
   const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
   const [isHover, setIsHover] = useState(false);
   const categoryArr = category?.filter((e, i) => {
@@ -61,6 +23,7 @@ function Navbar({ userDetails }) {
 
   function logoutX() {
     dispatch(logout())
+    dispatch(deleteAll())
     localStorage.removeItem('session');
   }
 
