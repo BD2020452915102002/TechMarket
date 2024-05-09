@@ -10,7 +10,7 @@ const productRouter = require("./routes/ProductRouter");
 const orderRouter = require("./routes/OrderRouter");
 const confirmRouter = require("./routes/ConfirmRouter");
 const commentRouter = require("./routes/CommentRouter");
-
+const stripeRouter = require("./routes/StripeRouter");
 const socketServer = require("./utils/socketServer");
 
 require("dotenv").config();
@@ -49,5 +49,5 @@ app.use("/api/product", productRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/confirm", confirmRouter);
 app.use("/api/comment", commentRouter);
-
+app.use("/api/stripe", stripeRouter);
 module.exports = app;

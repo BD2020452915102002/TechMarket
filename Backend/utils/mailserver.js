@@ -2,30 +2,30 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: "Gmail",
   auth: {
-    user: 'tuandat8103@gmail.com',
-    pass: 'spso nytn vmny zdkm',
+    user: "tuandat8103@gmail.com",
+    pass: "spso nytn vmny zdkm",
   },
 });
 
 exports.sendConfirmationEmail = (email, token) => {
-
   const PORT = process.env.PORT || 5000;
-  const url = `localhost:${PORT}`
+  const url = `http://localhost:${PORT}`;
 
   const mailOptions = {
-    from: 'TECHMARKET@test.com',
+    from: `"TechMarket Support" <support@techmarket.com>`,
     to: email,
-    subject: 'Confirm your account',
-    text: `Please click the following link to confirm your account: 
-  ${url}/api/confirm?token=${token}`,
+    subject: "Confirm your TechMarket account",
+    html: `<p>Hello,</p>
+           <p>Please click on the link below to confirm your TechMarket account:</p>
+           <a href="${url}/api/confirm?token=${token}">Confirm Account</a>
+           <p>If you did not request this, please ignore this email.</p>`,
   };
-
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       return console.log(error);
     }
-    console.log('Confirmation email sent: %s', info.messageId);
+    console.log("Confirmation email sent: %s", info.messageId);
   });
-}
+};

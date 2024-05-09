@@ -1,10 +1,7 @@
 import {Link} from "react-router-dom";
+import {formatNumber} from "../utils/formatNumber.js";
 
 function Card({product}) {
-    function formatNumber(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
 
     return (

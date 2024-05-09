@@ -57,6 +57,7 @@ function CreateAccount({ register }) {
     };
 
     register(userDetails, navigate);
+
   }
 
   return (

@@ -6,33 +6,23 @@ import Content from "../../component/Content.jsx";
 import Category from "../../component/Category.jsx";
 import React, { useEffect, useState } from "react";
 import { Box, CircularProgress } from "@mui/material";
-import {connect, useDispatch, useSelector} from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { getActions } from "../../store/actions/authActions.js";
 import { connectWithSocketServer } from "../../realtimeCommunication/socketConnection.js";
-import Messenger from "./messenger/Messenger.jsx";
-import {productApi} from "../../../api/productApi.js";
-import {fetchData} from "../../store/actions/productsAction.js";
+import { productApi } from "../../../api/productApi.js";
+import { fetchData } from "../../store/actions/productsAction.js";
 import productsReducer from "../../store/reducers/productsReducer.js";
+import ChatIcon from "./Chatboard/ChatIcon.jsx";
 
-function Home({ setUserDetails ,logout }) {
-  const products = useSelector(state => state.products.data)
-  const dispatch= useDispatch()
+function Home() {
+  const products = useSelector((state) => state.products.data);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(false);
-  }, []);
-
-  useEffect(() => {
-
-    // const {userDetails} = localStorage.getItem("session");
-    //
-    // if (!userDetails) {
-    //   logout
-    // } else {
-    //   setUserDetails(JSON.parse(userDetails));
-    //   connectWithSocketServer(JSON.parse(userDetails));
-    // }
+    const userDetails = localStorage.getItem("token");
+    connectWithSocketServer(userDetails);
   }, []);
 
   if (loading) {
@@ -42,33 +32,26 @@ function Home({ setUserDetails ,logout }) {
       </Box>
     );
   } else
-  return (
-
-        <div className={"bg-gray-50 "}>
-          <div className={"mx-20 "}>
-            <Navbar />
-            <Slide />
-            <Category />
-            {/*<Sale />*/}
-            <Content
-              priceShow={true}
-              brandShow={true}
-              saleShow={true}
-              categoryShow={true}
-              stockShow={true}
-              product={products}
-            />
-            <Messenger />
-            <Footer />
-          </div>
+    return (
+      <div className={"bg-gray-50  relative"}>
+        <div className={"mx-20 "}>
+          <Navbar />
+          <Slide />
+          <Category />
+          {/*<Sale />*/}
+          <Content
+            priceShow={true}
+            brandShow={true}
+            saleShow={true}
+            categoryShow={true}
+            stockShow={true}
+            product={products}
+          />
+          <Footer />
         </div>
+        <ChatIcon />
+      </div>
     );
 }
 
-const mapActionsToProps = (dispatch) => {
-  return {
-    ...getActions(dispatch),
-  };
-};
-
-export default connect(null, mapActionsToProps)(Home);
+export default Home;
