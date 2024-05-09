@@ -1,9 +1,12 @@
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PersonIcon from '@mui/icons-material/Person';
+import CategoryIcon from '@mui/icons-material/Category';
 import React from 'react';
 
 function Nav(props) {
@@ -12,9 +15,9 @@ function Nav(props) {
             <List>
                 {
                     [
-                        { title: 'Thống kê', icon: <NewspaperIcon />, path: '/student/news' },
-                        { title: 'Người dùng', icon: <EqualizerIcon />, path: '/student/statistic' },
-                        { title: 'Sản phẩm', icon: <AppRegistrationIcon />, path: '/student/news' },
+                        { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
+                        { title: 'Người dùng', icon: <PersonIcon />, path: '/managehome/users' },
+                        { title: 'Sản phẩm', icon: <CategoryIcon />, path: '/managehome/products' },
                         // { title: '', icon: <CalendarMonthIcon />, path: '/student/statistic' },
                         // { title: 'Kết nối phòng đào tạo', icon: <SchoolIcon />, path: '/student/news' },
                     ].map((e, i) => (
