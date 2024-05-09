@@ -14,6 +14,12 @@ import { useDispatch, useSelector } from "react-redux";
 import eventEmitter from "../utils/eventEmitter.js";
 import DetailUserInfor from '../page/customer/DetailUserInfor.jsx';
 
+import { Dashboard } from "@mui/icons-material";
+
+import HomeManage from "../page/manage/HomeManage.jsx";
+import Users from "../page/manage/Users.jsx";
+import Products from "../page/manage/Products.jsx";
+
 function ScrollToTop() {
   const { pathname } = useLocation();
 
@@ -56,6 +62,7 @@ function AppRouters(props) {
             </PrivateRoute>
           }
         />
+        <Route path={"/infor"} element={<DetailUserInfor />} />
         <Route
           path={"/products/:productID"}
           element={
@@ -72,6 +79,11 @@ function AppRouters(props) {
             </PrivateRoute>
           }
         />
+        <Route path="/managehome" element={<HomeManage />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="products" element={<Products />} />
+        </Route>
       </Routes>
     </div>
   );

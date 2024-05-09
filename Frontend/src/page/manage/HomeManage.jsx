@@ -8,9 +8,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import logo_hust from '../assets/image/logo-hust.png'
+// import logo_page from ''
 import { Link, Outlet, Route, Routes } from "react-router-dom";
-import Nav from "Nav.jsx";
+import Nav from "./Nav.jsx";
 import { Avatar, Menu, MenuItem, Tooltip, Typography } from "@mui/material";
 const drawerWidth = 240;
 
@@ -143,13 +143,7 @@ function HomeManage() {
             >
                 <DrawerHeader>
                     <a href={'/'} className={'flex items-center justify-center hover:cursor-pointer'}>
-                        <img src={logo_hust} alt="" className={'h-[40px]'} />
-                        <div className={' ml-2'}>
-                            <h1 className={'font-bold text-gray-600'}><span
-                                className={'text-red-600'}>HUST</span> / <span
-                                    className={'text-blue-600'}>PROJECT</span></h1>
-                            <p className={'text-gray-500 -mt-1 text-[10px] italic'}>One love, one future</p>
-                        </div>
+                        {/* <img src={logo_page} alt="" className={'h-[40px]'} /> */}
                     </a>
                 </DrawerHeader>
                 <Divider />
