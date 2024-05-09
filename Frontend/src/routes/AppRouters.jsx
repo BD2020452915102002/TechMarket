@@ -12,6 +12,7 @@ import {productApi} from "../../api/productApi.js";
 import {fetchData} from "../store/actions/productsAction.js";
 import {useDispatch, useSelector} from "react-redux";
 import eventEmitter from "../utils/eventEmitter.js";
+import DetailUserInfor from '../page/customer/DetailUserInfor.jsx';
 
 function ScrollToTop() {
     const {pathname} = useLocation();

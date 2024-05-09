@@ -4,8 +4,12 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import HomeIcon from '@mui/icons-material/Home';
 import ManIcon from '@mui/icons-material/Man';
+import { useDispatch, useSelector } from "react-redux";
 
 function DetailUser(props) {
+    const { userDetails } = JSON.parse(localStorage.getItem('session'))
+    console.log('>>>>>', userDetails);
+
     const [infor, setInfor] = useState({
         name: "data",
         email: "nguyenxuanphuc@gmail.com",
@@ -38,7 +42,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Tên</div>
-                                <div className={' text-[#1C1C28]'}>{infor.name}</div>
+                                <div className={' text-[#1C1C28]'}>{userDetails.name}</div>
                             </div>
                         </div>
 
@@ -58,7 +62,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Email</div>
-                                <div className={'text-[#1C1C28]'}>{infor.email}</div>
+                                <div className={'text-[#1C1C28]'}>{userDetails.email}</div>
                             </div>
                         </div>
 
