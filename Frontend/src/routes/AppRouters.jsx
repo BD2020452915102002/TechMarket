@@ -22,29 +22,27 @@ import Products from "../page/manage/Products.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 }
+
 function AppRouters(props) {
   const dispatch = useDispatch();
+  const fetchDataAsync = async () => {
+    try {
+      const res = await productApi.getProduct();
+      dispatch(fetchData(res.data.data));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchDataAsync = async () => {
-      try {
-        const res = await productApi.getProduct();
-        dispatch(fetchData(res.data.data));
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
     fetchDataAsync();
-  }, []);
+  }, []);;
   const products = useSelector((state) => state.products.data);
-
   console.log(">>>>", products);
   return (
     <div>

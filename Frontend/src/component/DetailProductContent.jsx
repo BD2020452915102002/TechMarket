@@ -8,6 +8,7 @@ import NavigateNextIcon from "@mui/icons-material/NavigateNext.js";
 import HomeIcon from "@mui/icons-material/Home.js";
 import {addCart, deleteAll} from "../store/actions/cartAction.js";
 import {formatNumber} from "../utils/formatNumber.js";
+import {notify} from "../utils/toastify.js";
 
 
 function DetailProductContent({product}) {
@@ -18,9 +19,11 @@ function DetailProductContent({product}) {
         setProductShow(product)
         setCount(0)
     }, [product]);
+
     function addCount() {
         setCount(count + 1)
     }
+
     function subCount() {
         setCount(count - 1)
     }
@@ -80,11 +83,12 @@ function DetailProductContent({product}) {
                     </div>
                     <div className={'grid grid-cols-[50%,50%] mt-8 gap-3'}>
                         <Button variant="contained" startIcon={<AddShoppingCartIcon/>} disabled={count < 1}
-                                onClick={()=>{
+                                onClick={() => {
+                                    notify('infor', 'Đã thêm lựa chọn của bạn vào giỏ hàng')
                                     dispatch(addCart(
                                         {
                                             ...productShow,
-                                            quantity:count,
+                                            quantity: count,
                                             checked: true
                                         }
                                     ))
