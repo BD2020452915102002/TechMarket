@@ -44,6 +44,7 @@ function AppRouters(props) {
                 <Route path={"/createAccount"} element={<CreateAccount/>}/>
                 <Route path={"/cart"} element={<ShoppingCart/>}/>
                 <Route path={"/"} element={<Home/>}/>
+                <Route path={"/infor"} element={<DetailUserInfor/>}/>
 
                 <Route
                     path={"/category/:categoryID"}
