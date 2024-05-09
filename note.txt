@@ -11,16 +11,17 @@ Customer
 - Filter theo tiêu chí...
 
 Employee
-- CRUD các đơn hàng
+- CRUD các sản phẩm // tăng số lượng qu
+- trạng thái đơn hàng
+- chat ....///
+-
 
 Manager
-- dashboard (để quản lý)
-- CRUD các đơn hàng
-- Quản lý Hàng
-- Quản lý tài khoản (customer)
+- dashboard (để quản lý  : )
+-
+- Quản lý tài khoản (customer,emloyee)
 
-Admin
-- Quản lý các tài khoản (customer, staff(employee, manager)) 
+
 
 
 Giao diện:
