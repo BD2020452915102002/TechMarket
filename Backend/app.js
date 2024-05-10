@@ -6,6 +6,7 @@ const http = require("http");
 const userRouter = require("./routes/UserRouter");
 const registerRouter = require("./routes/RegisterRouter");
 const loginRouter = require("./routes/LoginRouter");
+const forgotPassRouter = require("./routes/ForgotPassRouter");
 const productRouter = require("./routes/ProductRouter");
 const orderRouter = require("./routes/OrderRouter");
 const confirmRouter = require("./routes/ConfirmRouter");
@@ -45,6 +46,8 @@ mongoose
 app.use("/api/user", userRouter);
 app.use("/api/register", registerRouter);
 app.use("/api/login", loginRouter);
+app.use("/api/forgot_pass", forgotPassRouter);
+
 app.use("/api/product", productRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/confirm", confirmRouter);
