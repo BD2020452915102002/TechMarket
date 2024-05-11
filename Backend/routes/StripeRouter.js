@@ -22,7 +22,7 @@ router.post("/create-checkout-session", async (req, res) => {
   //                 name: item.name,
   //                 images: [item.image.url],
   //                 description: item.desc,
-  //                 metadata: {
+  //                 metadata: {retrieve
   //                     id: item.id,
   //                 },
   //             },
@@ -127,14 +127,15 @@ router.post("/create-checkout-session", async (req, res) => {
 });
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-let endpointSecret =
-  "whsec_6e26d738ca35bc8c68b36166e1d52972955fd7ec45423e08cdd6331d1eabf4a4";
+// let endpointSecret = "whsec_6e26d738ca35bc8c68b36166e1d52972955fd7ec45423e08cdd6331d1eabf4a4";
+
+let endpointSecret;
 
 router.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  (request, response) => {
-    const sig = request.headers["stripe-signature"];
+  '/webhook',
+  express.raw({ type: 'application/json' }),
+  (req, res) => {
+    const sig = req.headers['stripe-signature'];
 
     let data;
     let eventType;
@@ -143,11 +144,7 @@ router.post(
       let event;
 
       try {
-        event = stripe.webhooks.constructEvent(
-          request.body,
-          sig,
-          endpointSecret
-        );
+        event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
         console.log("Webhook verified.");
       } catch (err) {
         console.log(`Webhook Error: ${err.message}`);
@@ -160,9 +157,10 @@ router.post(
       data = req.body.data.object;
       eventType = req.body.type;
     }
+
     // Handle the event
     if (eventType === "checkout.session.completed") {
-      stripe.customer
+      stripe.customers
         .retrieve(data.customer)
         .then((customer) => {
           console.log(customer);
@@ -171,8 +169,8 @@ router.post(
         .catch((err) => console.log(err.message));
     }
     // Return a 200 response to acknowledge receipt of the event
-    response.send().end();
+    res.send().end();
   }
-);
+)
 
 module.exports = router;
