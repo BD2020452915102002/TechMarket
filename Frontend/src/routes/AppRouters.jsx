@@ -10,14 +10,13 @@ import ShoppingCart from "../page/customer/ShoppingCart.jsx";
 import Chatboard from "../page/customer/Chatboard/Chatboard.jsx";
 import { productApi } from "../../api/productApi.js";
 import { fetchData } from "../store/actions/productsAction.js";
-import { useDispatch, useSelector } from "react-redux";
-import DetailUserInfor from '../page/customer/DetailUserInfor.jsx';
-
+import { useDispatch} from "react-redux";
 import { Dashboard } from "@mui/icons-material";
-
 import HomeManage from "../page/manage/HomeManage.jsx";
 import Users from "../page/manage/Users.jsx";
 import Products from "../page/manage/Products.jsx";
+import DetailUserInfor from "../page/customer/DetailUserInfor.jsx";
+import OrderStatus from "../page/OrderStatus.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -27,7 +26,7 @@ function ScrollToTop() {
   return null;
 }
 
-function AppRouters(props) {
+function  AppRouters(props) {
   const dispatch = useDispatch();
   const fetchDataAsync = async () => {
     try {
@@ -46,7 +45,7 @@ function AppRouters(props) {
       <ScrollToTop />
       <Routes>
         <Route path={"/createAccount"} element={<CreateAccount />} />
-        <Route path={"/cart"} element={<ShoppingCart />} />
+        <Route path={"/orderstatus"} element={<OrderStatus />} />
         <Route path={"/"} element={<Home />} />
         <Route path={"/login"} element={<Login />} />
         <Route
@@ -57,7 +56,7 @@ function AppRouters(props) {
             </PrivateRoute>
           }
         />
-        <Route path={"/infor"} element={<DetailUserInfor />} />
+        <Route path={"/infor"} element={<DetailUserInfor/>} />
         <Route
           path={"/products/:productID"}
           element={
@@ -65,6 +64,14 @@ function AppRouters(props) {
               <DetailProduct />
             </PrivateRoute>
           }
+        />
+        <Route
+            path={"/cart"}
+            element={
+              <PrivateRoute>
+                <ShoppingCart />
+              </PrivateRoute>
+            }
         />
         <Route
           path={"/chat"}

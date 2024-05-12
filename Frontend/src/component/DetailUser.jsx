@@ -42,7 +42,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Tên</div>
-                                <div className={' text-[#1C1C28]'}>{userDetails.name}</div>
+                                <div className={' text-[#1C1C28]'}>{userDetails?.name}</div>
                             </div>
                         </div>
                         <div className={'flex gap-3 items-center'}>
@@ -71,7 +71,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Email</div>
-                                <div className={'text-[#1C1C28]'}>{userDetails.email}</div>
+                                <div className={'text-[#1C1C28]'}>{userDetails?.email}</div>
                             </div>
                         </div>
 

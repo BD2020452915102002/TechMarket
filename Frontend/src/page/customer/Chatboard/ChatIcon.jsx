@@ -19,11 +19,14 @@ import { chatTypes, getActions } from "../../../store/actions/chatActions.js";
 import NewMessageInput from "../Chatboard/Messenger/NewMessageInput.jsx";
 import Messages from "./Messenger/Messages/Messages.jsx";
 import { getDirectChatHistory } from "../../../realtimeCommunication/socketConnection.js";
+import {Link} from "react-router-dom";
 
 
 function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
   const [open, setOpen] = useState(false);
   const [start, setStart] = useState(false);
+  const {isLoggedIn} = JSON.parse(localStorage.getItem('session')) || {isLoggedIn: false}
+
 
   const handleStart = () => {
     setOpen(false);
@@ -92,17 +95,27 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
               id="transition-modal-description"
               sx={{ mt: 2, height: "70%" }}
             >
-              {!start ? (
-                <div className={"flex justify-center items-center !h-full"}>
-                  <Button variant={"contained"} onClick={() => setStart(true)}>
-                    Bắt đầu nào
-                  </Button>
-                </div>
-              ) : (
-                <div className={"h-full"}>
-                  <Messages />
-                </div>
-              )}
+              {isLoggedIn?
+                  ( !start ? (
+                      <div className={"flex justify-center items-center !h-full"}>
+                        <Button variant={"contained"} onClick={() => setStart(true)}>
+                          Bắt đầu nào
+                        </Button>
+                      </div>
+                  ) : (
+                      <div className={"h-full"}>
+                        <Messages />
+                      </div>
+                  ) )
+                  :(
+                      <div  className={"flex justify-center items-center !h-full flex-col"}  >
+                        <p>Hãy đăng nhập để tiếp tục</p>
+                        <Link to={'/login'}>
+                          <Button variant={'contained'} className={'!mt-10 p-6 text-2xl font-bold'}>Đăng nhâp</Button>
+                        </Link>
+                      </div>
+                  )
+              }
             </Typography>
             <div
               className={

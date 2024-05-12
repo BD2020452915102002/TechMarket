@@ -65,7 +65,7 @@ function Cart() {
                             </Link>
                         </div>
                     </div>
-                    <p className={'flex items-center justify-center'}>{e.price}đ</p>
+                    <p className={'flex items-center justify-center'}>Giá: {formatNumber(e.price)}đ</p>
                     <div className={'flex items-center justify-center'}>
                         <div className={'flex items-center'}>
                             <div className={'flex items-center relative mr-4'}>
