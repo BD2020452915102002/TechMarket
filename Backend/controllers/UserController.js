@@ -1,4 +1,5 @@
 const userService = require("../services/UserService");
+const productService = require("../services/ProductService")
 const cloudinary = require("../utils/cloudinary");
 
 exports.createUser = async (req, res) => {
@@ -114,6 +115,16 @@ exports.deleteUser = async (req, res) => {
         const deletedUser = await userService.deleteUser(req.params.id);
         res.status(200).json({ data: deletedUser, status: "success" });
     } catch (err) {
+        res.status(500).json({ error: err.message })
+    }
+}
+
+exports.getCartByUser = async (req, res) => {
+    try {
+        const product = await productService.getProductById(req.body.id);
+        res.json({ data: product, status: "success" });
+    }
+    catch (err) {
         res.status(500).json({ error: err.message })
     }
 }
