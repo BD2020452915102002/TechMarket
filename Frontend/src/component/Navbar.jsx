@@ -4,18 +4,18 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import eventEmitter from "../utils/eventEmitter.js";
-import {connect, useDispatch, useSelector} from "react-redux";
-import {getActions, logout} from "../store/actions/authActions.js";
-import {productApi} from "../../api/productApi.js";
-import {fetchData} from "../store/actions/productsAction.js";
-import {deleteAll} from "../store/actions/cartAction.js";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { getActions, logout } from "../store/actions/authActions.js";
+import { productApi } from "../../api/productApi.js";
+import { fetchData } from "../store/actions/productsAction.js";
+import { deleteAll } from "../store/actions/cartAction.js";
 
 function Navbar({ userDetails }) {
   const product = useSelector(state => state.products.data)
   const dispatch = useDispatch()
-  const {isLoggedIn} =JSON.parse(localStorage.getItem('session'))|| {isLoggedIn:false}
+  const { isLoggedIn } = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false }
   const cart = useSelector(state => state.cart.data)
-  const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
+  const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index) || []
   const [isHover, setIsHover] = useState(false);
   const categoryArr = category?.filter((e, i) => {
     return i < 5;
@@ -30,17 +30,17 @@ function Navbar({ userDetails }) {
   return (
     <div className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
       <div className="flex items-center">
-        <div className="hidden max-lg:block">
+        <div className="hidden max-lg:block ml-8">
           <MenuIcon />
         </div>
         <a
           href={"/"}
-          className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black  "
+          className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3  "
         >
           TECH MARKET
         </a>
 
-        <div className=" ml-[160px] flex items-center ">
+        <div className=" ml-[160px] flex items-center max-md:hidden ">
           <div
             className={`p-6 font-bold text-xl relative hover:scale-110  `}
             onMouseOver={() => setIsHover(true)}
@@ -48,9 +48,8 @@ function Navbar({ userDetails }) {
           >
             TẤT CẢ
             <div
-              className={`absolute bg-white   ${
-                isHover ? "block" : "hidden"
-              }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
+              className={`absolute bg-white   ${isHover ? "block" : "hidden"
+                }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
             >
               {category.map((e, i) => (
                 <Link
@@ -65,15 +64,19 @@ function Navbar({ userDetails }) {
               ))}
             </div>
           </div>
-          {categoryArr?.map((e, i) => (
-            <Link
-              to={`/category/${e}`}
-              key={i}
-              className="mx-2 font-medium p-4 hover:scale-110"
-            >
-              {e}
-            </Link>
-          ))}
+          <div className=''>
+            <div>
+              {categoryArr?.map((e, i) => (
+                <Link
+                  to={`/category/${e}`}
+                  key={i}
+                  className={`mx-2 font-medium p-4 hover:scale-110 ${i > 3 ? 'max-2xl:hidden' : ''} ${i > 1 ? 'max-xl:hidden' : ''} max-lg:hidden `}
+                >
+                  {e}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
       <div className="flex items-center mr-16  ">
@@ -137,7 +140,7 @@ function Navbar({ userDetails }) {
   );
 }
 
-const mapStoreStateToProps = ({ auth ,dispatch}) => {
+const mapStoreStateToProps = ({ auth, dispatch }) => {
   return {
     ...auth,
     ...getActions(dispatch),

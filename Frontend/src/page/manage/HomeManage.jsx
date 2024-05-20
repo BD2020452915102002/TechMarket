@@ -66,9 +66,6 @@ function HomeManage() {
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
-
-
-
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
@@ -94,6 +91,7 @@ function HomeManage() {
                         <MenuIcon />
                     </IconButton>
                     <Box sx={{ flexGrow: 0 }}>
+
                         <Tooltip title="Open settings">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Bemy Sharp" src="/static/images/avatar/2.jpg" />
