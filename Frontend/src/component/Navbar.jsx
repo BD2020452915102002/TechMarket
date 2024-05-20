@@ -3,12 +3,16 @@ import { FaRegUser } from "react-icons/fa";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import eventEmitter from "../utils/eventEmitter.js";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { getActions, logout } from "../store/actions/authActions.js";
-import { productApi } from "../../api/productApi.js";
-import { fetchData } from "../store/actions/productsAction.js";
 import { deleteAll } from "../store/actions/cartAction.js";
+import Drawer from "@mui/material/Drawer";
+import {Box, Button} from "@mui/material";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
 
 function Navbar({ userDetails }) {
   const product = useSelector(state => state.products.data)
@@ -20,6 +24,11 @@ function Navbar({ userDetails }) {
   const categoryArr = category?.filter((e, i) => {
     return i < 5;
   });
+  const [open, setOpen] = useState(false);
+
+  const toggleDrawer = (newOpen) => () => {
+    setOpen(newOpen);
+  };
 
   function logoutX() {
     dispatch(logout())
@@ -27,20 +36,49 @@ function Navbar({ userDetails }) {
     localStorage.removeItem('session');
   }
 
+  const DrawerList = (
+      <Box sx={{ width: 350 }} role="presentation" onClick={toggleDrawer(false)}>
+
+        <List>
+          <ListItem className={'uppercase font-bold text-lg '}>
+            Danh mục sản phẩm
+          </ListItem>
+          <Divider/>
+          <div className={'p-4'}>
+            {category.map((text, i) => (
+                <Link
+                    to={`/category/${text}`} key={i}>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary={text}/>
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
+            ))}
+
+          </div>
+        </List>
+      </Box>
+  );
+
   return (
-    <div className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
+      <div
+          className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
       <div className="flex items-center">
-        <div className="hidden max-lg:block ml-8">
-          <MenuIcon />
+        <div className="hidden max-lg:block ml-8 hover:scale-125">
+          <div  onClick={toggleDrawer(true)} className={""}><MenuIcon /></div>
         </div>
+        <Drawer open={open} onClose={toggleDrawer(false)}>
+          {DrawerList}
+        </Drawer>
         <a
           href={"/"}
-          className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3  "
+          className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
         >
           TECH MARKET
         </a>
 
-        <div className=" ml-[160px] flex items-center max-md:hidden ">
+        <div className=" ml-[160px] flex items-center max-lg:hidden ">
           <div
             className={`p-6 font-bold text-xl relative hover:scale-110  `}
             onMouseOver={() => setIsHover(true)}

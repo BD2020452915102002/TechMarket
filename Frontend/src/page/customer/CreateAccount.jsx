@@ -11,7 +11,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { getActions } from "../store/actions/authActions.js";
+import { getActions } from "../../store/actions/authActions.js";
 import { useNavigate } from "react-router-dom";
 
 function CreateAccount({ register }) {

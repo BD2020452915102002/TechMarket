@@ -16,10 +16,9 @@ function Nav(props) {
                 {
                     [
                         { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
-                        { title: 'Người dùng', icon: <PersonIcon />, path: '/managehome/users' },
-                        { title: 'Sản phẩm', icon: <CategoryIcon />, path: '/managehome/products' },
-                        // { title: '', icon: <CalendarMonthIcon />, path: '/student/statistic' },
-                        // { title: 'Kết nối phòng đào tạo', icon: <SchoolIcon />, path: '/student/news' },
+                        { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
+                        { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
+                        { title: 'Trạng thái sản phẩm', icon: <CategoryIcon />, path: '/managehome/products' },
                     ].map((e, i) => (
                         <Link to={e.path} key={i}>
                             <ListItem disablePadding>

@@ -1,9 +1,9 @@
 import React from 'react';
-import Navbar from "../component/Navbar.jsx";
-import Footer from "../component/Footer.jsx";
+import Navbar from "../../component/Navbar.jsx";
+import Footer from "../../component/Footer.jsx";
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
-import {formatNumber} from "../utils/formatNumber.js";
+import {formatNumber} from "../../utils/formatNumber.js";
 
 function OrderStatus(props) {
     const productsWithQuantity = useSelector(state => state.cart.data)

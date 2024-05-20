@@ -36,7 +36,8 @@ function Home() {
       <div className={"bg-gray-50  relative"}>
         <div className={"mx-20 "}>
           <Navbar />
-          <Slide />
+          <div className={'mt-20'}></div>
+          <Slide  />
           <Category />
           {/*<Sale />*/}
           <Content

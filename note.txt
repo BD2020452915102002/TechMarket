@@ -6,7 +6,7 @@ Customer
 - CRUD Hàng (trong giỏ hàng)
 - Tạo và xem đơn hàng (bấm mua)
 - Thanh toán (API: mô phỏng thanh toán)
-
+-cái đoạn xem đơn hàng có theer
 - Tìm kiếm hàng
 - Filter theo tiêu chí...
 
