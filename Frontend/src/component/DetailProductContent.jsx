@@ -9,7 +9,7 @@ import HomeIcon from "@mui/icons-material/Home.js";
 import {addCart, deleteAll} from "../store/actions/cartAction.js";
 import {formatNumber} from "../utils/formatNumber.js";
 import {notify} from "../utils/toastify.js";
-
+import Rating from '@mui/material/Rating';
 
 function DetailProductContent({product}) {
     const dispatch = useDispatch()
@@ -28,9 +28,10 @@ function DetailProductContent({product}) {
         setCount(count - 1)
     }
 
+    console.log(productShow)
     const discountedPrice = productShow?.price * (100 - parseFloat(productShow?.sale)) / 100
     return (
-        <div className={' mt-20'}>
+        <div className={'mt-20'}>
             <Breadcrumbs maxItems={3} separator={<NavigateNextIcon fontSize="small"/>}
                          aria-label="breadcrumb" className={'!mt-[80px] cursor-pointer pt-5'}>
                 <Link className={'hover:underline'} color="inherit" to="/">
@@ -48,7 +49,8 @@ function DetailProductContent({product}) {
                 </div>
                 <div className={'basis-[50%]'}>
                     <h1 className={'font-bold text-2xl '}>{productShow?.name}</h1>
-                    <p className={'mb-4'}> Thương hiêu: <span> {productShow?.brand}</span></p>
+                    <p className={''}> Thương hiêu: <span> {productShow?.brand}</span></p>
+                    <Rating name="size-large" defaultValue={productShow?.rate} className={'my-6'} precision={0.5} readOnly  />
 
                     <p className={'text-gray-600 line-clamp-1 italic mb-4'}>{productShow?.desc}</p>
                     {

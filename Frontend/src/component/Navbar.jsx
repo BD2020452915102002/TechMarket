@@ -121,6 +121,16 @@ function Navbar({ userDetails }) {
                   </Link>
                 </li>
                 <li>
+                  <Link
+                    to={"/orderstatus"}
+                    className={
+                      "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   "
+                    }
+                  >
+                    Đơn hàng của bạn
+                  </Link>
+                </li>
+                <li>
                   <a
                     href="/"
                     onClick={logoutX}
