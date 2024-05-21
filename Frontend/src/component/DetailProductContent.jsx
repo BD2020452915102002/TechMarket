@@ -1,17 +1,18 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import {Breadcrumbs, Button, Typography} from "@mui/material";
+import { Breadcrumbs, Button, Typography } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext.js";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HomeIcon from "@mui/icons-material/Home.js";
-import {addCart, deleteAll} from "../store/actions/cartAction.js";
-import {formatNumber} from "../utils/formatNumber.js";
-import {notify} from "../utils/toastify.js";
+import { addCart, deleteAll } from "../store/actions/cartAction.js";
+import { formatNumber } from "../utils/formatNumber.js";
+import { notify } from "../utils/toastify.js";
 import Rating from '@mui/material/Rating';
 
-function DetailProductContent({product}) {
+function DetailProductContent({ product }) {
     const dispatch = useDispatch()
     const [productShow, setProductShow] = useState(product)
     const [count, setCount] = useState(0)
@@ -32,11 +33,11 @@ function DetailProductContent({product}) {
     const discountedPrice = productShow?.price * (100 - parseFloat(productShow?.sale)) / 100
     return (
         <div className={'mt-20'}>
-            <Breadcrumbs maxItems={3} separator={<NavigateNextIcon fontSize="small"/>}
-                         aria-label="breadcrumb" className={'!mt-[80px] cursor-pointer pt-5'}>
+            <Breadcrumbs maxItems={3} separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb" className={'!mt-[80px] cursor-pointer pt-5'}>
                 <Link className={'hover:underline'} color="inherit" to="/">
                     <div className={'flex items-center'}>
-                        <HomeIcon className={'mr-2'}/>
+                        <HomeIcon className={'mr-2'} />
                         <div>Trang chủ</div>
                     </div>
                 </Link>
@@ -45,12 +46,12 @@ function DetailProductContent({product}) {
             <div className={'flex mt-4'}>
                 <div className={'basis-[50%]'}>
 
-                    <img src={productShow?.image?.url} alt="" className={'bg-cover bg-no-repeat bg-center w-[90%] '}/>
+                    <img src={productShow?.image?.url} alt="" className={'bg-cover bg-no-repeat bg-center w-[90%] '} />
                 </div>
                 <div className={'basis-[50%]'}>
-                    <h1 className={'font-bold text-2xl '}>{productShow?.name}</h1>
-                    <p className={''}> Thương hiêu: <span> {productShow?.brand}</span></p>
-                    <Rating name="size-large" defaultValue={productShow?.rate} className={'my-6'} precision={0.5} readOnly  />
+                    <h1 className={'font-bold text-2xl max-lg:text-lg'}>{productShow?.name}</h1>
+                    <p className={''}> Thương hiệu: <span> {productShow?.brand}</span></p>
+                    <Rating name="size-large" defaultValue={productShow?.rate} className={'my-6'} precision={0.5} readOnly />
 
                     <p className={'text-gray-600 line-clamp-1 italic mb-4'}>{productShow?.desc}</p>
                     {
@@ -58,8 +59,8 @@ function DetailProductContent({product}) {
                             <div>
                                 <div className={' text-start'}>
                                     <p className={'text-gray-500  font-normal'}>
-                                            <span
-                                                className={'line-through'}> {formatNumber(productShow?.price)}<span>đ</span></span>
+                                        <span
+                                            className={'line-through'}> {formatNumber(productShow?.price)}<span>đ</span></span>
                                         <span className={'text-red-600 ml-2'}>-{productShow?.sale}</span>
                                     </p>
                                     <p className={'text-black text-xl font-medium'}>
@@ -74,28 +75,44 @@ function DetailProductContent({product}) {
                             </p>
                     }
                     <div className={'flex items-center mt-8'}>
-                        <p className={'mr-10'}>Số lượng</p>
+                        <p className={'mr-10 max-md:mr-2'}>Số lượng</p>
                         <Button variant="outlined" onClick={subCount} className={'!min-w-0'}
-                                disabled={count < 1}>-</Button>
+                            disabled={count < 1}>-</Button>
                         <div className={'px-4'}>{count}</div>
                         <Button variant="outlined" onClick={addCount} className={'!min-w-0'}
-                                disabled={count >= productShow?.stock}>+</Button>
-                        <h1 className={'ml-4'}>Còn: {productShow?.stock}</h1>
+                            disabled={count >= productShow?.stock}>+</Button>
+                        <h1 className={'ml-4 max-md:mr-1'}>Còn: {productShow?.stock}</h1>
 
                     </div>
-                    <div className={'grid grid-cols-[50%,50%] mt-8 gap-3'}>
-                        <Button variant="contained" startIcon={<AddShoppingCartIcon/>} disabled={count < 1}
-                                onClick={() => {
-                                    notify('infor', 'Đã thêm lựa chọn của bạn vào giỏ hàng')
-                                    dispatch(addCart(
-                                        {
-                                            ...productShow,
-                                            quantity: count,
-                                            checked: true
-                                        }
-                                    ))
-                                }}>Thêm vào giỏ hàng</Button>
-                        <Button variant="contained" disabled={count < 1}>Mua ngay</Button>
+                    <div className={'grid grid-cols-[50%,50%] mt-8 gap-3 max-md:hidden'}>
+                        <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count < 1}
+
+                            onClick={() => {
+                                notify('infor', 'Đã thêm lựa chọn của bạn vào giỏ hàng')
+                                dispatch(addCart(
+                                    {
+                                        ...productShow,
+                                        quantity: count,
+                                        checked: true
+                                    }
+                                ))
+                            }}>Thêm vào giỏ hàng</Button>
+                        <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1}>Mua ngay</Button>
+                    </div>
+                    <div className={' grid-cols-[50%,50%] mt-8 gap-3 hidden max-md:grid'}>
+                        <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count < 1}
+
+                            onClick={() => {
+                                notify('infor', 'Đã thêm lựa chọn của bạn vào giỏ hàng')
+                                dispatch(addCart(
+                                    {
+                                        ...productShow,
+                                        quantity: count,
+                                        checked: true
+                                    }
+                                ))
+                            }}>Thêm</Button>
+                        <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1} >Mua</Button>
                     </div>
 
                 </div>
