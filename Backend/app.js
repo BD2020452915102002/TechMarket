@@ -8,6 +8,7 @@ const registerRouter = require("./routes/RegisterRouter");
 const loginRouter = require("./routes/LoginRouter");
 const forgotPassRouter = require("./routes/ForgotPassRouter");
 const productRouter = require("./routes/ProductRouter");
+const itemRouter = require("./routes/CartItemRouter");
 const orderRouter = require("./routes/OrderRouter");
 const confirmRouter = require("./routes/ConfirmRouter");
 const commentRouter = require("./routes/CommentRouter");
@@ -17,7 +18,7 @@ const socketServer = require("./utils/socketServer");
 require("dotenv").config();
 
 const app = express();
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
@@ -49,6 +50,7 @@ app.use("/api/login", loginRouter);
 app.use("/api/forgot_pass", forgotPassRouter);
 
 app.use("/api/product", productRouter);
+app.use("/api/item", itemRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/confirm", confirmRouter);
 app.use("/api/comment", commentRouter);

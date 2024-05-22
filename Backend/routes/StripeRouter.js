@@ -1,150 +1,136 @@
 const express = require("express");
 const Stripe = require("stripe");
+const userService = require("../services/UserService");
+const productService = require("../services/ProductService");
 require("dotenv").config();
 
 const stripe = Stripe(process.env.STRIPE_KEY);
 const router = express.Router();
 
 router.post("/create-checkout-session", async (req, res) => {
-  const customer = await stripe.customers.create({
-    metadata: {
-      userId: req.body.userId,
-    },
-  });
+  const { userId, cartItems } = req.body;
 
-  // console.log(customer);
-
-  // const line_items = req.body.cartItems.map((item) => {
-  //     return {
-  //         price_data: {
-  //             currency: "usd",
-  //             product_data: {
-  //                 name: item.name,
-  //                 images: [item.image.url],
-  //                 description: item.desc,
-  //                 metadata: {retrieve
-  //                     id: item.id,
-  //                 },
-  //             },
-  //             unit_amount: item.price * 100,
-  //         },
-  //         quantity: item.cartQuantity,
-  //     };
-  // });
-
-  const line_items = [
-    {
-      price_data: {
-        currency: "VND",
-        product_data: {
-          name: "item.name",
-          images: [],
-          description: "item.desc",
-          metadata: {
-            id: "item.id",
-          },
-        },
-        unit_amount: 100000,
+  try {
+    const customer = await stripe.customers.create({
+      metadata: {
+        userId,
       },
-      quantity: 1,
-    },
-    {
-      price_data: {
-        currency: "VND",
-        product_data: {
-          name: "item.name2",
-          images: [],
-          description: "item.desc2",
-          metadata: {
-            id: "item.id2",
-          },
-        },
-        unit_amount: 200 * 100,
-      },
-      quantity: 2,
-    },
-  ];
+    });
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ["card"],
-    shipping_address_collection: {
-      allowed_countries: ["US", "CA", "VN"],
-    },
-    shipping_options: [
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: 0,
+    id = userId;
+    cart = cartItems;
+
+    line_items = await Promise.all(
+      cartItems.map(async (item) => {
+        const product = await productService.getProductById(item.id);
+        return {
+          price_data: {
             currency: "vnd",
-          },
-          display_name: "Free shipping",
-          // Delivers between 5-7 business days
-          delivery_estimate: {
-            minimum: {
-              unit: "business_day",
-              value: 5,
+            product_data: {
+              name: product.name,
+              images: product.image ? [product.image.url] : [],
+              description: product.desc,
+              metadata: { id: product._id.toString() },
             },
-            maximum: {
-              unit: "business_day",
-              value: 7,
+            unit_amount: product.price,
+          },
+          quantity: item.quantity,
+        };
+      })
+    );
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      shipping_address_collection: {
+        allowed_countries: ["US", "CA", "VN"],
+      },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 0,
+              currency: "vnd",
+            },
+            display_name: "Free shipping",
+            // Delivers between 5-7 business days
+            delivery_estimate: {
+              minimum: {
+                unit: "business_day",
+                value: 5,
+              },
+              maximum: {
+                unit: "business_day",
+                value: 7,
+              },
             },
           },
         },
-      },
-      {
-        shipping_rate_data: {
-          type: "fixed_amount",
-          fixed_amount: {
-            amount: 1500,
-            currency: "vnd",
-          },
-          display_name: "Next day air",
-          // Delivers in exactly 1 business day
-          delivery_estimate: {
-            minimum: {
-              unit: "business_day",
-              value: 1,
+        {
+          shipping_rate_data: {
+            type: "fixed_amount",
+            fixed_amount: {
+              amount: 1500,
+              currency: "vnd",
             },
-            maximum: {
-              unit: "business_day",
-              value: 1,
+            display_name: "Next day air",
+            // Delivers in exactly 1 business day
+            delivery_estimate: {
+              minimum: {
+                unit: "business_day",
+                value: 1,
+              },
+              maximum: {
+                unit: "business_day",
+                value: 1,
+              },
             },
           },
         },
+      ],
+      phone_number_collection: {
+        enabled: true,
       },
-    ],
-    phone_number_collection: {
-      enabled: true,
-    },
-    customer: customer.id,
-    line_items,
-    mode: "payment",
-    success_url: `${process.env.CLIENT_URL}/checkout-success`,
-    cancel_url: `${process.env.CLIENT_URL}/order`,
-  });
-  res.send({ url: session.url });
+      customer: customer.id,
+      line_items,
+      mode: "payment",
+      metadata: {
+        userId: userId,
+        cartItems: JSON.stringify(cartItems.map((item) => ({ id: item.id }))),
+      },
+      success_url: `${process.env.CLIENT_URL}/checkout-success`,
+      cancel_url: `${process.env.CLIENT_URL}/order`,
+    });
+    res.send({ url: session.url });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error creating Stripe session: " + error.message);
+  }
 });
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
-// let endpointSecret = "whsec_6e26d738ca35bc8c68b36166e1d52972955fd7ec45423e08cdd6331d1eabf4a4";
+// let endpointSecret =
+//   "whsec_6e26d738ca35bc8c68b36166e1d52972955fd7ec45423e08cdd6331d1eabf4a4";
 
 let endpointSecret;
 
 router.post(
-  '/webhook',
-  express.raw({ type: 'application/json' }),
-  (req, res) => {
-    const sig = req.headers['stripe-signature'];
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const sig = req.headers["stripe-signature"];
 
     let data;
     let eventType;
+    let event;
 
     if (endpointSecret) {
-      let event;
-
       try {
-        event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+        event = stripe.webhooks.constructEvent(
+          request.body,
+          sig,
+          endpointSecret
+        );
         console.log("Webhook verified.");
       } catch (err) {
         console.log(`Webhook Error: ${err.message}`);
@@ -160,17 +146,31 @@ router.post(
 
     // Handle the event
     if (eventType === "checkout.session.completed") {
-      stripe.customers
-        .retrieve(data.customer)
-        .then((customer) => {
-          console.log(customer);
-          console.log("data:", data);
-        })
-        .catch((err) => console.log(err.message));
+      const session = req.body.data.object;
+      const user = await userService.getUserById(session.metadata.userId);
+
+      const cartItems = JSON.parse(session.metadata.cartItems);
+      const cartProductIds = cartItems.map((item) => item.id);
+      console.log(cartProductIds);
+      const updatedCartItems = user.cart.filter(
+        (productId) => !cartProductIds.includes(String(productId))
+      );
+      console.log(updatedCartItems);
+
+      user.cart = updatedCartItems;
+      await user.save();
+
+      // stripe.customers
+      //   .retrieve(data.customer)
+      //   .then((customer) => {
+      //     console.log(customer);
+      //     console.log("data:", data);
+      //   })
+      //   .catch((err) => console.log(err.message));
     }
     // Return a 200 response to acknowledge receipt of the event
     res.send().end();
   }
-)
+);
 
 module.exports = router;
