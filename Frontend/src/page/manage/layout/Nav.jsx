@@ -20,7 +20,7 @@ function Nav(props) {
                         { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
                         { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
                         { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-                        { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/products' },
+                        { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
                     ].map((e, i) => (
                         <ListItem
                             key={i}

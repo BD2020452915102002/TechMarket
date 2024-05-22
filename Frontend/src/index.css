@@ -130,3 +130,12 @@
 .replies {
     margin-top: 20px;
 }
+
+/* Custom scroll class to hide the scrollbar */
+.custom-scroll {
+    scrollbar-width: none; /* Firefox */
+}
+
+.custom-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}

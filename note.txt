@@ -21,7 +21,7 @@ Manager
 -
 - Quản lý tài khoản (customer,emloyee)
 
-
+- tính năng bổ xung lọc va tìm kiếm o các danh sách
 
 
 Giao diện:

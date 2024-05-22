@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Route, Routes, useLocation} from "react-router-dom";
+import {Navigate, Route, Routes, useLocation} from "react-router-dom";
 import Home from "../page/customer/Home.jsx";
 import Login from "../page/Login.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -96,6 +96,7 @@ function AppRouters(props) {
 
                 /// Emloyee and manage
                 <Route path="/managehome" element={<HomeManage/>}>
+                    <Route index element={<Navigate to="dashboard" replace/>}/>
                     <Route path="dashboard" element={<Dashboard/>}/>
                     <Route path="users" element={<Users/>}/>
                     <Route path="products" element={<Products/>}/>
