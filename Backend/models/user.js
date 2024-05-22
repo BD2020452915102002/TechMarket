@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
     confirmationToken: String,
     confirmationExpires: Date,
     customers: [{ type: mongoose.Schema.Types.Object, ref: "User" }],
-    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "products" }],
+    cart: [{ type: mongoose.Schema.Types.ObjectId, ref: "Products" }],
   },
   { timestamps: true }
 );
