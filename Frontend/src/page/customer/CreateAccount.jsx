@@ -12,9 +12,10 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { getActions } from "../../store/actions/authActions.js";
-import { useNavigate } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {notify} from "../../utils/toastify.js";
 import eventEmitter from "../../utils/eventEmitter.js";
+
 
 function CreateAccount({ register }) {
   const avatar =
@@ -80,28 +81,29 @@ function CreateAccount({ register }) {
 
   return (
     <div className={" w-full h-[100vh] flex justify-center items-center"}>
-      <div className="flex flex-col justify-center items-center w-[40vw] bg-white   shadow-[0px_0px_10px] shadow-gray-500 my-44">
+      <div
+          className="flex flex-col justify-center items-center w-[40vw] bg-white   shadow-[0px_0px_10px] shadow-gray-500 my-44">
         <div className={"uppercase font-bold text-3xl mt-8"}>TeckMarket</div>
-        <div className="px-10 pb-5 rounded-md  flex flex-col justify-center items-center w-full  mt-10">
+        <div className="px-10  rounded-md  flex flex-col justify-center items-center w-full  mt-10">
           <h1 className="font-medium text-xl mb-6 mt-3">Tạo tài khoản</h1>
           <TextField
-            label="Họ và tên"
-            className="w-full !my-4 "
-            value={name}
-            onChange={handleNameChange}
+              label="Họ và tên"
+              className="w-full !my-4 "
+              value={name}
+              onChange={handleNameChange}
           />
           <div className={"grid grid-cols-2 gap-3 w-full"}>
             <TextField
-              label="Email"
-              className="w-full !my-4"
-              value={email}
-              onChange={handleEmailChange}
+                label="Email"
+                className="w-full !my-4"
+                value={email}
+                onChange={handleEmailChange}
             />
             <TextField
-              label="Số điện thoại"
-              className="w-full !my-4"
-              value={phone}
-              onChange={handlePhoneChange}
+                label="Số điện thoại"
+                className="w-full !my-4"
+                value={phone}
+                onChange={handlePhoneChange}
             />
           </div>
           {/* <TextField label="Địa chỉ" className="w-full !my-4" /> */}
@@ -111,22 +113,22 @@ function CreateAccount({ register }) {
                 Mật khẩu
               </InputLabel>
               <OutlinedInput
-                value={password}
-                onChange={handlePasswordChange}
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Mật khẩu"
+                  value={password}
+                  onChange={handlePasswordChange}
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                      >
+                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Mật khẩu"
               />
             </FormControl>
             <FormControl variant="outlined" className={"w-full !my-4"}>
@@ -134,32 +136,33 @@ function CreateAccount({ register }) {
                 Nhập lại mật khẩu
               </InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Nhập lại mật khẩu"
+                  id="outlined-adornment-password"
+                  type={showPassword ? "text" : "password"}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                      >
+                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Nhập lại mật khẩu"
               />
             </FormControl>
           </div>
           <Button
-            variant="contained"
-            className={"!my-4"}
-            onClick={registerHandling}
+              variant="contained"
+              className={"!my-4"}
+              onClick={registerHandling}
           >
             Tạo tài khoản
           </Button>
         </div>
+        <div className={'flex justify-end items-center w-full p-6'}><Link to={'/login'} className={'underline hover:text-blue-700 hover:cursor-pointer'}>Trở về trang đăng nhập</Link></div>
       </div>
     </div>
   );
