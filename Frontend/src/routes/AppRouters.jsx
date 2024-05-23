@@ -11,13 +11,13 @@ import Chatboard from "../page/customer/Chatboard/Chatboard.jsx";
 import {productApi} from "../../api/productApi.js";
 import {fetchData} from "../store/actions/productsAction.js";
 import {useDispatch} from "react-redux";
-import {Dashboard} from "@mui/icons-material";
 import HomeManage from "../page/manage/layout/HomeManage.jsx";
 import Users from "../page/manage/Users.jsx";
 import Products from "../page/manage/Products.jsx";
 import DetailUserInfor from "../page/customer/DetailUserInfor.jsx";
 import OrderStatus from "../page/customer/OrderStatus.jsx";
 import ManageStatusProduct from "../page/manage/ManageStatusProduct.jsx";
+import Dashboard from "../page/manage/Dashboard.jsx";
 
 function ScrollToTop() {
     const {pathname} = useLocation();
