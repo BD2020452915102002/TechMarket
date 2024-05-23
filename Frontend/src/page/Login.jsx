@@ -8,10 +8,12 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { getActions } from "../store/actions/authActions.js";
+import {notify} from "../utils/toastify.js";
+import eventEmitter from "../utils/eventEmitter.js";
 
 function Login({ login }) {
   const navigate = useNavigate();
@@ -42,7 +44,22 @@ function Login({ login }) {
 
     login(userDetails, navigate);
   }
+  useEffect(() => {
+    const handleSuccess = () => {
+      notify('success', 'Đăng nhập thành công');
+    };
+    const handleError = (error) => {
+      notify('error', error);
+    };
 
+    eventEmitter.on('success', handleSuccess);
+    eventEmitter.on('error', handleError);
+
+    return () => {
+      eventEmitter.off('success', handleSuccess);
+      eventEmitter.off('error', handleError);
+    };
+  }, []);
   return (
     <div className={" w-full h-[100vh] flex justify-center items-center"}>
       <div className="flex flex-col justify-center items-center w-[36vw] bg-white  shadow-[0px_0px_10px] shadow-gray-500 ">

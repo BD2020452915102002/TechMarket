@@ -1,5 +1,6 @@
 import * as api from "../../../api/axios";
 import { jwtDecode } from "jwt-decode";
+import eventEmitter from "../../utils/eventEmitter.js";
 
 export const authActions = {
   SET_USER_DETAILS: "AUTH.SET_USER_DETAILS",
@@ -32,23 +33,19 @@ const setIsLoggedIn = (isLoggedIn) => {
 const login = (userDetails, navigate) => {
   return async (dispatch) => {
     const response = await api.login(userDetails);
-    console.log(response);
     if (response.error) {
-      console.log("Fail to login");
+      eventEmitter.emit('error',response.exception.response.data)
     } else {
+      eventEmitter.emit('success')
       localStorage.setItem("token", response?.data);
       const userDetails = jwtDecode(response?.data);
       console.log(userDetails);
-      //
-
-      // localStorage.setItem("user", JSON.stringify(userDetails));
       localStorage.setItem(
         "session",
         JSON.stringify({ isLoggedIn: true, userDetails: userDetails })
       );
       dispatch(setIsLoggedIn(true));
       dispatch(setUserDetails(userDetails));
-
       navigate("/");
     }
   };

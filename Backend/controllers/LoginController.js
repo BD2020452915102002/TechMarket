@@ -23,12 +23,12 @@ exports.loginUser = async (req, res) => {
         let userInDB = await loginService.loginUser(req.body.email);
 
         if (!userInDB) {
-            res.status(400).send("Invalid email or password.");
+           return  res.status(400).send("The account and email address do not exist.");
         }
 
         const isValid = await bcrypt.compare(req.body.password, userInDB.password);
 
-        if (!isValid) return res.status(400).send("Invalid email or password...");
+        if (!isValid) return res.status(400).send("Password wrong");
 
         const token = genAuthToken(userInDB);
 
