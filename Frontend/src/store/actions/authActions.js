@@ -56,11 +56,11 @@ const register = (userDetails, navigate) => {
     const response = await api.register(userDetails);
     console.log(response);
     if (response.error) {
-      console.log("Fail to register");
+      eventEmitter.emit('error',response.exception.response.data)
     } else {
+      eventEmitter.emit('success');
       localStorage.setItem("token", response?.data);
       const userDetails = jwtDecode(response?.data);
-      // localStorage.setItem("user", JSON.stringify(userDetails));
       localStorage.setItem(
         "session",
         JSON.stringify({ isLoggedIn: true, userDetails: userDetails })

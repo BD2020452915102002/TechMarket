@@ -9,10 +9,12 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { connect } from "react-redux";
 import { getActions } from "../../store/actions/authActions.js";
 import { useNavigate } from "react-router-dom";
+import {notify} from "../../utils/toastify.js";
+import eventEmitter from "../../utils/eventEmitter.js";
 
 function CreateAccount({ register }) {
   const avatar =
@@ -59,6 +61,22 @@ function CreateAccount({ register }) {
     register(userDetails, navigate);
 
   }
+  useEffect(() => {
+    const handleSuccess = () => {
+      notify('success', 'Đăng nhập thành công');
+    };
+    const handleError = (error) => {
+      notify('error', error);
+    };
+
+    eventEmitter.on('success', handleSuccess);
+    eventEmitter.on('error', handleError);
+
+    return () => {
+      eventEmitter.off('success', handleSuccess);
+      eventEmitter.off('error', handleError);
+    };
+  }, []);
 
   return (
     <div className={" w-full h-[100vh] flex justify-center items-center"}>
