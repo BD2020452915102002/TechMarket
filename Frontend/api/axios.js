@@ -43,13 +43,11 @@ export const register = async (data) => {
     };
   }
 };
+
 export const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
-  headers: {
-
-  }
-})
-
+  baseURL: "http://localhost:5000/api",
+  headers: {},
+});
 
 export const setHeaders = () => {
   const headers = {

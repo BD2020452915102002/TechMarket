@@ -155,3 +155,44 @@ exports.getCartByUser = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.updateUserCart = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const product = req.params.productId;
+
+    const user = await userService.findById(userId);
+
+    const isProductInUserCart = user.cart.includes(productId);
+
+    if (isProductInUserCart) {
+      return res
+        .status(409)
+        .json({ error: "The product already exists in your cart." });
+    }
+
+    user.cart = [...user.cart, productId];
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteUserCart = async (req, res) => {
+  try {
+    const { userId, productId } = req.body.params;
+
+    const user = await userService.findById(userId);
+
+    user.cart = user.cart.filter((item) => item != productId);
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
