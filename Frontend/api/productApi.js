@@ -1,4 +1,4 @@
-import { api } from "./api.js";
+import {api} from "./api.js";
 
 export const productApi = {
   getProduct() {
@@ -51,9 +51,7 @@ export const checkoutApi = {
       //}
       const url = "/stripe/create-checkout-session";
 
-      const checkoutUrl = await api.get(url, data);
-
-      window.location.href = checkoutUrl;
+      window.location.href = await api.post(url, data);
     } catch (error) {
       console.error("Error during checkout:", error);
     }

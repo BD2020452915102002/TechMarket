@@ -21,7 +21,9 @@ const apiClient = axios.create({
 
 export const api = axios.create({
   baseURL: url,
-  headers: {},
+  headers: {
+    // setHeaders
+  },
 });
 
 

@@ -9,17 +9,28 @@ import {
 } from "../store/actions/cartAction.js";
 import { Link } from "react-router-dom";
 import { formatNumber } from "../utils/formatNumber.js";
+import {checkoutApi} from "../../api/productApi.js";
 
 
 function Cart() {
     const productsWithQuantity = useSelector(state => state.cart.data)
+    const userID= JSON.parse(localStorage.getItem('session')).userDetails._id
     const [numberOfProductsPurchased, setNumberOfProductsPurchased] = useState(0)
     const [totalPayment, setTotalPayment] = useState(0)
     const [isCheckedAll, setIsCheckAll] = useState(true);
+    const [productPurchased,setProductPurchased] = useState([])
     const dispatch = useDispatch()
 
     useEffect(() => {
         const arr = productsWithQuantity.filter(e => { return e.checked })
+        setProductPurchased(()=>{
+            return arr.map(product => ({
+                id: product._id,
+                quantity: product.quantity
+            }));
+
+
+        })
         const isCheckAll = arr.length === productsWithQuantity.length
         const totalPrice = arr.reduce((total, item) => {
             return total + item.price * item.quantity;
@@ -111,7 +122,9 @@ function Cart() {
                         <div>Tổng thanh toán ({numberOfProductsPurchased} Sản phẩm):</div>
                         <div className={'font-medium text-xl ml-5'}>{formatNumber(totalPayment)} <span className={''}>đ</span></div>
                     </div>
-                    <Link to="/checkout"><Button variant="contained" className={'!min-w-[150px]'}>Mua</Button></Link>
+                    <Link to="/checkout"><Button variant="contained" className={'!min-w-[150px]'} onClick={async()=>{
+                       await checkoutApi.checkout({userId:userID, cartItems:productPurchased})
+                    }}>Mua</Button></Link>
                 </div>
 
             </div>
