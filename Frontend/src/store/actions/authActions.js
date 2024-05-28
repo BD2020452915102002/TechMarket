@@ -1,6 +1,6 @@
-import * as api from "../../../api/axios";
 import { jwtDecode } from "jwt-decode";
 import eventEmitter from "../../utils/eventEmitter.js";
+import {api} from "../../../api/api.js";
 
 export const authActions = {
   SET_USER_DETAILS: "AUTH.SET_USER_DETAILS",
