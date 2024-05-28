@@ -59,3 +59,25 @@ export const checkoutApi = {
     }
   },
 };
+
+export const commentApi = {
+  getAllComments() {
+    const url = "/comment";
+    return api.get(url);
+  },
+
+  createComment(comment) {
+    // {
+    //   "_id": "comment_id",
+    //   "productId": "product_id",
+    //   "userId": "user_id",
+    //   "comment": "Nội dung của comment",
+    //   "rating": 4,
+    //   "createdAt": "2024-04-06T12:00:00.000Z",
+    //   "updatedAt": "2024-04-06T12:00:00.000Z"
+    // }
+
+    const url = "/comment";
+    return api.post(url, comment);
+  },
+};
