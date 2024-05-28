@@ -18,7 +18,6 @@ const apiClient = axios.create({
   timeout: 130000,
 });
 
-
 export const api = axios.create({
   baseURL: url,
   headers: {
@@ -26,8 +25,7 @@ export const api = axios.create({
   },
 });
 
-
-export const login = async (data) => {
+export const loginUser = async (data) => {
   try {
     return await apiClient.post("/login", data);
   } catch (exception) {

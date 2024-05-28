@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import eventEmitter from "../../utils/eventEmitter.js";
-import {api} from "../../../api/api.js";
+import { loginUser } from "../../../api/api.js";
 
 export const authActions = {
   SET_USER_DETAILS: "AUTH.SET_USER_DETAILS",
@@ -32,11 +32,11 @@ const setIsLoggedIn = (isLoggedIn) => {
 
 const login = (userDetails, navigate) => {
   return async (dispatch) => {
-    const response = await api.login(userDetails);
+    const response = await loginUser(userDetails);
     if (response.error) {
-      eventEmitter.emit('error',response.exception.response.data)
+      eventEmitter.emit("error", response.exception.response.data);
     } else {
-      eventEmitter.emit('success')
+      eventEmitter.emit("success");
       localStorage.setItem("token", response?.data);
       const userDetails = jwtDecode(response?.data);
       console.log(userDetails);
@@ -56,9 +56,9 @@ const register = (userDetails, navigate) => {
     const response = await api.register(userDetails);
     console.log(response);
     if (response.error) {
-      eventEmitter.emit('error',response.exception.response.data)
+      eventEmitter.emit("error", response.exception.response.data);
     } else {
-      eventEmitter.emit('success');
+      eventEmitter.emit("success");
       localStorage.setItem("token", response?.data);
       const userDetails = jwtDecode(response?.data);
       localStorage.setItem(
