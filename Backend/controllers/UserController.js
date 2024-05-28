@@ -137,20 +137,11 @@ exports.deleteUser = async (req, res) => {
 
 exports.getCartByUser = async (req, res) => {
   try {
-    const userWithCartItems = await User.findById(req.params.id).populate({
-      path: "cart",
-      model: "CartItem",
-      populate: {
-        path: "productId",
-        model: "Product",
-      },
-    });
+    const userId = req.params.id;
 
-    if (!userWithCartItems) {
-      return res.status(404).send("User not found");
-    }
+    const user = await userService.getUserById(userId);
 
-    res.json(userWithCartItems.cart);
+    res.json(user.cart);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

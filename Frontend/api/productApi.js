@@ -5,12 +5,14 @@ export const productApi = {
     const url = "/product";
     return api.get(url);
   },
-
-  updateCart(userId, productId) {
+  getUserCart(userId) {
+    const url = `/user/${userId}/cart/`;
+    return api.get(url);
+  },
+  updateUserCart(userId, productId) {
     const url = `/user/${userId}/cart/${productId}`;
     return api.post(url);
   },
-
   deleteUserCart(userId, productId) {
     const url = `/user/${userId}/cart/${productId}`;
     return api.delete(url);
