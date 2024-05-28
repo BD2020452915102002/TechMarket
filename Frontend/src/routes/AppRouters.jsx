@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Navigate, Route, Routes, useLocation} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Home from "../page/customer/Home.jsx";
 import Login from "../page/Login.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -8,9 +8,9 @@ import DetailProduct from "../page/customer/DetailProduct.jsx";
 import CreateAccount from "../page/customer/CreateAccount.jsx";
 import ShoppingCart from "../page/customer/ShoppingCart.jsx";
 import Chatboard from "../page/customer/Chatboard/Chatboard.jsx";
-import {productApi} from "../../api/productApi.js";
-import {fetchData} from "../store/actions/productsAction.js";
-import {useDispatch} from "react-redux";
+import { productApi } from "../../api/productApi.js";
+import { fetchData } from "../store/actions/productsAction.js";
+import { useDispatch } from "react-redux";
 import HomeManage from "../page/manage/layout/HomeManage.jsx";
 import Users from "../page/manage/Users.jsx";
 import Products from "../page/manage/Products.jsx";
@@ -18,9 +18,10 @@ import DetailUserInfor from "../page/customer/DetailUserInfor.jsx";
 import OrderStatus from "../page/customer/OrderStatus.jsx";
 import ManageStatusProduct from "../page/manage/ManageStatusProduct.jsx";
 import Dashboard from "../page/manage/Dashboard.jsx";
+import ConfirmCheckout from "../page/customer/ConfirmCheckout.jsx";
 
 function ScrollToTop() {
-    const {pathname} = useLocation();
+    const { pathname } = useLocation();
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
@@ -43,36 +44,36 @@ function AppRouters(props) {
     }, []);
     return (
         <div>
-            <ScrollToTop/>
+            <ScrollToTop />
             <Routes>
                 /// shared
-                <Route path={"/login"} element={<Login/>}/>
+                <Route path={"/login"} element={<Login />} />
 
 
                 /// customer
-                <Route path={"/"} element={<Home/>}/>
-                <Route path={"/createAccount"} element={<CreateAccount/>}/>
+                <Route path={"/"} element={<Home />} />
+                <Route path={"/createAccount"} element={<CreateAccount />} />
                 <Route path={"/orderstatus"} element={
                     <PrivateRoute>
-                        <OrderStatus/>
+                        <OrderStatus />
                     </PrivateRoute>
-                }/>
+                } />
                 <Route
                     path={"/category/:categoryID"}
                     element={
                         <PrivateRoute>
-                            <CategoryItem/>
+                            <CategoryItem />
                         </PrivateRoute>
                     }
                 />
                 <Route path={"/infor"} element={<PrivateRoute>
-                    <DetailUserInfor/>
-                </PrivateRoute>}/>
+                    <DetailUserInfor />
+                </PrivateRoute>} />
                 <Route
                     path={"/products/:productID"}
                     element={
                         <PrivateRoute>
-                            <DetailProduct/>
+                            <DetailProduct />
                         </PrivateRoute>
                     }
                 />
@@ -80,7 +81,7 @@ function AppRouters(props) {
                     path={"/cart"}
                     element={
                         <PrivateRoute>
-                            <ShoppingCart/>
+                            <ShoppingCart />
                         </PrivateRoute>
                     }
                 />
@@ -88,19 +89,27 @@ function AppRouters(props) {
                     path={"/chat"}
                     element={
                         <PrivateRoute>
-                            <Chatboard/>
+                            <Chatboard />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path={"/checkout"}
+                    element={
+                        <PrivateRoute>
+                            <ConfirmCheckout />
                         </PrivateRoute>
                     }
                 />
 
 
                 /// Emloyee and manage
-                <Route path="/managehome" element={<HomeManage/>}>
-                    <Route index element={<Navigate to="dashboard" replace/>}/>
-                    <Route path="dashboard" element={<Dashboard/>}/>
-                    <Route path="users" element={<Users/>}/>
-                    <Route path="products" element={<Products/>}/>
-                    <Route path="managestatusproduct" element={<ManageStatusProduct/>}/>
+                <Route path="/managehome" element={<HomeManage />}>
+                    <Route index element={<Navigate to="dashboard" replace />} />
+                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="users" element={<Users />} />
+                    <Route path="products" element={<Products />} />
+                    <Route path="managestatusproduct" element={<ManageStatusProduct />} />
                 </Route>
             </Routes>
         </div>
