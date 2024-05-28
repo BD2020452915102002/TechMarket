@@ -137,20 +137,53 @@ exports.deleteUser = async (req, res) => {
 
 exports.getCartByUser = async (req, res) => {
   try {
-    const userWithCartItems = await User.findById(req.params.id).populate({
-      path: "cart",
-      model: "CartItem",
-      populate: {
-        path: "productId",
-        model: "Product",
-      },
-    });
+    const userId = req.params.id;
 
-    if (!userWithCartItems) {
-      return res.status(404).send("User not found");
+    const user = await userService.getUserById(userId);
+
+    res.json(user.cart);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateUserCart = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    const user = await userService.getUserById(userId);
+
+    const isProductInUserCart = user.cart.includes(productId);
+
+    if (isProductInUserCart) {
+      return res
+        .status(409)
+        .json({ error: "The product already exists in your cart." });
     }
 
-    res.json(userWithCartItems.cart);
+    user.cart = [...user.cart, productId];
+
+    await user.save();
+
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteUserCart = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const productId = req.params.productId;
+
+    const user = await userService.getUserById(userId);
+
+    user.cart = user.cart.filter((item) => item != productId);
+
+    await user.save();
+
+    res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

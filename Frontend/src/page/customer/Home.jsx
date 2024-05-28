@@ -16,7 +16,6 @@ import ChatIcon from "./Chatboard/ChatIcon.jsx";
 
 function Home() {
   const products = useSelector((state) => state.products.data);
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
