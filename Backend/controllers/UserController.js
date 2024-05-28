@@ -159,9 +159,9 @@ exports.getCartByUser = async (req, res) => {
 exports.updateUserCart = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const product = req.params.productId;
+    const productId = req.params.productId;
 
-    const user = await userService.findById(userId);
+    const user = await userService.getUserById(userId);
 
     const isProductInUserCart = user.cart.includes(productId);
 
@@ -183,9 +183,10 @@ exports.updateUserCart = async (req, res) => {
 
 exports.deleteUserCart = async (req, res) => {
   try {
-    const { userId, productId } = req.body.params;
+    const userId = req.params.userId;
+    const productId = req.params.productId;
 
-    const user = await userService.findById(userId);
+    const user = await userService.getUserById(userId);
 
     user.cart = user.cart.filter((item) => item != productId);
 
