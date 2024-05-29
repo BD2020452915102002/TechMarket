@@ -1,9 +1,43 @@
-import { api } from "./api.js";
+import { api, setHeaders } from "./api.js";
 
 export const productApi = {
   getProduct() {
     const url = "/product";
     return api.get(url);
+  },
+  createProduct(data) {
+    //   {
+    //     "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",
+    //     "alias": "laptop-lenovo-ideapad-slim-3-14iah8-83eq0005vn",
+    //     "desc":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN (Core i5-12450H | 16GB | 512GB | Intel UHD | 14 inch FHD | Win 11 | Xám)",
+    //     "brand": "Lenovo",
+    //     "price": 12990000,
+    //     "category": ["Laptop", "Computer"],
+    //     "stock": 100,
+    //     "image": "https://laptopworld.vn/media/product/14758_lenovo_ideapad_slim_3_14iah8_logo.jpg",
+    //     "rate": 2
+    // }
+    const url = "/product";
+    return api.post(url, data);
+  },
+  deleteProduct(productId) {
+    const url = `/product/${productId}`;
+    return api.delete(url);
+  },
+  updateProduct(data, productId) {
+    //   {
+    //     "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",
+    //     "alias": "laptop-lenovo-ideapad-slim-3-14iah8-83eq0005vn",
+    //     "desc":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN (Core i5-12450H | 16GB | 512GB | Intel UHD | 14 inch FHD | Win 11 | Xám)",
+    //     "brand": "Lenovo",
+    //     "price": 12990000,
+    //     "category": ["Laptop", "Computer"],
+    //     "stock": 100,
+    //     "image": "https://laptopworld.vn/media/product/14758_lenovo_ideapad_slim_3_14iah8_logo.jpg",
+    //     "rate": 2
+    // }
+    const url = `/product/${productId}`;
+    return api.put(url);
   },
   getUserCart(userId) {
     const url = `/user/${userId}/cart/`;
@@ -22,11 +56,53 @@ export const productApi = {
 export const userApi = {
   getAllUsers() {
     const url = "/user";
-    return api.get(url);
+    return api.get(url, setHeaders);
   },
 
   async createUser(data) {
     try {
+      // {
+      //   "name": "dat",
+      //   "email": "test@gmail.com",
+      //   "password": "123456",
+      //   "phone": "123456",
+      //   "address": "Ha Noi",
+      //   "role": "manager"
+      // }
+      const url = "/user";
+      return await api.post(url, data, setHeaders);
+    } catch (error) {
+      console.error("Error during creating user:", error);
+    }
+  },
+  async updateUser(data, userId) {
+    try {
+      // {
+      //   "name": "dat",
+      //   "email": "test@gmail.com",
+      //   "password": "123456",
+      //   "phone": "123456",
+      //   "address": "Ha Noi",
+      //   "role": "manager"
+      // }
+      const url = `/user/${userId}`;
+      return await api.put(url, data, setHeaders);
+    } catch (error) {
+      console.error("Error during creating user:", error);
+    }
+  },
+  async getUserById(userId) {
+    try {
+      const url = `/user/${userId}`;
+      return await api.get(url, setHeaders);
+    } catch (error) {
+      console.error("Error during creating user:", error);
+    }
+  },
+  async deleteUser(userId) {
+    try {
+      const url = `/user/${userId}`;
+      return await api.delete(url, setHeaders);
     } catch (error) {
       console.error("Error during creating user:", error);
     }
@@ -77,5 +153,12 @@ export const commentApi = {
 
     const url = "/comment";
     return api.post(url, comment);
+  },
+};
+
+export const orderApi = {
+  createOrder() {
+    const url = "/order";
+    return api.post(url);
   },
 };
