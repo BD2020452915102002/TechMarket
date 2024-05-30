@@ -1,199 +1,229 @@
-import React, { useEffect, useState } from "react";
-import { FaRegUser } from "react-icons/fa";
+import React, {useEffect, useState} from "react";
+import {FaRegUser} from "react-icons/fa";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { connect, useDispatch, useSelector } from "react-redux";
-import { getActions, logout } from "../store/actions/authActions.js";
-import { deleteAll } from "../store/actions/cartAction.js";
+import {connect, useDispatch, useSelector} from "react-redux";
+import {getActions, logout} from "../store/actions/authActions.js";
+import {deleteAll, getCart} from "../store/actions/cartAction.js";
 import Drawer from "@mui/material/Drawer";
-import {Box, Button} from "@mui/material";
+import {Box} from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
+import {productApi} from "../../api/productApi.js";
+import eventEmitter from "../utils/eventEmitter.js";
 
-function Navbar({ userDetails }) {
-  const product = useSelector(state => state.products.data)
-  const dispatch = useDispatch()
-  const { isLoggedIn } = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false }
-  const cart = useSelector(state => state.cart.data)
-  const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index) || []
-  const [isHover, setIsHover] = useState(false);
-  const categoryArr = category?.filter((e, i) => {
-    return i < 5;
-  });
-  const [open, setOpen] = useState(false);
+function Navbar({userDetails}) {
+    const product = useSelector(state => state.products.data)
+    const userID = JSON.parse(localStorage.getItem('session'))?.userDetails?._id
+    const dispatch = useDispatch()
+    const {isLoggedIn} = JSON.parse(localStorage.getItem('session')) || {isLoggedIn: false}
+    const cart = useSelector(state => state.cart.data)
+    const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index) || []
+    const [isHover, setIsHover] = useState(false);
+    const categoryArr = category?.filter((e, i) => {
+        return i < 5;
+    });
+    const [open, setOpen] = useState(false);
+    const toggleDrawer = (newOpen) => () => {
+        setOpen(newOpen);
+    };
 
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
+    function logoutX() {
+        dispatch(logout())
+        dispatch(deleteAll())
+        localStorage.removeItem('session');
+    }
+    const fetchData = async (id) => {
+        try {
+            const res = await productApi.getUserCart(id);
+            const cartData = product.filter((item) => res.data.includes(item._id)).map(e=>({
+                ...e,
+                quantity: 0,
+                checked: false
+            }));
+            dispatch(getCart(cartData))
+        } catch (error) {
+            console.error('Error fetching user cart:', error);
+        }
+    };
+    useEffect(() => {
+        if (userID) {
+            fetchData(userID);
+        }
+    }, [product,userID]);
+    useEffect(()=>{
+        const update = ()=>{
+            fetchData(userID);
+        }
+        eventEmitter.on('updateCart',update)
+        return ()=>{
+            eventEmitter.removeListener('updateCart',update)
+        }
+    },[])
 
-  function logoutX() {
-    dispatch(logout())
-    dispatch(deleteAll())
-    localStorage.removeItem('session');
-  }
 
-  const DrawerList = (
-      <Box sx={{ width: 350 }} role="presentation" onClick={toggleDrawer(false)}>
+    const DrawerList = (
+        <Box sx={{width: 350}} role="presentation" onClick={toggleDrawer(false)}>
 
-        <List>
-          <ListItem className={'uppercase font-bold text-lg '}>
-            Danh mục sản phẩm
-          </ListItem>
-          <Divider/>
-          <div className={'p-4'}>
-            {category.map((text, i) => (
-                <Link
-                    to={`/category/${text}`} key={i}>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemText primary={text}/>
-                    </ListItemButton>
-                  </ListItem>
-                </Link>
-            ))}
+            <List>
+                <ListItem className={'uppercase font-bold text-lg '}>
+                    Danh mục sản phẩm
+                </ListItem>
+                <Divider/>
+                <div className={'p-4'}>
+                    {category.map((text, i) => (
+                        <Link
+                            to={`/category/${text}`} key={i}>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemText primary={text}/>
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    ))}
 
-          </div>
-        </List>
-      </Box>
-  );
+                </div>
+            </List>
+        </Box>
+    );
 
-  return (
-      <div
-          className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
-      <div className="flex items-center">
-        <div className="hidden max-lg:block ml-8 hover:scale-125">
-          <div  onClick={toggleDrawer(true)} className={""}><MenuIcon /></div>
-        </div>
-        <Drawer open={open} onClose={toggleDrawer(false)}>
-          {DrawerList}
-        </Drawer>
-        <a
-          href={"/"}
-          className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
-        >
-          TECH MARKET
-        </a>
-
-        <div className=" ml-[160px] flex items-center max-lg:hidden ">
-          <div
-            className={`p-6 font-bold text-xl relative hover:scale-110  `}
-            onMouseOver={() => setIsHover(true)}
-            onMouseLeave={() => setIsHover(false)}
-          >
-            TẤT CẢ
-            <div
-              className={`absolute bg-white   ${isHover ? "block" : "hidden"
-                }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
-            >
-              {category.map((e, i) => (
-                <Link
-                  to={`/category/${e}`}
-                  key={i}
-                  className={
-                    "text-black font-medium text-[12px] text-center hover:bg-[#231f20] hover:text-white  p-2 w-24 line-clamp-1"
-                  }
+    return (
+        <div
+            className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
+            <div className="flex items-center">
+                <div className="hidden max-lg:block ml-8 hover:scale-125">
+                    <div onClick={toggleDrawer(true)} className={""}><MenuIcon/></div>
+                </div>
+                <Drawer open={open} onClose={toggleDrawer(false)}>
+                    {DrawerList}
+                </Drawer>
+                <a
+                    href={"/"}
+                    className="font-extrabold text-2xl ml-16 p-3  hover:bg-white  hover:text-black max-lg:ml-3"
                 >
-                  {e}
-                </Link>
-              ))}
+                    TECH MARKET
+                </a>
+
+                <div className=" ml-[160px] flex items-center max-lg:hidden ">
+                    <div
+                        className={`p-6 font-bold text-xl relative hover:scale-110  `}
+                        onMouseOver={() => setIsHover(true)}
+                        onMouseLeave={() => setIsHover(false)}
+                    >
+                        TẤT CẢ
+                        <div
+                            className={`absolute bg-white   ${isHover ? "block" : "hidden"
+                            }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
+                        >
+                            {category.map((e, i) => (
+                                <Link
+                                    to={`/category/${e}`}
+                                    key={i}
+                                    className={
+                                        "text-black font-medium text-[12px] text-center hover:bg-[#231f20] hover:text-white  p-2 w-24 line-clamp-1"
+                                    }
+                                >
+                                    {e}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                    <div className=''>
+                        <div>
+                            {categoryArr?.map((e, i) => (
+                                <Link
+                                    to={`/category/${e}`}
+                                    key={i}
+                                    className={`mx-2 font-medium p-4 hover:scale-110 ${i > 3 ? 'max-2xl:hidden' : ''} ${i > 1 ? 'max-xl:hidden' : ''} max-lg:hidden `}
+                                >
+                                    {e}
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div className=''>
-            <div>
-              {categoryArr?.map((e, i) => (
-                <Link
-                  to={`/category/${e}`}
-                  key={i}
-                  className={`mx-2 font-medium p-4 hover:scale-110 ${i > 3 ? 'max-2xl:hidden' : ''} ${i > 1 ? 'max-xl:hidden' : ''} max-lg:hidden `}
-                >
-                  {e}
+            <div className="flex items-center mr-16  ">
+                <Link to={"/cart"} className="indicator mx-8 hover:scale-110 ">
+                    <ShoppingCartIcon className={"!text-3xl"}/>
+                    <span className="badge badge-sm indicator-item">{cart.length}</span>
                 </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center mr-16  ">
-        <Link to={"/cart"} className="indicator mx-8 hover:scale-110 ">
-          <ShoppingCartIcon className={"!text-3xl"} />
-          <span className="badge badge-sm indicator-item">{cart.length}</span>
-        </Link>
 
-        <div className="dropdown dropdown-end ">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar "
-          >
-            <FaRegUser className={"text-3xl"} />
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content  z-[1]   bg-white  w-52 text-black  shadow-[0px_0px_20px] shadow-gray-500 !p-0 "
-          >
-            {!isLoggedIn ? (
-              <li>
-                <Link
-                  to={"/login"}
-                  className={
-                    "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  "
-                  }
-                >
-                  Đăng nhập
-                </Link>
-              </li>
-            ) : (
-              <div>
-                <li>
-                  <Link
-                    to={"/infor"}
-                    className={
-                      "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   "
-                    }
-                  >
-                    Thông tin tài khoản
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to={"/orderstatus"}
-                    className={
-                      "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   "
-                    }
-                  >
-                    Đơn hàng của bạn
-                  </Link>
-                </li>
-                <li>
-                  <a
-                    href="/"
-                    onClick={logoutX}
-                    className={
-                      "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  "
-                    }
-                  >
-                    Đăng xuất
-                  </a>
-                </li>
-              </div>
-            )}
-          </ul>
+                <div className="dropdown dropdown-end ">
+                    <div
+                        tabIndex={0}
+                        role="button"
+                        className="btn btn-ghost btn-circle avatar "
+                    >
+                        <FaRegUser className={"text-3xl"}/>
+                    </div>
+                    <ul
+                        tabIndex={0}
+                        className="menu menu-sm dropdown-content  z-[1]   bg-white  w-52 text-black  shadow-[0px_0px_20px] shadow-gray-500 !p-0 "
+                    >
+                        {!isLoggedIn ? (
+                            <li>
+                                <Link
+                                    to={"/login"}
+                                    className={
+                                        "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  "
+                                    }
+                                >
+                                    Đăng nhập
+                                </Link>
+                            </li>
+                        ) : (
+                            <div>
+                                <li>
+                                    <Link
+                                        to={"/infor"}
+                                        className={
+                                            "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   "
+                                        }
+                                    >
+                                        Thông tin tài khoản
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to={"/orderstatus"}
+                                        className={
+                                            "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   "
+                                        }
+                                    >
+                                        Đơn hàng của bạn
+                                    </Link>
+                                </li>
+                                <li>
+                                    <a
+                                        href="/"
+                                        onClick={logoutX}
+                                        className={
+                                            "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2  "
+                                        }
+                                    >
+                                        Đăng xuất
+                                    </a>
+                                </li>
+                            </div>
+                        )}
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
-const mapStoreStateToProps = ({ auth, dispatch }) => {
-  return {
-    ...auth,
-    ...getActions(dispatch),
+const mapStoreStateToProps = ({auth, dispatch}) => {
+    return {
+        ...auth,
+        ...getActions(dispatch),
 
-  };
+    };
 };
 
 export default connect(mapStoreStateToProps)(Navbar);

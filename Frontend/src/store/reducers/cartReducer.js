@@ -85,6 +85,11 @@ const cartReducer = (state = initState, action) => {
                 ...state,
                 data: state.data = []
             };
+            case cartActionTypes.GET_CART:
+            return {
+                ...state,
+                data: state.data = action.e
+            };
         default:
             return state;
     }

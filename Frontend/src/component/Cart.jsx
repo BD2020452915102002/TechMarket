@@ -71,7 +71,7 @@ function Cart() {
                             <Checkbox checked={e.checked} onChange={() => handleCheckItem(e?._id, !e?.checked)} />
                             <Link to={`/products/${e._id}`} className={'flex items-center'}>
                                 <img src={e?.image?.url} alt=""
-                                    className={'bg-cover bg-no-repeat bg-center w-20 h-20 mr-4'} />
+                                    className={'bg-cover bg-no-repeat bg-center w-24 h-20 mr-4'} />
                                 <p className={'!line-clamp-2 '}>{e.name}</p>
                             </Link>
                         </div>

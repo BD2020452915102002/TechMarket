@@ -7,7 +7,8 @@ export const cartActionTypes = {
     INCREASE_QUANTITY:'INCREASE_QUANTITY',
     DECREASE_QUANTITY:'DECREASE_QUANTITY',
     UNCHECK_ALL:'UNCHECK_ALL',
-    CHECK_ITEM:'CHECK_ITEM'
+    CHECK_ITEM:'CHECK_ITEM',
+    GET_CART:'GET_CART'
 }
 
 export const addCart = (product) => {
@@ -57,4 +58,10 @@ export const uncheckAllItems = () => {
         type: cartActionTypes.UNCHECK_ALL
     };
 };
+export const getCart = (e)=>{
+    return {
+        type: cartActionTypes.GET_CART,
+        e
+    }
+}
 
