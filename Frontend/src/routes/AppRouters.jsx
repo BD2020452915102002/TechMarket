@@ -115,7 +115,7 @@ function AppRouters() {
                     </PrivateRoute>
                 }
             >
-                <Route index element={<Navigate to="dashboard" replace />} />
+                <Route index element={<Navigate to="products" replace />} />
                 <Route
                     path="dashboard"
                     element={

@@ -13,10 +13,23 @@ import { productApi } from "../../../api/productApi.js";
 import { fetchData } from "../../store/actions/productsAction.js";
 import productsReducer from "../../store/reducers/productsReducer.js";
 import ChatIcon from "./Chatboard/ChatIcon.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Home() {
   const products = useSelector((state) => state.products.data);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const session = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false, userDetails: {} };
+  const { isLoggedIn, userDetails } = session;
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      const { role } = userDetails;
+      if (role === 'manager' || role === 'employee') {
+        navigate('/managehome');
+      }
+    }
+  }, [isLoggedIn, userDetails, navigate]);
 
   useEffect(() => {
     setLoading(false);

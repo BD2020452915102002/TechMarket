@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -10,45 +10,51 @@ import PersonIcon from '@mui/icons-material/Person';
 import CategoryIcon from '@mui/icons-material/Category';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 
-function Nav(props) {
+function Nav() {
     const location = useLocation();
     const session = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false, userDetails: {} };
-    const { isLoggedIn, userDetails } = session;
-    const [arr, setArr] = useState([])
-    const { role } = userDetails;
-    if (role === 'employee') setArr(
-        [
-            { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-            { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
-        ]
-    )
-    else setArr(
-        [
-            { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
-            { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
-            { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-            { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
-        ]
-    )
+    const { userDetails } = session;
+    const [menuItems, setMenuItems] = useState([]);
+
+    useEffect(() => {
+        const { role } = userDetails;
+        const items = getMenuItemsByRole(role);
+        setMenuItems(items);
+    }, [userDetails]);
+
+    const getMenuItemsByRole = (role) => {
+        if (role === 'employee') {
+            return [
+                { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
+                { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+            ];
+        } else {
+            return [
+                { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
+                { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
+                { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
+                { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+            ];
+        }
+    };
+
     return (
         <div>
             <List>
-                {
-                    arr?.map((e, i) => (
-                        <ListItem
-                            key={i}
-                            disablePadding
-                            className={`${location.pathname === e.path ? 'bg-[#F4F4F4]' : ''}`}
-                        >
-                            <ListItemButton component={Link} to={e.path}>
-                                <ListItemIcon>
-                                    {e.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={e.title} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))
-                }
+                {menuItems.map((item, index) => (
+                    <ListItem
+                        key={index}
+                        disablePadding
+                        className={`${location.pathname === item.path ? 'bg-[#F4F4F4]' : ''}`}
+                    >
+                        <ListItemButton component={Link} to={item.path}>
+                            <ListItemIcon>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.title} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
             </List>
         </div>
     );
