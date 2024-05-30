@@ -12,16 +12,29 @@ import FactCheckIcon from '@mui/icons-material/FactCheck';
 
 function Nav(props) {
     const location = useLocation();
+    const session = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false, userDetails: {} };
+    const { isLoggedIn, userDetails } = session;
+    const [arr, setArr] = useState([])
+    const { role } = userDetails;
+    if (role === 'employee') setArr(
+        [
+            { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
+            { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+        ]
+    )
+    else setArr(
+        [
+            { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
+            { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
+            { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
+            { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+        ]
+    )
     return (
         <div>
             <List>
                 {
-                    [
-                        { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
-                        { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
-                        { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-                        { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
-                    ].map((e, i) => (
+                    arr?.map((e, i) => (
                         <ListItem
                             key={i}
                             disablePadding
