@@ -1,3 +1,4 @@
+import { forgotPassword } from "../../Backend/controllers/ForgotPassController.js";
 import { api, setHeaders } from "./api.js";
 
 export const productApi = {
@@ -47,8 +48,11 @@ export const productApi = {
     const url = `/user/${userId}/cart/${productId}`;
     return api.post(url);
   },
-  deleteUserCart(userId, productId) {
-    const url = `/user/${userId}/cart/${productId}`;
+  deleteUserCart(userId) {
+    // {
+    //   "cartItems": ["fadfdasfafdasfs", "fasdfdasfadfsf"]
+    // }
+    const url = `/user/${userId}/cart`;
     return api.delete(url);
   },
 };
@@ -88,7 +92,7 @@ export const userApi = {
       const url = `/user/${userId}`;
       return await api.put(url, data, setHeaders);
     } catch (error) {
-      console.error("Error during creating user:", error);
+      console.error("Error during updating user:", error);
     }
   },
   async getUserById(userId) {
@@ -96,7 +100,7 @@ export const userApi = {
       const url = `/user/${userId}`;
       return await api.get(url, setHeaders);
     } catch (error) {
-      console.error("Error during creating user:", error);
+      console.error("Error during getting user:", error);
     }
   },
   async deleteUser(userId) {
@@ -104,7 +108,18 @@ export const userApi = {
       const url = `/user/${userId}`;
       return await api.delete(url, setHeaders);
     } catch (error) {
-      console.error("Error during creating user:", error);
+      console.error("Error during deleting user:", error);
+    }
+  },
+  async forgotPassword(email) {
+    try {
+      // {
+      //   "email": "abc@gmail.com"
+      // }
+      const url = "forgot_pass";
+      return await api.post(url);
+    } catch (error) {
+      console.error("Error during forgot password:", error);
     }
   },
 };
