@@ -58,7 +58,6 @@ router.post("/create-checkout-session", async (req, res) => {
               currency: "vnd",
             },
             display_name: "Free shipping",
-            // Delivers between 5-7 business days
             delivery_estimate: {
               minimum: {
                 unit: "business_day",
@@ -79,7 +78,6 @@ router.post("/create-checkout-session", async (req, res) => {
               currency: "vnd",
             },
             display_name: "Express",
-            // Delivers in exactly 1 business day
             delivery_estimate: {
               minimum: {
                 unit: "business_day",
@@ -153,14 +151,14 @@ router.post(
     if (endpointSecret) {
       try {
         event = stripe.webhooks.constructEvent(
-          request.body,
+          req.body, // Changed from `request.body` to `req.body`
           sig,
           endpointSecret
         );
         console.log("Webhook verified.");
       } catch (err) {
         console.log(`Webhook Error: ${err.message}`);
-        response.status(400).send(`Webhook Error: ${err.message}`);
+        res.status(400).send(`Webhook Error: ${err.message}`);
         return;
       }
       data = event.data.object;
@@ -189,17 +187,17 @@ router.post(
       stripe.customers
         .retrieve(data.customer)
         .then((customer) => {
-          // stripe.checkout.sessions.listLineItems(
-          //   data.id,
-          //   {},
-          //   function (err, lineItems) {
-          //     createOrder(customer, data, lineItems);
-          //   }
-          // );
-          orderService.createOrder(createOrder(customer, data, lineItemsData));
-
-          // console.log(customer);
-          // console.log("data:",data);
+          stripe.checkout.sessions.listLineItems(
+            data.id,
+            {},
+            function (err, lineItems) {
+              if (err) {
+                console.log(err);
+                return;
+              }
+              createOrder(customer, data, lineItems.data);
+            }
+          );
         })
         .catch((err) => console.log(err.message));
     }
