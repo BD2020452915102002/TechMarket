@@ -1,11 +1,15 @@
 const express = require("express");
 const Stripe = require("stripe");
 const userService = require("../services/UserService");
+const orderService = require("../services/OrderService");
 const productService = require("../services/ProductService");
+const Order = require("../models/order");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 const stripe = Stripe(process.env.STRIPE_KEY);
 const router = express.Router();
+let lineItemsData;
 
 router.post("/create-checkout-session", async (req, res) => {
   const { userId, cartItems } = req.body;
@@ -38,6 +42,7 @@ router.post("/create-checkout-session", async (req, res) => {
         };
       })
     );
+    lineItems = line_items;
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -70,10 +75,10 @@ router.post("/create-checkout-session", async (req, res) => {
           shipping_rate_data: {
             type: "fixed_amount",
             fixed_amount: {
-              amount: 1500,
+              amount: 100000,
               currency: "vnd",
             },
-            display_name: "Next day air",
+            display_name: "Express",
             // Delivers in exactly 1 business day
             delivery_estimate: {
               minimum: {
@@ -107,6 +112,27 @@ router.post("/create-checkout-session", async (req, res) => {
     res.status(500).send("Error creating Stripe session: " + error.message);
   }
 });
+
+// Create Order
+const createOrder = async (customer, data, lineItemsData) => {
+  const newOrder = new Order({
+    userId: new mongoose.Types.ObjectId(customer.metadata.userId),
+    customerId: data.customer,
+    paymentIntentId: data.payment_intent,
+    products: lineItemsData,
+    subtotal: data.amount_subtotal,
+    total: data.amount_total,
+    shipping: data.customer_details,
+    payment_status: data.payment_status,
+  });
+  console.log("newOrder", newOrder);
+  try {
+    const savedOrder = await newOrder.save();
+    console.log("Processed Order:", savedOrder);
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // This is your Stripe CLI webhook secret for testing your endpoint locally.
 // let endpointSecret =
@@ -160,13 +186,22 @@ router.post(
       user.cart = updatedCartItems;
       await user.save();
 
-      // stripe.customers
-      //   .retrieve(data.customer)
-      //   .then((customer) => {
-      //     console.log(customer);
-      //     console.log("data:", data);
-      //   })
-      //   .catch((err) => console.log(err.message));
+      stripe.customers
+        .retrieve(data.customer)
+        .then((customer) => {
+          // stripe.checkout.sessions.listLineItems(
+          //   data.id,
+          //   {},
+          //   function (err, lineItems) {
+          //     createOrder(customer, data, lineItems);
+          //   }
+          // );
+          orderService.createOrder(createOrder(customer, data, lineItemsData));
+
+          // console.log(customer);
+          // console.log("data:",data);
+        })
+        .catch((err) => console.log(err.message));
     }
     // Return a 200 response to acknowledge receipt of the event
     res.send().end();
