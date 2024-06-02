@@ -20,5 +20,5 @@ router
   .delete(isManager, deleteUser);
 router.route("/:id/cart").get(getCartByUser);
 router.route("/:userId/cart/:productId").post(updateUserCart);
-router.route("/:userId/cart").delete(deleteUserCart);
+router.route("/:userId/cart").post(deleteUserCart);
 module.exports = router;

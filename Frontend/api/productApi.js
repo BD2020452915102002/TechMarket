@@ -48,11 +48,11 @@ export const productApi = {
     const url = `/user/${userId}/cart/${productId}`;
     return api.post(url);
   },
-  deleteUserCart(userId,cartItems) {
-    console.log('>>>>',cartItems)
+  deleteUserCart(userId, cartItems) {
+    console.log(">>>>", cartItems);
     const url = `/user/${userId}/cart`;
-    const  res = api.delete(url);
-    console.log(res)
+    const res = api.post(url, cartItems);
+    console.log(res);
     // return res
   },
 };
