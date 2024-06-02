@@ -173,13 +173,14 @@ exports.updateUserCart = async (req, res) => {
 };
 
 exports.deleteUserCart = async (req, res) => {
+  console.log('>>>',req.body)
   try {
     const userId = req.params.userId;
     const { cartItems } = req.body;
 
     const user = await userService.getUserById(userId);
 
-    user.cart = user.cart.filter((item) => !cartItems.includes(item));
+    user.cart = user.cart.filter((item) => !cartItems?.includes(item));
 
     await user.save();
 

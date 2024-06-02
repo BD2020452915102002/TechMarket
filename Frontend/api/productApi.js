@@ -1,4 +1,4 @@
-import { forgotPassword } from "../../Backend/controllers/ForgotPassController.js";
+// import { forgotPassword } from "../../Backend/controllers/ForgotPassController.js";
 import { api, setHeaders } from "./api.js";
 
 export const productApi = {
@@ -48,12 +48,12 @@ export const productApi = {
     const url = `/user/${userId}/cart/${productId}`;
     return api.post(url);
   },
-  deleteUserCart(userId) {
-    // {
-    //   "cartItems": ["fadfdasfafdasfs", "fasdfdasfadfsf"]
-    // }
+  deleteUserCart(userId,cartItems) {
+    console.log('>>>>',cartItems)
     const url = `/user/${userId}/cart`;
-    return api.delete(url);
+    const  res = api.delete(url);
+    console.log(res)
+    // return res
   },
 };
 

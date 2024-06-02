@@ -1,29 +1,31 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from "react-redux";
-import { Button, Checkbox } from "@mui/material";
+import React, {useContext, useEffect, useState} from 'react';
+import {useDispatch, useSelector} from "react-redux";
+import {Button, Checkbox} from "@mui/material";
 import {
     checkAllItems, checkItem,
     decreaseCartItemQuantity, deleteAll,
     deleteCart,
     increaseCartItemQuantity, uncheckAllItems
 } from "../store/actions/cartAction.js";
-import { Link } from "react-router-dom";
-import { formatNumber } from "../utils/formatNumber.js";
-import {checkoutApi} from "../../api/productApi.js";
+import {Link} from "react-router-dom";
+import {formatNumber} from "../utils/formatNumber.js";
+import {checkoutApi, productApi} from "../../api/productApi.js";
 
 
 function Cart() {
     const productsWithQuantity = useSelector(state => state.cart.data)
-    const userID= JSON.parse(localStorage.getItem('session')).userDetails._id
+    const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
     const [numberOfProductsPurchased, setNumberOfProductsPurchased] = useState(0)
     const [totalPayment, setTotalPayment] = useState(0)
     const [isCheckedAll, setIsCheckAll] = useState(true);
-    const [productPurchased,setProductPurchased] = useState([])
+    const [productPurchased, setProductPurchased] = useState([])
     const dispatch = useDispatch()
 
     useEffect(() => {
-        const arr = productsWithQuantity.filter(e => { return e.checked })
-        setProductPurchased(()=>{
+        const arr = productsWithQuantity.filter(e => {
+            return e.checked
+        })
+        setProductPurchased(() => {
             return arr.map(product => ({
                 id: product._id,
                 quantity: product.quantity
@@ -43,35 +45,48 @@ function Cart() {
     function subCount(i) {
         dispatch(decreaseCartItemQuantity(i))
     }
+
     function addCount(i) {
         dispatch(increaseCartItemQuantity(i))
     }
 
     function deleteProduct(i) {
+        let cartItems = {
+            cartItems:[i]
+        }
+        console.log(cartItems)
+        const res = productApi.deleteUserCart(userID, cartItems)
+        console.log(res)
         dispatch(deleteCart(i))
     }
+
     function handleCheckAllItems() {
         dispatch(checkAllItems());
     }
+
     function handleUnCheckAllItems() {
         dispatch(uncheckAllItems());
     }
+
     function handleCheckItem(id, checked) {
         dispatch(checkItem(id, checked));
     }
+
     function handleDeleteAllItem() {
         dispatch(deleteAll())
     }
+
     const ProductCart = () => {
         if (productsWithQuantity?.length !== 0)
             return productsWithQuantity?.map((e, i) => (
-                <div key={i} className={'grid my-4 py-4 bg-white border-[1px] border-gray-200  grid-cols-[auto,20%,35%] gap-6'}>
+                <div key={i}
+                     className={'grid my-4 py-4 bg-white border-[1px] border-gray-200  grid-cols-[auto,20%,35%] gap-6'}>
                     <div className={'flex items-center justify-start'}>
                         <div className={'flex items-center'}>
-                            <Checkbox checked={e.checked} onChange={() => handleCheckItem(e?._id, !e?.checked)} />
+                            <Checkbox checked={e.checked} onChange={() => handleCheckItem(e?._id, !e?.checked)}/>
                             <Link to={`/products/${e._id}`} className={'flex items-center'}>
                                 <img src={e?.image?.url} alt=""
-                                    className={'bg-cover bg-no-repeat bg-center w-24 h-20 mr-4'} />
+                                     className={'bg-cover bg-no-repeat bg-center w-24 h-20 mr-4'}/>
                                 <p className={'!line-clamp-2 '}>{e.name}</p>
                             </Link>
                         </div>
@@ -82,13 +97,15 @@ function Cart() {
                             <div className={'flex items-center relative mr-4'}>
                                 <p className={'mr-10'}>Số lượng</p>
                                 <Button variant="outlined" onClick={() => subCount(e._id)} className={'!min-w-0'}
-                                    disabled={e.quantity < 1}>-</Button>
+                                        disabled={e.quantity < 1}>-</Button>
                                 <div className={'px-4'}>{e.quantity}</div>
                                 <Button variant="outlined" onClick={() => addCount(e._id)} className={'!min-w-0'}
-                                    disabled={e.quantity >= e?.stock}>+</Button>
+                                        disabled={e.quantity >= e?.stock}>+</Button>
                                 <h1 className={'ml-4 absolute  top-[120%] left-1/2'}>Còn: {e?.stock}</h1>
                             </div>
-                            <Button variant="contained" color="error" onClick={() => deleteProduct(e._id)}> Xoá</Button>
+                            <Button variant="contained" color="error" onClick={() => {
+                                deleteProduct(e._id)
+                            }}> Xoá</Button>
                         </div>
                     </div>
                 </div>
@@ -105,25 +122,29 @@ function Cart() {
             <div>
                 <h1 className={'pt-8 text-2xl font-bold uppercase '}>Giỏ hàng</h1>
                 <div className={'mt-4 max-h-[480px]  overflow-y-auto '}>
-                    <div><ProductCart /></div>
+                    <div><ProductCart/></div>
                 </div>
                 <div className={'flex items-center justify-between mt-10 mb-20'}>
                     <div className={'flex items-center '}>
                         {
                             isCheckedAll ?
-                                <Button variant="contained" className={'!mr-3  !min-w-[170px]'} onClick={handleUnCheckAllItems}>Huỷ chọn tất cả</Button>
+                                <Button variant="contained" className={'!mr-3  !min-w-[170px]'}
+                                        onClick={handleUnCheckAllItems}>Huỷ chọn tất cả</Button>
                                 :
-                                <Button variant="contained" className={'!mr-3  !min-w-[170px]'} onClick={handleCheckAllItems}>Chọn tất cả</Button>
+                                <Button variant="contained" className={'!mr-3  !min-w-[170px]'}
+                                        onClick={handleCheckAllItems}>Chọn tất cả</Button>
 
                         }
-                        <Button variant="outlined" className={'!max-w-[170px]'} onClick={handleDeleteAllItem}>Xoá mục đã chọn</Button>
+                        <Button variant="outlined" className={'!max-w-[170px]'} onClick={handleDeleteAllItem}>Xoá mục đã
+                            chọn</Button>
                     </div>
                     <div className={'flex items-center'}>
                         <div>Tổng thanh toán ({numberOfProductsPurchased} Sản phẩm):</div>
-                        <div className={'font-medium text-xl ml-5'}>{formatNumber(totalPayment)} <span className={''}>đ</span></div>
+                        <div className={'font-medium text-xl ml-5'}>{formatNumber(totalPayment)} <span
+                            className={''}>đ</span></div>
                     </div>
-                    <Link to="/checkout"><Button variant="contained" className={'!min-w-[150px]'} onClick={async()=>{
-                       await checkoutApi.checkout({userId:userID, cartItems:productPurchased})
+                    <Link to="/checkout"><Button variant="contained" className={'!min-w-[150px]'} onClick={async () => {
+                        await checkoutApi.checkout({userId: userID, cartItems: productPurchased})
                     }}>Mua</Button></Link>
                 </div>
 
