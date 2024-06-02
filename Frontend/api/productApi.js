@@ -103,10 +103,3 @@ export const commentApi = {
     return api.post(url, comment, setHeaders());
   },
 };
-
-export const orderApi = {
-  createOrder() {
-    const url = "/order";
-    return api.post(url, setHeaders());
-  },
-};
