@@ -1,5 +1,5 @@
-import React, {useEffect} from "react";
-import {Routes, Route, Navigate, useLocation} from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "../page/customer/Home.jsx";
 import Login from "../page/Login.jsx";
 import PrivateRoute from "./PrivateRoute.jsx";
@@ -16,9 +16,9 @@ import OrderStatus from "../page/customer/OrderStatus.jsx";
 import ManageStatusProduct from "../page/manage/ManageStatusProduct.jsx";
 import Dashboard from "../page/manage/Dashboard.jsx";
 import ConfirmCheckout from "../page/customer/ConfirmCheckout.jsx";
-import {useDispatch} from "react-redux";
-import {productApi} from "../../api/productApi.js";
-import {fetchData} from "../store/actions/productsAction.js";
+import { useDispatch } from "react-redux";
+import { productApi } from "../../api/productApi.js";
+import { fetchData } from "../store/actions/productsAction.js";
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -98,7 +98,7 @@ function AppRouters() {
                 }
             />
             <Route
-                path="/checkout"
+                path="/checkout-success"
                 element={
                     <PrivateRoute roles={['customer']}>
                         <ConfirmCheckout />
@@ -143,7 +143,7 @@ function AppRouters() {
                 <Route
                     path="managestatusproduct"
                     element={
-                        <PrivateRoute roles={['manager','employee']}>
+                        <PrivateRoute roles={['manager', 'employee']}>
                             <ManageStatusProduct />
                         </PrivateRoute>
                     }
