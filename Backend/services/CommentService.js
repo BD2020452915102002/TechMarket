@@ -1,4 +1,4 @@
-const Comment = require("../models/comment");
+const Product = require("../models/product");
 
 exports.createComment = async (comment) => {
   return await Comment.create(comment);
@@ -21,16 +21,16 @@ exports.deleteComment = async (id) => {
 };
 
 exports.repCommentTo = async (reply, parentComId) => {
-    const parentComment = await Comment.findById(parentComId);
-    if (!parentComment) {
-        throw new Error('Parent comment not found');
-    }
+  const parentComment = await Comment.findById(parentComId);
+  if (!parentComment) {
+    throw new Error("Parent comment not found");
+  }
 
-    const rep = await Comment.create(reply);
-    rep.parentCommentId = parentComId;
-    await rep.save();
+  const rep = await Comment.create(reply);
+  rep.parentCommentId = parentComId;
+  await rep.save();
 
-    parentComment.replies.push(rep._id); 
-    await parentComment.save();
-    return rep;
+  parentComment.replies.push(rep._id);
+  await parentComment.save();
+  return rep;
 };
