@@ -5,7 +5,7 @@ import Card from "./Card.jsx";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import { Button, FormControlLabel, Radio } from "@mui/material";
 
-function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) {
+function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, product }) {
     const [productShow, setProductShow] = useState(product)
     const [isPrice, setIsPrice] = useState()
     const [isBrand, setIsBrand] = useState()
@@ -27,7 +27,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
     const brand = product?.map(e => (e.brand)).filter((value, index, self) => self.indexOf(value) === index)
     const sale = ['Yes', 'No']
     const stock = ['Còn hàng', 'Hết hàng']
-    const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index)||[]
+    const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index) || []
 
     useEffect(() => {
         setProductShow(product)
@@ -160,7 +160,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
                         <FilterAltIcon className={'scale-75'} />
                         <h1> Bộ lọc</h1>
                     </div>
-                    <div className={` font-medium  my-4   ${priceShow? ' ': ' hidden'}`}>
+                    <div className={` font-medium  my-4   ${priceShow ? ' ' : ' hidden'}`}>
                         <h1 className={'mb-2'}>Theo phân khúc</h1>
                         <div className={'max-h-[300px] overflow-y-auto'}>
                             {
@@ -174,7 +174,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
                         </div>
 
                     </div>
-                    <div className={` font-medium  my-4   ${brandShow? ' ': ' hidden'}`}>
+                    <div className={` font-medium  my-4   ${brandShow ? ' ' : ' hidden'}`}>
                         <h1 className={'mb-2'}>Theo hãng</h1>
                         <div className={'max-h-[300px] overflow-y-auto'}>
                             {
@@ -188,7 +188,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
                             }
                         </div>
                     </div>
-                    <div className={` font-medium  my-4   ${saleShow? ' ': ' hidden'}`}>
+                    <div className={` font-medium  my-4   ${saleShow ? ' ' : ' hidden'}`}>
                         <h1 className={'mb-2'}>Đang khuyến mãi</h1>
                         <div className={'max-h-[300px] overflow-y-auto'}>
                             {
@@ -202,7 +202,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
                             }
                         </div>
                     </div>
-                    <div className={` font-medium  my-4   ${stockShow? ' ': ' hidden'}`}>
+                    <div className={` font-medium  my-4   ${stockShow ? ' ' : ' hidden'}`}>
                         <h1 className={'mb-2'}>Số lượng</h1>
                         <div className={'max-h-[300px] overflow-y-auto'}>
                             {
@@ -216,7 +216,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
                             }
                         </div>
                     </div>
-                    <div className={` font-medium  my-4   ${categoryShow? ' ': ' hidden'}`}>
+                    <div className={` font-medium  my-4   ${categoryShow ? ' ' : ' hidden'}`}>
                         <h1 className={'mb-2'}>Loại sản phẩm</h1>
                         <div className={'max-h-[300px] overflow-y-auto'}>
                             {
@@ -248,7 +248,7 @@ function Content({brandShow,priceShow,stockShow,saleShow,categoryShow,product}) 
                     <div className={'flex flex-wrap mt-4 overflow-y-auto max-h-[1500px]'}>
                         {
                             productShow.map((e, i) => (
-                                <div key={i} className={'mr-2 mb-2'}>
+                                <div key={i} className={' mr-2 mb-2'}>
                                     <Card product={e} />
                                 </div>
                             ))

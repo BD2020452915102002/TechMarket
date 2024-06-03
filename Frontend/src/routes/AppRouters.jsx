@@ -16,6 +16,7 @@ import OrderStatus from "../page/customer/OrderStatus.jsx";
 import ManageStatusProduct from "../page/manage/ManageStatusProduct.jsx";
 import Dashboard from "../page/manage/Dashboard.jsx";
 import ConfirmCheckout from "../page/customer/ConfirmCheckout.jsx";
+import ConfirmEmail from "../page/customer/ConfirmEmail.jsx";
 import { useDispatch } from "react-redux";
 import { productApi } from "../../api/productApi.js";
 import { fetchData } from "../store/actions/productsAction.js";
@@ -45,7 +46,7 @@ function AppRouters() {
         <Routes>
             {/* Shared */}
             <Route path="/login" element={<Login />} />
-
+            <Route path="/confirmemail" element={<ConfirmEmail />} />
             {/* Customer */}
             <Route path="/" element={<Home />} />
             <Route path="/createAccount" element={<CreateAccount />} />
