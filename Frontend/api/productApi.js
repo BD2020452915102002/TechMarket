@@ -4,7 +4,7 @@ import { api, setHeaders } from "./api.js";
 export const productApi = {
   getProduct() {
     const url = "/product";
-    return api.get(url);
+    return api.get(url, setHeaders());
   },
   createProduct(data) {
     //   {
@@ -19,11 +19,11 @@ export const productApi = {
     //     "rate": 2
     // }
     const url = "/product";
-    return api.post(url, data);
+    return api.post(url, data, setHeaders());
   },
   deleteProduct(productId) {
     const url = `/product/${productId}`;
-    return api.delete(url);
+    return api.delete(url, setHeaders());
   },
   updateProduct(data, productId) {
     //   {
@@ -38,89 +38,22 @@ export const productApi = {
     //     "rate": 2
     // }
     const url = `/product/${productId}`;
-    return api.put(url);
+    return api.put(url, setHeaders());
   },
   getUserCart(userId) {
     const url = `/user/${userId}/cart/`;
-    return api.get(url);
+    return api.get(url, setHeaders());
   },
   updateUserCart(userId, productId) {
     const url = `/user/${userId}/cart/${productId}`;
-    return api.post(url);
+    return api.post(url, setHeaders());
   },
   deleteUserCart(userId, cartItems) {
-    console.log(">>>>", cartItems);
+    console.log('>>>>', cartItems)
     const url = `/user/${userId}/cart`;
-    const res = api.post(url, cartItems);
-    console.log(res);
+    const res = api.delete(url, setHeaders());
+    console.log(res)
     // return res
-  },
-};
-
-export const userApi = {
-  getAllUsers() {
-    const url = "/user";
-    return api.get(url, setHeaders);
-  },
-
-  async createUser(data) {
-    try {
-      // {
-      //   "name": "dat",
-      //   "email": "test@gmail.com",
-      //   "password": "123456",
-      //   "phone": "123456",
-      //   "address": "Ha Noi",
-      //   "role": "manager"
-      // }
-      const url = "/user";
-      return await api.post(url, data, setHeaders);
-    } catch (error) {
-      console.error("Error during creating user:", error);
-    }
-  },
-  async updateUser(data, userId) {
-    try {
-      // {
-      //   "name": "dat",
-      //   "email": "test@gmail.com",
-      //   "password": "123456",
-      //   "phone": "123456",
-      //   "address": "Ha Noi",
-      //   "role": "manager"
-      // }
-      const url = `/user/${userId}`;
-      return await api.put(url, data, setHeaders);
-    } catch (error) {
-      console.error("Error during updating user:", error);
-    }
-  },
-  async getUserById(userId) {
-    try {
-      const url = `/user/${userId}`;
-      return await api.get(url, setHeaders);
-    } catch (error) {
-      console.error("Error during getting user:", error);
-    }
-  },
-  async deleteUser(userId) {
-    try {
-      const url = `/user/${userId}`;
-      return await api.delete(url, setHeaders);
-    } catch (error) {
-      console.error("Error during deleting user:", error);
-    }
-  },
-  async forgotPassword(email) {
-    try {
-      // {
-      //   "email": "abc@gmail.com"
-      // }
-      const url = "forgot_pass";
-      return await api.post(url);
-    } catch (error) {
-      console.error("Error during forgot password:", error);
-    }
   },
 };
 
@@ -141,7 +74,7 @@ export const checkoutApi = {
       //     ]
       //}
       const url = "/stripe/create-checkout-session";
-      const stripeUrl = await api.post(url, data);
+      const stripeUrl = await api.post(url, data, setHeaders());
       window.location.href = stripeUrl.data.url;
     } catch (error) {
       console.error("Error during checkout:", error);
@@ -152,7 +85,7 @@ export const checkoutApi = {
 export const commentApi = {
   getAllComments() {
     const url = "/comment";
-    return api.get(url);
+    return api.get(url, setHeaders());
   },
 
   createComment(comment) {
@@ -167,13 +100,6 @@ export const commentApi = {
     // }
 
     const url = "/comment";
-    return api.post(url, comment);
-  },
-};
-
-export const orderApi = {
-  createOrder() {
-    const url = "/order";
-    return api.post(url);
+    return api.post(url, comment, setHeaders());
   },
 };

@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import HomeIcon from '@mui/icons-material/Home';
 import ManIcon from '@mui/icons-material/Man';
+import { userApi } from "../../api/userApi.js"
 
 // import { useDispatch, useSelector } from "react-redux";
 
 function DetailUser(props) {
-    const {userDetails} = JSON.parse(localStorage.getItem('session'))
+    const { userDetails } = JSON.parse(localStorage.getItem('session'))
 
     const [infor, setInfor] = useState({
         name: "Bùi Đăng Đức",
@@ -17,6 +18,23 @@ function DetailUser(props) {
         gender: "Nam",
         address: "24, đường Hoàng Mai, Trương Định, Hai Bà Trưng, Hà Nội"
     });
+
+    // Test Api - done
+    useEffect(() => {
+        const fetchData = async (userId) => {
+            try {
+                const res = await userApi.getUserById(userId);
+                console.log(res);
+                // Optionally update state with fetched data
+                // setInfor(res.data);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        const userId = "663242d0cf1e2ead6d06dfb5";
+        fetchData(userId);
+    }, []);
 
     // const handleUpdate = () => {
     //     setInfor({
@@ -38,7 +56,7 @@ function DetailUser(props) {
                     <div className={'flex flex-col gap-3  px-[10vw] '}>
                         <div className={'flex gap-3 items-center'}>
                             <div>
-                                <PersonIcon/>
+                                <PersonIcon />
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Tên</div>
@@ -47,7 +65,7 @@ function DetailUser(props) {
                         </div>
                         <div className={'flex gap-3 items-center'}>
                             <div>
-                                <PhoneIphoneIcon/>
+                                <PhoneIphoneIcon />
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Số điện thoại</div>
@@ -57,7 +75,7 @@ function DetailUser(props) {
 
                         <div className={'flex gap-3 items-center'}>
                             <div>
-                                <ManIcon/>
+                                <ManIcon />
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Giới tính</div>
@@ -67,7 +85,7 @@ function DetailUser(props) {
 
                         <div className={'flex gap-3 items-center'}>
                             <div>
-                                <EmailIcon/>
+                                <EmailIcon />
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Email</div>
@@ -77,7 +95,7 @@ function DetailUser(props) {
 
                         <div className={'flex gap-3 items-center'}>
                             <div>
-                                <HomeIcon/>
+                                <HomeIcon />
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Địa chỉ</div>
@@ -105,7 +123,7 @@ function DetailUser(props) {
                     </div>
                     <div className={'w-full flex justify-end mt-16'}>
                         <button type="button"
-                                className="text-white rounded bg-red-700 hover:bg-red-800 font-medium text-sm px-5 py-2.5 text-center mr-6 mb-2">Cập
+                            className="text-white rounded bg-red-700 hover:bg-red-800 font-medium text-sm px-5 py-2.5 text-center mr-6 mb-2">Cập
                             nhật thông tin
                         </button>
                     </div>
@@ -115,14 +133,14 @@ function DetailUser(props) {
                     <div className=' flex flex-col items-center justify-center'>
                         <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                             <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor"
-                                 viewBox="0 0 20 20"
-                                 xmlns="http://www.w3.org/2000/svg">
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                      clip-rule="evenodd"></path>
+                                    clip-rule="evenodd"></path>
                             </svg>
                         </div>
                         <button type="button"
-                                className="mt-4 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">Chọn
+                            className="mt-4 py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 ">Chọn
                             ảnh
                         </button>
                         <p className='text-[#8F90A6]'>Dung lượng file tối đa 1 MB</p>
@@ -130,7 +148,7 @@ function DetailUser(props) {
                     </div>
                     <div className={'w-full justify-end mt-16 flex opacity-0 cursor-none'}>
                         <button type="button"
-                                className="text-white rounded bg-red-700 hover:bg-red-800 font-medium text-sm px-5 py-2.5 text-center mr-6 mb-2">Cập
+                            className="text-white rounded bg-red-700 hover:bg-red-800 font-medium text-sm px-5 py-2.5 text-center mr-6 mb-2">Cập
                             nhật thông tin
                         </button>
                     </div>

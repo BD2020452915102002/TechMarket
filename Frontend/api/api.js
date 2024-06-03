@@ -4,11 +4,12 @@ import axios from "axios";
 export const url = "http://localhost:5000/api";
 
 export const setHeaders = () => {
-  return {
+  const headers = {
     headers: {
       "x-auth-token": localStorage.getItem("token"),
     },
   };
+  return headers;
 };
 
 const apiClient = axios.create({
@@ -18,9 +19,6 @@ const apiClient = axios.create({
 
 export const api = axios.create({
   baseURL: url,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 export const loginUser = async (data) => {

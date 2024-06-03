@@ -20,7 +20,7 @@ function Nav() {
         const { role } = userDetails;
         const items = getMenuItemsByRole(role);
         setMenuItems(items);
-    }, [userDetails]);
+    }, []);
 
     const getMenuItemsByRole = (role) => {
         if (role === 'employee') {

@@ -18,7 +18,7 @@ function Products() {
                         <div className={'flex items-center'}>
                             <a href={`/products/${e._id}`} target={'_blank'} className={'flex items-center'}>
                                 <img src={e?.image?.url} alt=""
-                                     className={'bg-cover bg-no-repeat bg-center w-20 h-20 mx-4'} />
+                                    className={'bg-cover bg-no-repeat bg-center w-20 h-20 mx-4'} />
                                 <p className={'!line-clamp-2 '}>{e.name}</p>
                             </a>
                         </div>
@@ -27,8 +27,7 @@ function Products() {
                     <p className={'flex items-center justify-center'}>{e.stock}</p>
                     <div className={'flex items-center justify-end'}>
                         <div className={'flex items-center space-x-2 mx-2'}>
-                            <ModalViewProduct/>
-                            <ModalEditProduct/>
+                            <ModalViewProduct />
                             <Button variant="contained" color="error" className={'min-h-[40px] !w-[60px] !text-[12px]'}>Xóa</Button>
                         </div>
                     </div>
@@ -45,7 +44,7 @@ function Products() {
         <div className={''}>
             <div>
                 <h1 className={'text-lg font-bold uppercase '}>Tất cả sản phẩm đang bán</h1>
-                <div className={'w-full grid  mt-2 grid-cols-[auto,15%,15%,20%] text-gray-400 ' }>
+                <div className={'w-full grid  mt-2 grid-cols-[auto,15%,15%,20%] text-gray-400 '}>
                     <div className={'flex items-center'}>
                         <p className={'ml-4 text-center'}>Hình ảnh</p>
                         <p className={'ml-28 text-center'}>Tên sản phẩm</p>
@@ -57,8 +56,8 @@ function Products() {
                         <p className={'text-center'}>Tồn kho</p>
                     </div>
                     <div className={'flex items-center justify-end'}>
-                      <ModalCreateProduct/>
-                   </div>
+                        <ModalCreateProduct />
+                    </div>
                 </div>
                 <div className={'mt-4 h-[calc(100vh-201px)] overflow-y-auto custom-scroll'}>
                     <div><ProductCart /></div>
