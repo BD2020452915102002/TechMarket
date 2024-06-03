@@ -5,6 +5,7 @@ const {
   getAllProducts,
   updateProduct,
   deleteProduct,
+  getAllComments,
   createComment,
   reply,
 } = require("../controllers/ProductController.js");
@@ -17,6 +18,6 @@ router
   .get(getProductById)
   .put(isEmployee, updateProduct)
   .delete(isEmployee, deleteProduct);
-router.route("/:productId/comment").post(createComment);
+router.route("/:productId/comment").post(createComment).get(getAllComments);
 router.route("/:productId/comment/:commentId").post(reply);
 module.exports = router;

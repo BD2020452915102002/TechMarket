@@ -49,10 +49,10 @@ export const productApi = {
     return api.post(url, setHeaders());
   },
   deleteUserCart(userId, cartItems) {
-    console.log('>>>>', cartItems)
+    console.log(">>>>", cartItems);
     const url = `/user/${userId}/cart`;
     const res = api.delete(url, setHeaders());
-    console.log(res)
+    console.log(res);
     // return res
   },
 };
@@ -83,23 +83,26 @@ export const checkoutApi = {
 };
 
 export const commentApi = {
-  getAllComments() {
-    const url = "/comment";
+  getAllComments(productId) {
+    const url = `/product/${productId}/comment`;
     return api.get(url, setHeaders());
   },
 
-  createComment(comment) {
+  createComment(productId, comment) {
     // {
-    //   "_id": "comment_id",
-    //   "productId": "product_id",
-    //   "userId": "user_id",
-    //   "comment": "Nội dung của comment",
-    //   "rating": 4,
-    //   "createdAt": "2024-04-06T12:00:00.000Z",
-    //   "updatedAt": "2024-04-06T12:00:00.000Z"
+    //   "userId": "664cc642e3de3cee7ce68cb3",
+    //   "comment": "this product is greate"
     // }
+    const url = `/product/${productId}/comment`;
+    return api.post(url, comment, setHeaders());
+  },
 
-    const url = "/comment";
+  reply(productId, commentId, comment) {
+    // {
+    //   "userId": "664cc642e3de3cee7ce68cb3",
+    //   "comment": "this product is greate"
+    // }
+    const url = `/product/${productId}/comment/${commentId}`;
     return api.post(url, comment, setHeaders());
   },
 };

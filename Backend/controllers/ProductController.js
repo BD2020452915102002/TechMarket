@@ -120,6 +120,21 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
+exports.getAllComments = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+    const product = await productService.getProductById(productId);
+
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.json({ data: product.comments, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 exports.createComment = async (req, res) => {
   try {
     const productId = req.params.productId;
