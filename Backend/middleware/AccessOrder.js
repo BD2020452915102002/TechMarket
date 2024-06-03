@@ -23,7 +23,7 @@ const checkOrderAccess = async (req, res, next) => {
             try {
                 const order = await orderService.getOrderById(req.params.id);
                 const userIdFromOrder = order.userId.toString();
-                if (userIdFromToken === userIdFromOrder) {
+                if (userIdFromToken === userIdFromOrder || req.user.role == "employee" || req.user.role == "manager") {
                     next();
                 } else {
                     res.status(403).send("Access denied. Not authorized...");
