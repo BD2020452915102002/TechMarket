@@ -18,7 +18,7 @@ const auth = (req, res, next) => {
 // For Customer Profile
 const isCustomer = (req, res, next) => {
     auth(req, res, () => {
-        if (req.user && ((req.user._id === req.params.id && req.user.role == "customer") || req.user.role == "employee" || req.user.role == "manager")) {
+        if ((req.user && ((req.user._id === req.params.id && req.user.role == "customer")) || req.user.role == "employee" || req.user.role == "manager")) {
             next();
         } else {
             res.status(403).send("Access denied. Not authorized...");

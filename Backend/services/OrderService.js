@@ -19,3 +19,7 @@ exports.updateOrder = async (id, order) => {
 exports.deleteOrder = async (id) => {
     return await Order.findByIdAndDelete(id);
 }
+
+exports.getOrderByUserId = async (id) => {
+    return await Order.find({ userId: id });
+}

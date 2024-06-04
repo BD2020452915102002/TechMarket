@@ -21,4 +21,20 @@ export const orderApi = {
     const url = `/order/${orderId}`;
     return api.delete(url, setHeaders());
   },
+  getOrderStats() {
+    const url = `/stats`;
+    return api.get(url, setHeaders());
+  },
+  getIncomeStats() {
+    const url = `/income/stats`;
+    return api.get(url, setHeaders());
+  },
+  getOneWeekSales() {
+    const url = `/week-sales`;
+    return api.get(url, setHeaders());
+  },
+  getOrderByUserId(userId) {
+    const url = `/find/${userId}`;
+    return api.get(url, setHeaders());
+  }
 };
