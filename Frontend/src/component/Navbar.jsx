@@ -1,26 +1,26 @@
-import React, {useEffect, useState} from "react";
-import {FaRegUser} from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaRegUser } from "react-icons/fa";
 import MenuIcon from "@mui/icons-material/Menu";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import {connect, useDispatch, useSelector} from "react-redux";
-import {getActions, logout} from "../store/actions/authActions.js";
-import {deleteAll, getCart} from "../store/actions/cartAction.js";
+import { connect, useDispatch, useSelector } from "react-redux";
+import { getActions, logout } from "../store/actions/authActions.js";
+import { deleteAll, getCart } from "../store/actions/cartAction.js";
 import Drawer from "@mui/material/Drawer";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import {productApi} from "../../api/productApi.js";
+import { productApi } from "../../api/productApi.js";
 import eventEmitter from "../utils/eventEmitter.js";
 
-function Navbar({userDetails}) {
+function Navbar({ userDetails }) {
     const product = useSelector(state => state.products.data)
     const userID = JSON.parse(localStorage.getItem('session'))?.userDetails?._id
     const dispatch = useDispatch()
-    const {isLoggedIn} = JSON.parse(localStorage.getItem('session')) || {isLoggedIn: false}
+    const { isLoggedIn } = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false }
     const cart = useSelector(state => state.cart.data)
     const category = product?.map(e => (e.category)).flat().filter((value, index, self) => self.indexOf(value) === index) || []
     const [isHover, setIsHover] = useState(false);
@@ -40,7 +40,7 @@ function Navbar({userDetails}) {
     const fetchData = async (id) => {
         try {
             const res = await productApi.getUserCart(id);
-            const cartData = product.filter((item) => res.data.includes(item._id)).map(e=>({
+            const cartData = product.filter((item) => res.data.includes(item._id)).map(e => ({
                 ...e,
                 quantity: 0,
                 checked: false
@@ -54,33 +54,33 @@ function Navbar({userDetails}) {
         if (userID) {
             fetchData(userID);
         }
-    }, [product,userID]);
-    useEffect(()=>{
-        const update = ()=>{
+    }, [product, userID]);
+    useEffect(() => {
+        const update = () => {
             fetchData(userID);
         }
-        eventEmitter.on('updateCart',update)
-        return ()=>{
-            eventEmitter.removeListener('updateCart',update)
+        eventEmitter.on('updateCart', update)
+        return () => {
+            eventEmitter.removeListener('updateCart', update)
         }
-    },[])
+    }, [])
 
 
     const DrawerList = (
-        <Box sx={{width: 350}} role="presentation" onClick={toggleDrawer(false)}>
+        <Box sx={{ width: 350 }} role="presentation" onClick={toggleDrawer(false)}>
 
             <List>
                 <ListItem className={'uppercase font-bold text-lg '}>
                     Danh mục sản phẩm
                 </ListItem>
-                <Divider/>
+                <Divider />
                 <div className={'p-4'}>
                     {category.map((text, i) => (
                         <Link
                             to={`/category/${text}`} key={i}>
                             <ListItem disablePadding>
                                 <ListItemButton>
-                                    <ListItemText primary={text}/>
+                                    <ListItemText primary={text} />
                                 </ListItemButton>
                             </ListItem>
                         </Link>
@@ -90,13 +90,32 @@ function Navbar({userDetails}) {
             </List>
         </Box>
     );
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    const controlHeader = () => {
+        const currentScrollY = window.scrollY;
+        if (currentScrollY > lastScrollY) {
+            setIsVisible(false);
+        } else {
+            setIsVisible(true);
+        }
+        setLastScrollY(currentScrollY);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', controlHeader);
+        return () => {
+            window.removeEventListener('scroll', controlHeader);
+        };
+    }, [lastScrollY]);
 
     return (
-        <div
-            className="fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between hover:cursor-pointer">
+        <div className={`fixed flex bg-[#231f20] right-0 left-0 top-0 z-20 h-[80px] text-white items-center justify-between transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'
+            }`}>
             <div className="flex items-center">
                 <div className="hidden max-lg:block ml-8 hover:scale-125">
-                    <div onClick={toggleDrawer(true)} className={""}><MenuIcon/></div>
+                    <div onClick={toggleDrawer(true)} className={""}><MenuIcon /></div>
                 </div>
                 <Drawer open={open} onClose={toggleDrawer(false)}>
                     {DrawerList}
@@ -117,7 +136,7 @@ function Navbar({userDetails}) {
                         TẤT CẢ
                         <div
                             className={`absolute bg-white   ${isHover ? "block" : "hidden"
-                            }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
+                                }  grid grid-rows-4 grid-flow-col -translate-x-1/2  left-1/2  top-[60px]   shadow-[0px_0px_20px] shadow-gray-500 `}
                         >
                             {category.map((e, i) => (
                                 <Link
@@ -149,7 +168,7 @@ function Navbar({userDetails}) {
             </div>
             <div className="flex items-center mr-16  ">
                 <Link to={"/cart"} className="indicator mx-8 hover:scale-110 ">
-                    <ShoppingCartIcon className={"!text-3xl"}/>
+                    <ShoppingCartIcon className={"!text-3xl"} />
                     <span className="badge badge-sm indicator-item">{cart.length}</span>
                 </Link>
 
@@ -159,7 +178,7 @@ function Navbar({userDetails}) {
                         role="button"
                         className="btn btn-ghost btn-circle avatar "
                     >
-                        <FaRegUser className={"text-3xl"}/>
+                        <FaRegUser className={"text-3xl"} />
                     </div>
                     <ul
                         tabIndex={0}
@@ -218,7 +237,7 @@ function Navbar({userDetails}) {
     );
 }
 
-const mapStoreStateToProps = ({auth, dispatch}) => {
+const mapStoreStateToProps = ({ auth, dispatch }) => {
     return {
         ...auth,
         ...getActions(dispatch),
