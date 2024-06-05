@@ -1,4 +1,4 @@
-import { api, setHeaders } from "./api.js";
+import {api, setHeaders} from "./api.js";
 
 export const userApi = {
     getAllUsers() {
@@ -33,7 +33,7 @@ export const userApi = {
             //   "role": "manager"
             // }
             const url = `/user/${userId}`;
-            return await api.put(url, data, setHeaders());
+            return await api.put(url, data, setHeaders())
         } catch (error) {
             console.error("Error during updating user:", error);
         }

@@ -10,32 +10,20 @@ import { userApi } from "../../api/userApi.js"
 
 function DetailUser(props) {
     const { userDetails } = JSON.parse(localStorage.getItem('session'))
-
-    const [infor, setInfor] = useState({
-        name: "Bùi Đăng Đức",
-        email: "nguyenxuanphuc@gmail.com",
-        phone: "034421417",
-        gender: "Nam",
-        address: "24, đường Hoàng Mai, Trương Định, Hai Bà Trưng, Hà Nội"
-    });
-
+    const [infor, setInfor] = useState({});
     // Test Api - done
     useEffect(() => {
         const fetchData = async (userId) => {
             try {
                 const res = await userApi.getUserById(userId);
-                console.log(res);
-                // Optionally update state with fetched data
-                // setInfor(res.data);
+                setInfor(res.data.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         };
-
-        const userId = "663242d0cf1e2ead6d06dfb5";
-        fetchData(userId);
+        fetchData(userDetails._id);
     }, []);
-
+    console.log(infor)
     // const handleUpdate = () => {
     //     setInfor({
     //         name: 'new value',
@@ -60,7 +48,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Tên</div>
-                                <div className={' text-[#1C1C28]'}>{userDetails?.name}</div>
+                                <div className={' text-[#1C1C28]'}>{infor?.name}</div>
                             </div>
                         </div>
                         <div className={'flex gap-3 items-center'}>
@@ -69,19 +57,19 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Số điện thoại</div>
-                                <div className={' text-[#1C1C28]'}>{infor.phone}</div>
+                                <div className={' text-[#1C1C28]'}>{infor?.phone}</div>
                             </div>
                         </div>
 
-                        <div className={'flex gap-3 items-center'}>
-                            <div>
-                                <ManIcon />
-                            </div>
-                            <div>
-                                <div className={'text-[#8F90A6]'}>Giới tính</div>
-                                <div className={'text-[#1C1C28]'}>{infor.gender}</div>
-                            </div>
-                        </div>
+                        {/*<div className={'flex gap-3 items-center'}>*/}
+                        {/*    <div>*/}
+                        {/*        <ManIcon />*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        <div className={'text-[#8F90A6]'}>Giới tính</div>*/}
+                        {/*        <div className={'text-[#1C1C28]'}>{infor?.gender}</div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
 
                         <div className={'flex gap-3 items-center'}>
                             <div>
@@ -89,7 +77,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Email</div>
-                                <div className={'text-[#1C1C28]'}>{userDetails?.email}</div>
+                                <div className={'text-[#1C1C28]'}>{infor?.email}</div>
                             </div>
                         </div>
 
@@ -99,7 +87,7 @@ function DetailUser(props) {
                             </div>
                             <div>
                                 <div className={'text-[#8F90A6]'}>Địa chỉ</div>
-                                <div className={'text-[#1C1C28]'}>{infor.address}</div>
+                                <div className={'text-[#1C1C28]'}>{infor?.address}</div>
                             </div>
                         </div>
 
@@ -135,8 +123,8 @@ function DetailUser(props) {
                             <svg className="absolute w-12 h-12 text-gray-400 -left-1" fill="currentColor"
                                 viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                    clip-rule="evenodd"></path>
+                                <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                      clipRule="evenodd"></path>
                             </svg>
                         </div>
                         <button type="button"

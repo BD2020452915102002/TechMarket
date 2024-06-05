@@ -51,9 +51,9 @@ export const productApi = {
   deleteUserCart(userId, cartItems) {
     console.log(">>>>", cartItems);
     const url = `/user/${userId}/cart`;
-    const res = api.delete(url, setHeaders());
+    const res = api.post(url, cartItems, setHeaders());
     console.log(res);
-    // return res
+    return res
   },
 };
 

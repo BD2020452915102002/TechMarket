@@ -51,12 +51,9 @@ function Cart() {
     }
 
     function deleteProduct(i) {
-        let cartItems = {
+       productApi.deleteUserCart(userID, {
             cartItems: [i]
-        }
-        console.log(cartItems)
-        const res = productApi.deleteUserCart(userID, cartItems)
-        console.log(res)
+        })
         dispatch(deleteCart(i))
     }
 
@@ -73,6 +70,11 @@ function Cart() {
     }
 
     function handleDeleteAllItem() {
+        productApi.deleteUserCart(userID, {
+            cartItems: productsWithQuantity.map(e=>{
+                return e._id
+            })
+        })
         dispatch(deleteAll())
     }
 

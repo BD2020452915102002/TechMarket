@@ -15,6 +15,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import { productApi } from "../../api/productApi.js";
 import eventEmitter from "../utils/eventEmitter.js";
+import InfoModal from "./InfoModal.jsx";
 
 function Navbar({ userDetails }) {
     const product = useSelector(state => state.products.data)
@@ -198,14 +199,14 @@ function Navbar({ userDetails }) {
                         ) : (
                             <div>
                                 <li>
-                                    <Link
-                                        to={"/infor"}
+                                    <div
                                         className={
                                             "!rounded-none text-black font-medium text-[12px] text-center hover:!bg-[#231f20] hover:!text-white  p-2   "
                                         }
                                     >
-                                        Thông tin tài khoản
-                                    </Link>
+                                        <InfoModal/>
+
+                                    </div>
                                 </li>
                                 <li>
                                     <Link
