@@ -31,6 +31,7 @@ function Products() {
     const fetchDataAsync = async () => {
         try {
             const res = await productApi.getProduct();
+            console.log(res)
             dispatch(fetchData(res.data.data));
         } catch (error) {
             console.error("Error:", error);

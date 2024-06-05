@@ -43,114 +43,117 @@ function AppRouters() {
         fetchDataAsync();
     }, []);
     return (
-        <Routes>
-            {/* Shared */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/confirmemail" element={<ConfirmEmail />} />
-            {/* Customer */}
-            <Route path="/" element={<Home />} />
-            <Route path="/createAccount" element={<CreateAccount />} />
-            <Route
-                path="/orderstatus"
-                element={
-                    <PrivateRoute roles={['customer']}>
-                        <OrderStatus />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/category/:categoryID"
-                element={
-                    <PrivateRoute roles={['customer']}>
-                        <CategoryItem />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/infor"
-                element={
-                    <PrivateRoute roles={['customer']}>
-                        <DetailUserInfor />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/products/:productID"
-                element={
-                    <PrivateRoute roles={['customer']}>
-                        <DetailProduct />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/cart"
-                element={
-                    <PrivateRoute roles={['customer']}>
-                        <ShoppingCart />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/chat"
-                element={
-                    <PrivateRoute roles={['employee']}>
-                        <Chatboard />
-                    </PrivateRoute>
-                }
-            />
-            <Route
-                path="/checkout-success"
-                element={
-                    <PrivateRoute roles={['customer']}>
-                        <ConfirmCheckout />
-                    </PrivateRoute>
-                }
-            />
+        <div>
+            <ScrollToTop/>
+            <Routes>
+                {/* Shared */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/confirmemail" element={<ConfirmEmail />} />
+                {/* Customer */}
+                <Route path="/" element={<Home />} />
+                <Route path="/createAccount" element={<CreateAccount />} />
+                <Route
+                    path="/orderstatus"
+                    element={
+                        <PrivateRoute roles={['customer']}>
+                            <OrderStatus />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/category/:categoryID"
+                    element={
+                        <PrivateRoute roles={['customer']}>
+                            <CategoryItem />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/infor"
+                    element={
+                        <PrivateRoute roles={['customer']}>
+                            <DetailUserInfor />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/products/:productID"
+                    element={
+                        <PrivateRoute roles={['customer','employee','manager']}>
+                            <DetailProduct />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/cart"
+                    element={
+                        <PrivateRoute roles={['customer']}>
+                            <ShoppingCart />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/chat"
+                    element={
+                        <PrivateRoute roles={['employee']}>
+                            <Chatboard />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/checkout-success"
+                    element={
+                        <PrivateRoute roles={['customer']}>
+                            <ConfirmCheckout />
+                        </PrivateRoute>
+                    }
+                />
 
-            {/* Employee and Manage */}
-            <Route
-                path="/managehome"
-                element={
-                    <PrivateRoute roles={['employee', 'manager']}>
-                        <HomeManage />
-                    </PrivateRoute>
-                }
-            >
-                <Route index element={<Navigate to="products" replace />} />
+                {/* Employee and Manage */}
                 <Route
-                    path="dashboard"
-                    element={
-                        <PrivateRoute roles={['manager']}>
-                            <Dashboard />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="users"
-                    element={
-                        <PrivateRoute roles={['manager']}>
-                            <Users />
-                        </PrivateRoute>
-                    }
-                />
-                <Route
-                    path="products"
+                    path="/managehome"
                     element={
                         <PrivateRoute roles={['employee', 'manager']}>
-                            <Products />
+                            <HomeManage />
                         </PrivateRoute>
                     }
-                />
-                <Route
-                    path="managestatusproduct"
-                    element={
-                        <PrivateRoute roles={['manager', 'employee']}>
-                            <ManageStatusProduct />
-                        </PrivateRoute>
-                    }
-                />
-            </Route>
-        </Routes>
+                >
+                    <Route index element={<Navigate to="products" replace />} />
+                    <Route
+                        path="dashboard"
+                        element={
+                            <PrivateRoute roles={['manager']}>
+                                <Dashboard />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="users"
+                        element={
+                            <PrivateRoute roles={['manager']}>
+                                <Users />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="products"
+                        element={
+                            <PrivateRoute roles={['employee', 'manager']}>
+                                <Products />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="managestatusproduct"
+                        element={
+                            <PrivateRoute roles={['manager', 'employee']}>
+                                <ManageStatusProduct />
+                            </PrivateRoute>
+                        }
+                    />
+                </Route>
+            </Routes>
+        </div>
     );
 }
 

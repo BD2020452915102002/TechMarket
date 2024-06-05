@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Breadcrumbs, Button, Typography } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -15,9 +15,10 @@ import {checkoutApi, productApi} from "../../api/productApi.js";
 
 function DetailProductContent({ product }) {
     const dispatch = useDispatch()
+    const { productID } = useParams();
     const userID= JSON.parse(localStorage.getItem('session')).userDetails._id
     const [productPurchased, setProductPurchased] = useState([{
-        id: product._id,
+        id:productID,
         quantity:0
     }])
     const [productShow, setProductShow] = useState(product)
@@ -40,7 +41,7 @@ function DetailProductContent({ product }) {
         setProductPurchased(state => {
             return [
                 {
-                    id: product._id,
+                    id: productID,
                     quantity:count
                 }
             ]

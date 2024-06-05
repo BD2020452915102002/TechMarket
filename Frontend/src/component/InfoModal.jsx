@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import {userApi} from "../../api/userApi.js";
 import TextField from "@mui/material/TextField";
 import {notify} from "../utils/toastify.js";
+import eventEmitter from "../utils/eventEmitter.js";
 
 const style = {
     position: 'absolute',
@@ -50,6 +51,7 @@ export default function InfoModal() {
         if (isUpdate) {
             await userApi.updateUser(updateData, userDetails._id)
             await fetchData(userDetails._id);
+            eventEmitter.emit('updateInforCurrentUser')
             notify('success', 'Cập nhật thông tin thành công!')
         }
     }
@@ -186,7 +188,7 @@ export default function InfoModal() {
                         </div>
                         <div className={'w-full flex justify-end'}>
                             <Button variant={'contained'} color={!isUpdate ? 'error' : 'info'}
-                                    onClick={handleUpdate}>{!isUpdate ? 'Cập nhật' : 'Lưu'}
+                                    onClick={handleUpdate}>{!isUpdate ? 'Chỉnh sửa' : 'Lưu'}
                             </Button>
                         </div>
                     </div>
