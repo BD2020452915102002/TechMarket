@@ -43,6 +43,7 @@ exports.getAllProducts = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res) => {
+  console.log(req.body)
   try {
     if (req.body.image) {
       const product = await productService.getProductById(req.params.id);

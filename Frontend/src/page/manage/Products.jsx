@@ -83,7 +83,7 @@ function Products() {
                      className={'grid mb-4 py-4 bg-white border-[1px] border-gray-200 grid-cols-[auto,15%,15%,20%] '}>
                     <div className={'flex items-center justify-start'}>
                         <div className={'flex items-center'}>
-                            <a href={`/products/${e._id}`} target={'_blank'} className={'flex items-center'}>
+                            <a href={`/products/${e?._id}`} target={'_blank'} className={'flex items-center'}>
                                 <img src={e?.image?.url} alt=""
                                      className={'bg-cover bg-no-repeat bg-center w-20 h-20 mx-4'}/>
                                 <p className={'!line-clamp-2 '}>{e.name}</p>
@@ -94,7 +94,7 @@ function Products() {
                     <p className={'flex items-center justify-center'}>{e.stock}</p>
                     <div className={'flex items-center justify-end'}>
                         <div className={'flex items-center space-x-2 mx-2'}>
-                            <ModalViewProduct/>
+                            <ModalViewProduct product = {e} id = {e?._id}/>
                             <Button variant="contained" color="error"
                                     className={'min-h-[40px] !w-[60px] !text-[12px]'}
                                     onClick={() => handleOpen(e._id)}>Xoá</Button>
@@ -119,7 +119,7 @@ function Products() {
                     placeholder="Tìm kiếm sản phẩm"
                     value={searchTerm}
                     onChange={handleSearchChange}
-                    className="w-full p-2 mt-2 mb-4 border border-gray-300 rounded"
+                    className="w-full p-2 mt-8 mb-4 border border-gray-300 rounded"
                 />
                 <div className={'w-full grid  mt-2 grid-cols-[auto,15%,15%,20%] text-gray-400 '}>
                     <div className={'flex items-center'}>

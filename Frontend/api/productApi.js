@@ -25,7 +25,8 @@ export const productApi = {
     const url = `/product/${productId}`;
     return api.delete(url, setHeaders());
   },
-  updateProduct(data, productId) {
+  updateProduct(data, productId)
+   {
     //   {
     //     "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",
     //     "alias": "laptop-lenovo-ideapad-slim-3-14iah8-83eq0005vn",
