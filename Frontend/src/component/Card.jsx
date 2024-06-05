@@ -1,11 +1,11 @@
-import {Link} from "react-router-dom";
-import {formatNumber} from "../utils/formatNumber.js";
+import { Link } from "react-router-dom";
+import { formatNumber } from "../utils/formatNumber.js";
 
-function Card({product}) {
+function Card({ product }) {
     const discountedPrice = product.price * (100 - parseFloat(product.sale)) / 100
 
     return (
-        <Link to={ `/products/${product._id}`}>
+        <Link to={`/products/${product._id}`}>
             <div
                 className=" w-[260px] h-[360px] hover:scale-[102%]  bg-white  grid grid-rows-[55%,45%]">
                 <figure
