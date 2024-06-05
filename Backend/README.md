@@ -154,6 +154,7 @@ Example Request
 📌 GET `/api/order/stats`
 
 Kết quả: một mảng gồm tháng và số lượng order ( 5 tháng gần nhất )
+
 ```json
 {
   [
@@ -164,11 +165,13 @@ Kết quả: một mảng gồm tháng và số lượng order ( 5 tháng gần 
   ]
 }
 ```
+
 📄 Vẽ widget => List ra 5 tháng
 
 📌 GET `/api/order/income/stats`
 
 Kết quả: một mảng gồm tháng và tổng tiền thu về ( 5 tháng gần nhất )
+
 ```json
 {
   [
@@ -179,30 +182,32 @@ Kết quả: một mảng gồm tháng và tổng tiền thu về ( 5 tháng g�
  ]
 }
 ```
+
 📄 Vẽ widget => List ra 5 tháng
 
 📌 GET `/api/order/week-sales`
 
-Kết quả: một mảng gồm thứ và tổng số tiền ( 7  ngày gần nhất )
- 
+Kết quả: một mảng gồm thứ và tổng số tiền ( 7 ngày gần nhất )
+
 `1 = Chủ nhật`
 
 ```json
 [
-    {
-        "_id": 1,
-        "total": 33278328
-    },
-    {
-        "_id": 7,
-        "total": 45724560
-    },
-    {
-        "_id": 2,
-        "total": 14978500
-    }
+  {
+    "_id": 1,
+    "total": 33278328
+  },
+  {
+    "_id": 7,
+    "total": 45724560
+  },
+  {
+    "_id": 2,
+    "total": 14978500
+  }
 ]
 ```
+
 📈 Vẽ biểu đồ 7 ngày thể hiện số tiền thu được.
 
 ## Quản lý tài khoản
@@ -213,32 +218,33 @@ Kết quả: Lấy tất cả user
 
 ```json
 {
-    "data": [
-        {
-            "_id": "66297db021edcd30b6948670",
-            "name": "czs",
-            "email": "duc.bd204529.1510@gmail.com",
-            "password": "$2b$10$e18FE4tXZbDmqceZ1mwQTenWrQfE6Sj3h7kkMrqm.qj8h5bShbLWa",
-            "phone": "0344421417",
-            "emailConfirmed": true,
-            "avatar": {
-                //...
-                "url": "http://res.cloudinary.com/dlgyapagf/image/upload/v1713995183/TechMarket-User/avatar-default_l2kmh0_ogtlzb.jpg",
-                //...
-            },
-            "role": "customer",
-            "createdAt": "2024-04-24T21:46:24.354Z",
-            "updatedAt": "2024-04-24T21:47:13.080Z",
-            "__v": 0
-        },
-        {
-          //...
-        }
+  "data": [
+    {
+      "_id": "66297db021edcd30b6948670",
+      "name": "czs",
+      "email": "duc.bd204529.1510@gmail.com",
+      "password": "$2b$10$e18FE4tXZbDmqceZ1mwQTenWrQfE6Sj3h7kkMrqm.qj8h5bShbLWa",
+      "phone": "0344421417",
+      "emailConfirmed": true,
+      "avatar": {
         //...
-    ],
-    "status": "success"
+        "url": "http://res.cloudinary.com/dlgyapagf/image/upload/v1713995183/TechMarket-User/avatar-default_l2kmh0_ogtlzb.jpg"
+        //...
+      },
+      "role": "customer",
+      "createdAt": "2024-04-24T21:46:24.354Z",
+      "updatedAt": "2024-04-24T21:47:13.080Z",
+      "__v": 0
+    },
+    {
+      //...
+    }
+    //...
+  ],
+  "status": "success"
 }
 ```
+
 📌 PUT `/api/user/userId`
 Kết quả: cập nhật user
 
@@ -257,7 +263,7 @@ Kết quả: xem chi tiết product
 Kết quả: cập nhật product
 
 📌 DELETE `/api/product/productId`
-Kết quả: xoá product 
+Kết quả: xoá product
 
 📌 POST `/api/product/`
 Kết quả: thêm product
@@ -274,7 +280,7 @@ Kết quả: xem chi tiết order
 Kết quả: cập nhật order
 
 📌 DELETE `/api/product/orderId`
-Kết quả: xoá order 
+Kết quả: xoá order
 
 # Employee - Nhân viên
 
@@ -292,7 +298,7 @@ Kết quả: xem chi tiết product
 Kết quả: cập nhật product
 
 📌 DELETE `/api/product/productId`
-Kết quả: xoá product 
+Kết quả: xoá product
 
 📌 POST `/api/product/`
 Kết quả: thêm product
@@ -308,3 +314,14 @@ Kết quả: xem chi tiết order
 📌 PUT `/api/product/orderId`
 Kết quả: cập nhật order
 `Chỉ chỉnh sửa status bao gồm : pending, delivered, rejected`
+
+## Chat
+
+📌 GET `/api/product/:productId/comment`
+Kết quả: Lấy tất cả phần comment của một sản phẩm
+
+📌 GET `/api/product/:productId/comment/:commentId`
+Kết quả: Reply một comment nào đó
+
+📌 POST `/api/product/:productId/comment`
+Kết quả: Tạo một comment trong một sản phẩm nào đó.
