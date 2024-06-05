@@ -60,22 +60,8 @@ function ModalViewProduct({product: productDetail , id}) {
             price: parseFloat(product.price.replace(/,/g, '')) // Convert price back to a number
         };
         try {
-            let imgUrl
             if (typeof(productData.image)==='object'){
-                imgUrl = productData.image.url
-            }
-            console.log({
-                name:productData.name,
-                alias:productData.alias,
-                desc:productData.desc,
-                brand:productData.brand,
-                price: productData.price,
-                category: productData.category,
-                stock: productData.stock,
-                image: imgUrl||productData.image,
-                rate: 5
-            },id )
-            await productApi.updateProduct({
+                await productApi.updateProduct({
                     name:productData.name,
                     alias:productData.alias,
                     desc:productData.desc,
@@ -83,9 +69,23 @@ function ModalViewProduct({product: productDetail , id}) {
                     price: productData.price,
                     category: productData.category,
                     stock: productData.stock,
-                    image: imgUrl||productData.image,
                     rate: 5
                 },id )
+            }else {
+                await productApi.updateProduct({
+                    name:productData.name,
+                    alias:productData.alias,
+                    desc:productData.desc,
+                    brand:productData.brand,
+                    price: productData.price,
+                    category: productData.category,
+                    stock: productData.stock,
+                    image: productData.image,
+                    rate: 5
+                },id )
+            }
+
+
             notify('success','Thay đổi thông tin thành công')
         }
         catch (e) {

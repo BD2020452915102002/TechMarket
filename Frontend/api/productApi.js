@@ -39,7 +39,7 @@ export const productApi = {
     //     "rate": 2
     // }
     const url = `/product/${productId}`;
-    return api.put(url, setHeaders());
+    return api.put(url, data,setHeaders());
   },
   getUserCart(userId) {
     const url = `/user/${userId}/cart/`;
