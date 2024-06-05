@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Breadcrumbs, Button, Typography } from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -11,14 +11,15 @@ import { addCart, deleteAll } from "../store/actions/cartAction.js";
 import { formatNumber } from "../utils/formatNumber.js";
 import { notify } from "../utils/toastify.js";
 import Rating from '@mui/material/Rating';
-import {checkoutApi, productApi} from "../../api/productApi.js";
+import { checkoutApi, productApi } from "../../api/productApi.js";
 
 function DetailProductContent({ product }) {
     const dispatch = useDispatch()
-    const userID= JSON.parse(localStorage.getItem('session')).userDetails._id
+    const { productID } = useParams();
+    const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
     const [productPurchased, setProductPurchased] = useState([{
-        id: product._id,
-        quantity:0
+        id: productID,
+        quantity: 0
     }])
     const [productShow, setProductShow] = useState(product)
     const [count, setCount] = useState(0)
@@ -36,16 +37,16 @@ function DetailProductContent({ product }) {
     }
 
     const discountedPrice = productShow?.price * (100 - parseFloat(productShow?.sale)) / 100
-    useEffect(()=>{
+    useEffect(() => {
         setProductPurchased(state => {
             return [
                 {
-                    id: product._id,
-                    quantity:count
+                    id: productID,
+                    quantity: count
                 }
             ]
         })
-    },[count])
+    }, [count])
     console.log(productPurchased)
     return (
         <div className={'mt-20'}>
@@ -105,7 +106,7 @@ function DetailProductContent({ product }) {
 
                             onClick={async () => {
                                 notify('infor', 'Đã thêm lựa chọn của bạn vào giỏ hàng')
-                                await productApi.updateUserCart(userID,productShow._id)
+                                await productApi.updateUserCart(userID, productShow._id)
                                 dispatch(addCart(
                                     {
                                         ...productShow,
@@ -114,8 +115,8 @@ function DetailProductContent({ product }) {
                                     }
                                 ))
                             }}>Thêm vào giỏ hàng</Button>
-                        <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1} onClick={async ()=>{
-                            await checkoutApi.checkout({userId:userID, cartItems:productPurchased})
+                        <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1} onClick={async () => {
+                            await checkoutApi.checkout({ userId: userID, cartItems: productPurchased })
                         }}>Mua ngay</Button>
                     </div>
                     <div className={' grid-cols-[50%,50%] mt-8 gap-3 hidden max-md:grid'}>
@@ -132,8 +133,8 @@ function DetailProductContent({ product }) {
                                     }
                                 ))
                             }}>Thêm</Button>
-                        <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1} onClick={async ()=>{
-                            await checkoutApi.checkout({userId:userID, cartItems:productPurchased})
+                        <Button variant="contained" startIcon={<ShoppingCartIcon />} disabled={count < 1} onClick={async () => {
+                            await checkoutApi.checkout({ userId: userID, cartItems: productPurchased })
                         }} >Mua</Button>
                     </div>
 

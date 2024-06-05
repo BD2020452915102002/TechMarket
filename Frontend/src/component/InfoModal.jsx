@@ -7,10 +7,11 @@ import PersonIcon from "@mui/icons-material/Person.js";
 import PhoneIphoneIcon from "@mui/icons-material/PhoneIphone.js";
 import EmailIcon from "@mui/icons-material/Email.js";
 import HomeIcon from "@mui/icons-material/Home.js";
-import {useEffect, useState} from "react";
-import {userApi} from "../../api/userApi.js";
+import { useEffect, useState } from "react";
+import { userApi } from "../../api/userApi.js";
 import TextField from "@mui/material/TextField";
-import {notify} from "../utils/toastify.js";
+import { notify } from "../utils/toastify.js";
+import eventEmitter from "../utils/eventEmitter.js";
 
 const style = {
     position: 'absolute',
@@ -28,7 +29,7 @@ export default function InfoModal() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const {userDetails} = JSON.parse(localStorage.getItem('session'))
+    const { userDetails } = JSON.parse(localStorage.getItem('session'))
     const [infor, setInfor] = useState({});
     const [isUpdate, setIsUpdate] = useState(false)
     const [updateData, setUpdateData] = useState({})
@@ -50,13 +51,14 @@ export default function InfoModal() {
         if (isUpdate) {
             await userApi.updateUser(updateData, userDetails._id)
             await fetchData(userDetails._id);
+            eventEmitter.emit('updateInforCurrentUser')
             notify('success', 'Cập nhật thông tin thành công!')
         }
     }
 
     function handleInput(e) {
-        const {name, value} = e.target;
-        setUpdateData({...updateData, [name]: value});
+        const { name, value } = e.target;
+        setUpdateData({ ...updateData, [name]: value });
     }
 
     return (
@@ -77,7 +79,7 @@ export default function InfoModal() {
                             <div className={'flex flex-col gap-3'}>
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <PersonIcon/>
+                                        <PersonIcon />
                                     </div>
                                     <div>
                                         <div className={'text-[#8F90A6]'}>Tên</div>
@@ -86,7 +88,7 @@ export default function InfoModal() {
                                 </div>
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <PhoneIphoneIcon/>
+                                        <PhoneIphoneIcon />
                                     </div>
                                     <div>
                                         <div className={'text-[#8F90A6]'}>Số điện thoại</div>
@@ -106,7 +108,7 @@ export default function InfoModal() {
 
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <EmailIcon/>
+                                        <EmailIcon />
                                     </div>
                                     <div>
                                         <div className={'text-[#8F90A6]'}>Email</div>
@@ -116,7 +118,7 @@ export default function InfoModal() {
 
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <HomeIcon/>
+                                        <HomeIcon />
                                     </div>
                                     <div>
                                         <div className={'text-[#8F90A6]'}>Địa chỉ</div>
@@ -130,22 +132,22 @@ export default function InfoModal() {
                             <div className={'flex flex-col gap-3'}>
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <PersonIcon/>
+                                        <PersonIcon />
                                     </div>
                                     <div className={'w-full'}>
                                         <TextField className={'w-full'} name={'name'} label="Tên" variant="outlined"
-                                                   size={'small'} value={updateData?.name || infor?.name}
-                                                   onChange={handleInput}/>
+                                            size={'small'} value={updateData?.name || infor?.name}
+                                            onChange={handleInput} />
                                     </div>
                                 </div>
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <PhoneIphoneIcon/>
+                                        <PhoneIphoneIcon />
                                     </div>
                                     <div className={'w-full'}>
                                         <TextField className={'w-full'} name={'phone'} label="Số điện thoại"
-                                                   variant="outlined" size={'small'}
-                                                   value={updateData?.phone || infor?.phone} onChange={handleInput}/>
+                                            variant="outlined" size={'small'}
+                                            value={updateData?.phone || infor?.phone} onChange={handleInput} />
                                     </div>
                                 </div>
 
@@ -161,24 +163,24 @@ export default function InfoModal() {
 
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <EmailIcon/>
+                                        <EmailIcon />
                                     </div>
                                     <div className={'w-full'}>
                                         <TextField className={'w-full'} name={'email'} label="Email" variant="outlined"
-                                                   size={'small'} value={updateData?.email || infor?.email}
-                                                   onChange={handleInput}/>
+                                            size={'small'} value={updateData?.email || infor?.email}
+                                            onChange={handleInput} />
                                     </div>
                                 </div>
 
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
-                                        <HomeIcon/>
+                                        <HomeIcon />
                                     </div>
                                     <div className={'w-full'}>
                                         <TextField className={'w-full'} name={'address'} label="Địa chỉ"
-                                                   variant="outlined" size={'small'}
-                                                   value={updateData?.address || infor?.address}
-                                                   onChange={handleInput}/>
+                                            variant="outlined" size={'small'}
+                                            value={updateData?.address || infor?.address}
+                                            onChange={handleInput} />
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +188,7 @@ export default function InfoModal() {
                         </div>
                         <div className={'w-full flex justify-end'}>
                             <Button variant={'contained'} color={!isUpdate ? 'error' : 'info'}
-                                    onClick={handleUpdate}>{!isUpdate ? 'Cập nhật' : 'Lưu'}
+                                onClick={handleUpdate}>{!isUpdate ? 'Chỉnh sửa' : 'Lưu'}
                             </Button>
                         </div>
                     </div>
