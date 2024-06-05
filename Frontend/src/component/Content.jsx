@@ -245,10 +245,10 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                             <SearchIcon className={'text-gray-400'} />
                         </div>
                     </div>
-                    <div className={'flex flex-wrap mt-4 overflow-y-auto max-h-[1500px]'}>
+                    <div className={'grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4'}>
                         {
                             productShow.map((e, i) => (
-                                <div key={i} className={' mr-2 mb-2'}>
+                                <div key={i} className={' mr-1 mb-1'}>
                                     <Card product={e} />
                                 </div>
                             ))

@@ -7,7 +7,7 @@ function Category() {
     return (
         <div className={' mt-20  '}>
             <h1 className={'text-2xl font-bold text-start mb-4'}>DANH MỤC</h1>
-            <div className={'grid grid-rows-2 grid-flow-col gap-1 carousel p-1 max-lg:grid-rows-3 max-md:grid-rows-2 '}>
+            <div className={'grid grid-rows-2 grid-flow-col gap-1 carousel p-1 max-lg:overflow-x-scroll'}>
                 {
                     category.map((e, i) => (
                         <Link to={`/category/${e}`} key={i} className={'w-28 h-28 hover:outline hover:outline-1 hover:outline-black hover:scale-105  flex justify-center items-center flex-col '}>
