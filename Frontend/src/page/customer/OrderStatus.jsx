@@ -1,12 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Navbar from "../../component/Navbar.jsx";
 import Footer from "../../component/Footer.jsx";
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {formatNumber} from "../../utils/formatNumber.js";
+import {orderApi} from "../../../api/orderApi.js";
 
 function OrderStatus(props) {
-    const productsWithQuantity = useSelector(state => state.cart.data)
+    const [orderProduct,setOrderProduct] = useState()
+    const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
+
+    const fetch = async ()=>{
+       // const res = await orderApi.getOrderByUserId(userID)
+       //  console.log(res)
+    }
+    useEffect(()=>{
+        fetch()
+    },[])
 
     const Status = ({stat}) => {
         switch (stat) {
@@ -33,8 +43,8 @@ function OrderStatus(props) {
                         </div>
                         <div className={''}>
                             {
-                                productsWithQuantity?.length !== 0 ?
-                                    productsWithQuantity?.map((e, i) => (
+                                orderProduct?.length !== 0 ?
+                                    orderProduct?.map((e, i) => (
                                         <div key={i}
                                              className={'flex flex-col justify-center items-center mb-10 border-[1px] border-gray-200 bg-white'}>
                                             <div

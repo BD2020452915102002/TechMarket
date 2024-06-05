@@ -42,7 +42,7 @@ export default function InfoModal() {
     };
     useEffect(() => {
         fetchData(userDetails._id);
-    }, []);
+    }, [open]);
     const handleUpdate = async () => {
         setIsUpdate(e => {
             return !e

@@ -26,14 +26,14 @@ function Nav() {
         if (role === 'employee') {
             return [
                 { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-                { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+                { title: 'Quản lý đơn hàng', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
             ];
         } else {
             return [
                 { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
                 { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
                 { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-                { title: 'Trạng thái sản phẩm', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+                { title: 'Quản lý đơn hàng', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
             ];
         }
     };

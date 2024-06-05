@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Button, Modal, Typography, TextField, Grid, Input, Avatar, IconButton } from "@mui/material";
+import {
+    Box,
+    Button,
+    Modal,
+    Typography,
+    TextField,
+    Grid,
+    Input,
+    Avatar,
+    IconButton,
+    CircularProgress
+} from "@mui/material";
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { productApi } from "../../api/productApi.js";
+import {notify} from "../utils/toastify.js";
+import eventEmitter from "../utils/eventEmitter.js";
 
 const style = {
     position: 'absolute',
@@ -17,16 +30,17 @@ const style = {
 
 function ModalCreateProduct(props) {
     const [open, setOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [product, setProduct] = useState({
         name: "",
         alias: "",
         desc: "",
         brand: "",
-        price: 0,
+        price: "",
         category: "",
         stock: 0,
         image: "",
-        rate: 0
+        rate: 5
     });
 
     const handleOpen = () => setOpen(true);
@@ -34,7 +48,12 @@ function ModalCreateProduct(props) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProduct({ ...product, [name]: value });
+        if (name === 'price') {
+            const formattedValue = formatPrice(value);
+            setProduct({ ...product, [name]: formattedValue });
+        } else {
+            setProduct({ ...product, [name]: value });
+        }
     };
 
     const handleFileChange = (e) => {
@@ -48,13 +67,31 @@ function ModalCreateProduct(props) {
         }
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        setIsLoading(true);
         const categoriesArray = product.category.split(',').map(item => item.trim());
-        const productData = { ...product, category: categoriesArray };
-        // Gọi API để thêm mới sản phẩm
-        console.log("Product data:", productData);
-        productApi.createProduct(productData)
-        handleClose();
+        const productData = {
+            ...product,
+            category: categoriesArray,
+            price: parseFloat(product.price.replace(/,/g, '')) // Convert price back to a number
+        };
+       try {
+           const res = await productApi.createProduct(productData);
+           notify('success','Thêm sản phẩm thành công!')
+       }
+       catch (e) {
+          notify('error',e.response.data.error)
+       }
+       finally {
+           eventEmitter.emit('createProductDone')
+           setIsLoading(false);
+           handleClose();
+       }
+    };
+
+    const formatPrice = (value) => {
+        return value.replace(/\D/g, "")
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     };
 
     return (
@@ -117,18 +154,17 @@ function ModalCreateProduct(props) {
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Giá"
                                     name="price"
-                                    type="number"
                                     value={product.price}
                                     onChange={handleChange}
                                 />
                             </Grid>
 
-                            <Grid item xs={4}>
+                            <Grid item xs={6}>
                                 <TextField
                                     fullWidth
                                     label="Số lượng"
@@ -138,16 +174,16 @@ function ModalCreateProduct(props) {
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
-                                <TextField
-                                    fullWidth
-                                    label="Đánh giá"
-                                    name="rate"
-                                    type="number"
-                                    value={product.rate}
-                                    onChange={handleChange}
-                                />
-                            </Grid>
+                            {/*<Grid item xs={4}>*/}
+                            {/*    <TextField*/}
+                            {/*        fullWidth*/}
+                            {/*        label="Đánh giá"*/}
+                            {/*        name="rate"*/}
+                            {/*        type="number"*/}
+                            {/*        value={product.rate}*/}
+                            {/*        onChange={handleChange}*/}
+                            {/*    />*/}
+                            {/*</Grid>*/}
                         </Grid>
                         <Grid item xs={12} className={'flex justify-between items-center !mt-8'}>
                             <div className={'grid grid-cols-[40%,auto] gap-8 w-full'}>
@@ -173,7 +209,9 @@ function ModalCreateProduct(props) {
                         </Grid>
 
                         <Box sx={{ mt: 3, textAlign: 'right' }}>
-                            <Button variant="contained" onClick={handleSubmit}>Thêm mới</Button>
+                            <Button variant="contained" onClick={handleSubmit} disabled={isLoading}>
+                                {isLoading ? <CircularProgress size={24} /> : 'Thêm mới'}
+                            </Button>
                         </Box>
                     </Box>
                 </Box>
