@@ -150,16 +150,18 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
         generalSearch()
     }, [filterName, filterBrand, filterStock, filterCategory, filterPrice, filterSale]
     )
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
         <div className={'mt-20 '}>
             <h1 className={'font-bold text-2xl text-center'}>CÁC MẶT HÀNG</h1>
             <div className={'grid grid-cols-[17%,83%] mt-6'}>
-                <div className={'bg-white  w-[95%] p-2'}>
+                <div className={'bg-white w-[95%] p-2'}>
                     <div className={'flex items-center'}>
                         <FilterAltIcon className={'scale-75'} />
-                        <h1> Bộ lọc</h1>
+                        <h1>Bộ lọc</h1>
                     </div>
+
                     <div className={` font-medium  my-4   ${priceShow ? ' ' : ' hidden'}`}>
                         <h1 className={'mb-2'}>Theo phân khúc</h1>
                         <div className={'max-h-[300px] overflow-y-auto'}>

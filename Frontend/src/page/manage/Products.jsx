@@ -17,7 +17,7 @@ import ModalViewProduct from "../../component/ModalViewProduct.jsx";
 import { productApi } from "../../../api/productApi.js";
 import { fetchData } from "../../store/actions/productsAction.js";
 import eventEmitter from "../../utils/eventEmitter.js";
-import {notify} from "../../utils/toastify.js";
+import { notify } from "../../utils/toastify.js";
 
 function Products() {
     const products = useSelector(state => state.products.data);
@@ -58,7 +58,7 @@ function Products() {
         }
         finally {
             setIsLoading(false)
-            notify('success','Xoá thành công')
+            notify('success', 'Xoá thành công')
             fetchDataAsync();
             setOpen(false);
         }
@@ -81,12 +81,12 @@ function Products() {
         if (filteredProducts.length !== 0)
             return filteredProducts.map((e, i) => (
                 <div key={i}
-                     className={'grid mb-4 py-4 bg-white border-[1px] border-gray-200 grid-cols-[auto,15%,15%,20%] '}>
+                    className={'grid mb-4 py-4 bg-white border-[1px] border-gray-200 grid-cols-[auto,15%,15%,20%] '}>
                     <div className={'flex items-center justify-start'}>
                         <div className={'flex items-center'}>
                             <a href={`/products/${e?._id}`} target={'_blank'} className={'flex items-center'}>
                                 <img src={e?.image?.url} alt=""
-                                     className={'bg-cover bg-no-repeat bg-center w-20 h-20 mx-4'}/>
+                                    className={'bg-cover bg-no-repeat bg-center w-20 h-20 mx-4'} />
                                 <p className={'!line-clamp-2 '}>{e.name}</p>
                             </a>
                         </div>
@@ -95,10 +95,10 @@ function Products() {
                     <p className={'flex items-center justify-center'}>{e.stock}</p>
                     <div className={'flex items-center justify-end'}>
                         <div className={'flex items-center space-x-2 mx-2'}>
-                            <ModalViewProduct product = {e} id = {e?._id}/>
+                            <ModalViewProduct product={e} id={e?._id} />
                             <Button variant="contained" color="error"
-                                    className={'min-h-[40px] !w-[60px] !text-[12px]'}
-                                    onClick={() => handleOpen(e._id)}>Xoá</Button>
+                                className={'min-h-[40px] !w-[60px] !text-[12px]'}
+                                onClick={() => handleOpen(e._id)}>Xoá</Button>
                         </div>
                     </div>
                 </div>
@@ -134,11 +134,11 @@ function Products() {
                         <p className={'text-center'}>Tồn kho</p>
                     </div>
                     <div className={'flex items-center justify-end'}>
-                        <ModalCreateProduct/>
+                        <ModalCreateProduct />
                     </div>
                 </div>
                 <div className={'mt-4 h-[calc(100vh-201px)] overflow-y-auto custom-scroll'}>
-                    <div><ProductCart/></div>
+                    <div><ProductCart /></div>
                 </div>
             </div>
 
@@ -157,8 +157,8 @@ function Products() {
                         Hủy
                     </Button>
                     <Button onClick={handleDelete} color="error" autoFocus disabled={isLoading}>
-                        {isLoading ? <CircularProgress size={24} /> :'Xoá'}
-                            </Button>
+                        {isLoading ? <CircularProgress size={24} /> : 'Xoá'}
+                    </Button>
                 </DialogActions>
             </Dialog>
         </div>
