@@ -31,7 +31,7 @@ export const loginUser = async (data) => {
   }
 };
 
-export const register = async (data) => {
+export const registerUser = async (data) => {
   try {
     return await apiClient.post("/register", data);
   } catch (exception) {

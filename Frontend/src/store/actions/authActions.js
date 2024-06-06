@@ -1,6 +1,6 @@
 import { jwtDecode } from "jwt-decode";
 import eventEmitter from "../../utils/eventEmitter.js";
-import { loginUser } from "../../../api/api.js";
+import { loginUser, registerUser} from "../../../api/api.js";
 
 export const authActions = {
   SET_USER_DETAILS: "AUTH.SET_USER_DETAILS",
@@ -53,7 +53,7 @@ const login = (userDetails, navigate) => {
 
 const register = (userDetails, navigate) => {
   return async (dispatch) => {
-    const response = await api.register(userDetails);
+    const response = await registerUser(userDetails);
     console.log(response);
     if (response.error) {
       eventEmitter.emit("error", response.exception.response.data);
