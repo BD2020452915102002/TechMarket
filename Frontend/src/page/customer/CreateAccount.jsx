@@ -139,7 +139,7 @@ function CreateAccount({ register }) {
                 id="outlined-adornment-password"
                 type={showPassword ? "text" : "password"}
                 endAdornment={
-                  <InputAndornment position="end">
+                  <InputAdornment position="end">
                     <IconButton
                       aria-label="toggle password visibility"
                       onClick={handleClickShowPassword}
@@ -148,7 +148,7 @@ function CreateAccount({ register }) {
                     >
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
-                  </InputAndornment>
+                  </InputAdornment>
                 }
                 label="Nhập lại mật khẩu"
               />
