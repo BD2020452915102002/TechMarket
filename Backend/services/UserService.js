@@ -32,12 +32,6 @@ exports.getUserById = async (id) => {
 };
 
 exports.updateUser = async (id, user) => {
-  const { password } = user;
-  if (password) {
-    const salt = await bcrypt.genSalt(10);
-    hashPassword = await bcrypt.hash(password, salt);
-    user.password = hashPassword;
-  }
   return await User.findByIdAndUpdate(id, user);
 };
 
