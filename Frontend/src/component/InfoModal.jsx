@@ -63,10 +63,19 @@ export default function InfoModal() {
         setUpdateData({...updateData, [name]: value});
     }
 
-    function handleUpdatePassword() {
-        setIsUpdatePass(()=>{
+  async  function handleUpdatePassword() {
+        setIsUpdatePass(() => {
             return !isUpdatePass
         })
+try {
+    const res = await userApi.updateUser(updateData,userDetails._id )
+    console.log(updateData)
+    await fetchData(userDetails._id);
+    eventEmitter.emit('updateInforCurrentUser')
+    notify('success', 'Cập nhật mật khẩu thành công!')
+}catch (e){
+    console.log(e)
+}
 
     }
 
@@ -84,7 +93,7 @@ export default function InfoModal() {
                         Thông tin cá nhân của bạn
                     </Typography>
                     <div id="modal-modal-description">
-                        <div className={`p-8   ${isUpdate ? ' hidden' : ' '}`}>
+                        <div className={`p-8 ${!isUpdatePass? ' ': ' hidden'}  ${isUpdate ? ' hidden' : ' '}`}>
                             <div className={'flex flex-col gap-3'}>
                                 <div className={'flex gap-3 items-center'}>
                                     <div>
@@ -195,85 +204,32 @@ export default function InfoModal() {
                             </div>
 
                         </div>
-                        <div className={`p-8   ${isUpdatePass? ' ' : ' hidden' }   `}>
-                            <div className={'flex flex-col gap-3'}>
-                                <div className={'flex gap-3 items-center'}>
-                                    <div>
-                                        <PersonIcon/>
-                                    </div>
-                                    <div className={'w-full'}>
-                                        <TextField className={'w-full'} name={'name'} label="Tên" variant="outlined"
-                                                   size={'small'} value={updateData?.name || infor?.name}
-                                                   onChange={handleInput}/>
-                                    </div>
-                                </div>
-                                <div className={'flex gap-3 items-center'}>
-                                    <div>
-                                        <PhoneIphoneIcon/>
-                                    </div>
-                                    <div className={'w-full'}>
-                                        <TextField className={'w-full'} name={'phone'} label="Số điện thoại"
-                                                   variant="outlined" size={'small'}
-                                                   value={updateData?.phone || infor?.phone} onChange={handleInput}/>
-                                    </div>
-                                </div>
-
-                                {/*<div className={'flex gap-3 items-center'}>*/}
-                                {/*    <div>*/}
-                                {/*        <ManIcon />*/}
-                                {/*    </div>*/}
-                                {/*    <div>*/}
-                                {/*        <div className={'text-[#8F90A6]'}>Giới tính</div>*/}
-                                {/*        <div className={'text-[#1C1C28]'}>{infor?.gender}</div>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-
-                                <div className={'flex gap-3 items-center'}>
-                                    <div>
-                                        <EmailIcon/>
-                                    </div>
-                                    <div className={'w-full'}>
-                                        <TextField className={'w-full'} name={'email'} label="Email" variant="outlined"
-                                                   size={'small'} value={updateData?.email || infor?.email}
-                                                   onChange={handleInput}/>
-                                    </div>
-                                </div>
-
-                                <div className={'flex gap-3 items-center'}>
-                                    <div>
-                                        <HomeIcon/>
-                                    </div>
-                                    <div className={'w-full'}>
-                                        <TextField className={'w-full'} name={'address'} label="Địa chỉ"
-                                                   variant="outlined" size={'small'}
-                                                   value={updateData?.address || infor?.address}
-                                                   onChange={handleInput}/>
-                                    </div>
-                                </div>
+                        <div className={`flex gap-3 my-10 items-center ${isUpdatePass? ' ': ' hidden'}`}>
+                            <div>
+                                <KeyIcon/>
                             </div>
-
-                        </div>
-                            <div className={'flex gap-3 items-center'}>
-                                <div>
-                                    <KeyIcon/>
-                                </div>
-                                <div className={'w-full'}>
-                                    <TextField className={'w-full'} name={'password'} label="Mật khẩu"
-                                               variant="outlined" size={'small'}
-                                               value={updateData?.password || ''}
-                                               onChange={handleInput}/>
-                                </div>
+                            <div className={'w-full'}>
+                                <TextField className={'w-full'} name={'password'} label="Mật khẩu mới"
+                                           variant="outlined" size={'small'}
+                                           value={updateData?.password || ''}
+                                           onChange={handleInput}/>
                             </div>
                         </div>
-                        <div className={'w-full flex justify-between'}>
-                            <Button variant={'contained'} color={isUpdatePass ? 'error' : 'info'} className={`${isUpdatePass ? ' hidden' : ' '}`}
-                                    onClick={handleUpdatePassword}>{!isUpdatePass ? 'Đổi mật khẩu' : 'Lưu'}
-                            </Button>
-                            <Button variant={'contained'} color={!isUpdate ? 'error' : 'info'}
-                                    className={`${isUpdatePass ? ' hidden' : ' '}`}
-                                    onClick={handleUpdate}>{!isUpdate ? 'Chỉnh sửa' : 'Lưu'}
-                            </Button>
-                        </div>
+                    </div>
+                    <div className={'w-full grid grid-cols-2 '}>
+                      <div className={' w-full flex justify-start'}>
+                          <Button variant={'contained'} color={isUpdatePass ? 'error' : 'info'}
+                                  className={`  ${isUpdate ? ' !hidden' : ' '}        `}
+                                  onClick={handleUpdatePassword}>{!isUpdatePass ? 'Đổi mật khẩu' : 'Lưu'}
+                          </Button>
+                      </div>
+                       <div className={' w-full flex justify-end'}>
+                           <Button variant={'contained'} color={!isUpdate ? 'error' : 'info'}
+                                   className={`  ${!isUpdatePass? '   ': '  !hidden'}`}
+                                   onClick={handleUpdate}>{!isUpdate ? 'Chỉnh sửa' : 'Lưu'}
+                           </Button>
+                       </div>
+                    </div>
                 </Box>
             </Modal>
         </div>
