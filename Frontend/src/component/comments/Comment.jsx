@@ -1,112 +1,58 @@
-import CommentForm from "./CommentForm";
-import { faker } from '@faker-js/faker';
+import React, { useState } from 'react';
+import CommentForm from './CommentForm';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import {stringAvatar} from "../../utils/avataAbout.js";
 
-const Comment = ({
-                     comment,
-                     replies,
-                     setActiveComment,
-                     activeComment,
-                     updateComment,
-                     deleteComment,
-                     addComment,
-                     parentId = null,
-                     currentUserId,
-                 }) => {
-    const isEditing =
-        activeComment &&
-        activeComment.id === comment.id &&
-        activeComment.type === "editing";
-    const isReplying =
-        activeComment &&
-        activeComment.id === comment.id &&
-        activeComment.type === "replying";
-    const fiveMinutes = 300000;
-    const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
-    const canDelete =
-        currentUserId === comment.userId && replies.length === 0 && !timePassed;
-    const canReply = Boolean(currentUserId);
-    const canEdit = currentUserId === comment.userId && !timePassed;
-    const replyId = parentId ? parentId : comment.id;
-    const createdAt = new Date(comment.createdAt).toLocaleDateString();
+const CommentChild = ({ comment, replies, currentUserId, beReply, replyComment }) => {
+    const [isReplying, setIsReplying] = useState(false);
+    const handleReply = (text) => {
+        replyComment(text, comment?._id);
+        setIsReplying(false);
+    };
+
     return (
-        <div key={comment.id} className="comment">
-            <div className="comment-image-container">
-                <img src={faker.image.avatar()} className={'w-10 h-10'}/>
+        <div className={`p-2   ${beReply?" border-b":''}`}>
+            <div className="flex items-center space-x-2">
+                <Avatar {...stringAvatar(comment?.username)} />
+                <span className="font-bold ">{comment?.username}</span>
             </div>
-            <div className="comment-right-part">
-                <div className="comment-content">
-                    <div className="comment-author">{comment.username}</div>
-                    <div>{createdAt}</div>
+            <p className="ml-12 mt-2">{comment?.comment}</p>
+            {currentUserId && beReply && (
+                <div className="ml-10">
+                    <Button
+                        size="small"
+                        variant="text"
+                        onClick={() => setIsReplying(!isReplying)}
+                    >
+                        {isReplying ? "Cancel" : "Reply"}
+                    </Button>
                 </div>
-                {!isEditing && <div className="comment-text">{comment.body}</div>}
-                {isEditing && (
+            )}
+            {isReplying && (
+                <div className="ml-10">
                     <CommentForm
-                        submitLabel="Update"
-                        hasCancelButton
-                        initialText={comment.body}
-                        handleSubmit={(text) => updateComment(text, comment.id)}
-                        handleCancel={() => {
-                            setActiveComment(null);
-                        }}
-                    />
-                )}
-                <div className="comment-actions">
-                    {canReply && (
-                        <div
-                            className="comment-action"
-                            onClick={() =>
-                                setActiveComment({ id: comment.id, type: "replying" })
-                            }
-                        >
-                            Reply
-                        </div>
-                    )}
-                    {canEdit && (
-                        <div
-                            className="comment-action"
-                            onClick={() =>
-                                setActiveComment({ id: comment.id, type: "editing" })
-                            }
-                        >
-                            Edit
-                        </div>
-                    )}
-                    {canDelete && (
-                        <div
-                            className="comment-action"
-                            onClick={() => deleteComment(comment.id)}
-                        >
-                            Delete
-                        </div>
-                    )}
-                </div>
-                {isReplying && (
-                    <CommentForm
+                        handleSubmit={handleReply}
                         submitLabel="Reply"
-                        handleSubmit={(text) => addComment(text, replyId)}
                     />
-                )}
-                {replies.length > 0 && (
-                    <div className="replies">
-                        {replies.map((reply) => (
-                            <Comment
-                                comment={reply}
-                                key={reply.id}
-                                setActiveComment={setActiveComment}
-                                activeComment={activeComment}
-                                updateComment={updateComment}
-                                deleteComment={deleteComment}
-                                addComment={addComment}
-                                parentId={comment.id}
-                                replies={[]}
-                                currentUserId={currentUserId}
-                            />
-                        ))}
-                    </div>
-                )}
-            </div>
+                </div>
+            )}
+            {replies?.length > 0 && (
+                <div className="ml-10">
+                    {replies.map((reply) => (
+                        <CommentChild
+                            key={reply._id}
+                            comment={reply}
+                            beReply={false}
+                            replies={[]}
+                            currentUserId={currentUserId}
+                            replyComment={replyComment}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
 
-export default Comment;
+export default CommentChild;

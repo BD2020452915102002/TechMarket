@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Comments from "./comments/Comments.jsx";
 
-function Comment() {
+function Comment({productID}) {
+    const {userDetails} = JSON.parse(localStorage.getItem('session'))
     return (
         <div>
-            <Comments currentUserId="1" />
+            <Comments currentUserId={userDetails._id} productID={productID} />
         </div>
     );
 }

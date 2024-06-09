@@ -73,7 +73,7 @@ function DetailProduct() {
                             {product?.desc}
                         </CustomTabPanel>
                         <CustomTabPanel value={value} index={1}>
-                            <Comment/>
+                            <Comment productID ={productID}/>
                         </CustomTabPanel>
 
                     </Box>
