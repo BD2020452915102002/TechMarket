@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 import { formatNumber } from "../utils/formatNumber.js";
 import { checkoutApi, productApi } from "../../api/productApi.js";
 
-
 function Cart() {
     const productsWithQuantity = useSelector(state => state.cart.data)
     const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
@@ -51,7 +50,7 @@ function Cart() {
     }
 
     function deleteProduct(i) {
-       productApi.deleteUserCart(userID, {
+        productApi.deleteUserCart(userID, {
             cartItems: [i]
         })
         dispatch(deleteCart(i))
@@ -71,7 +70,7 @@ function Cart() {
 
     function handleDeleteAllItem() {
         productApi.deleteUserCart(userID, {
-            cartItems: productsWithQuantity.map(e=>{
+            cartItems: productsWithQuantity.map(e => {
                 return e._id
             })
         })
