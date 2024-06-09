@@ -40,7 +40,7 @@ export const userApi = {
                 phone:data.phone,
                 address:data.address,
                 role:data.role,
-                // password:data.password
+                password:data.password
             }, setHeaders())
         } catch (error) {
             console.error("Error during updating user:", error);
@@ -68,7 +68,9 @@ export const userApi = {
             //   "email": "abc@gmail.com"
             // }
             const url = "forgot_pass";
-            return await api.post(url, setHeaders());
+            return await api.post(url,{
+                email:email
+            }, setHeaders());
         } catch (error) {
             console.error("Error during forgot password:", error);
         }

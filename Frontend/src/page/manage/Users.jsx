@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Select, MenuItem,
-    InputLabel, FormControl, InputAdornment, IconButton
+    InputLabel, FormControl, InputAdornment, IconButton, OutlinedInput
 } from "@mui/material";
 import { userApi } from "../../../api/userApi.js";
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -32,7 +32,6 @@ function Users() {
         avatar: ''
     });
     const [editUser, setEditUser] = useState({ name: '', email: '', password: '', phone: '', address: '', role: '' });
-    const [showPassword, setShowPassword] = useState(false);
     const [page, setPage] = useState(1);
     const usersPerPage = 5;
 
@@ -174,9 +173,7 @@ function Users() {
         }
     };
 
-    const handleClickShowPassword = () => {
-        setShowPassword(!showPassword);
-    };
+
 
     const filteredUsers = allUsers.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
@@ -186,7 +183,13 @@ function Users() {
     );
 
     const paginatedUsers = filteredUsers.slice((page - 1) * usersPerPage, page * usersPerPage);
+    const [showPassword, setShowPassword] = React.useState(false);
 
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
     return (
         <div>
             <h1 className="text-lg font-bold uppercase">Tất cả người dùng</h1>
@@ -414,6 +417,7 @@ function Users() {
                         variant="outlined"
                         value={editUser.email}
                         onChange={handleEditUserChange}
+                        autoComplete={'off'}
                     />
                     {/*<TextField*/}
                     {/*    margin="dense"*/}
@@ -425,6 +429,29 @@ function Users() {
                     {/*    value={editUser.password}*/}
                     {/*    onChange={handleEditUserChange}*/}
                     {/*/>*/}
+                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            name="password"
+                            type={showPassword ? 'text' : 'password'}
+                            value={editUser.password}
+                            nChange={handleEditUserChange}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                            label="Mật khẩu"
+                        />
+                    </FormControl>
                     <TextField
                         margin="dense"
                         name="phone"

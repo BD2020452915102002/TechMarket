@@ -87,7 +87,8 @@ exports.updateUser = async (req, res) => {
         throw new Error("Failed to upload image to cloudinary");
       }
       const { name, email, phone, address, role, password } = req.body;
-
+      console.log('>>>>',password)
+      console.log('>>>> user',user.password)
       if (password != user.password) {
         const salt = await bcrypt.genSalt(10);
         hashPassword = await bcrypt.hash(password, salt);
