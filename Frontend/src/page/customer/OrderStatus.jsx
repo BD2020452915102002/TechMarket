@@ -11,8 +11,8 @@ function OrderStatus(props) {
     const userID = JSON.parse(localStorage.getItem('session')).userDetails._id
 
     const fetch = async ()=>{
-       // const res = await orderApi.getOrderByUserId(userID)
-       //  console.log(res)
+       const res = await orderApi.getOrderByUserId(userID)
+        console.log(res)
     }
     useEffect(()=>{
         fetch()
