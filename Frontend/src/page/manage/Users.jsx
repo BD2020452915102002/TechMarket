@@ -429,14 +429,14 @@ function Users() {
                     {/*    value={editUser.password}*/}
                     {/*    onChange={handleEditUserChange}*/}
                     {/*/>*/}
-                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <FormControl sx={{marginY: 1,  width: '100%' }} variant="outlined">
                         <InputLabel htmlFor="outlined-adornment-password">Mật khẩu</InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-password"
                             name="password"
                             type={showPassword ? 'text' : 'password'}
                             value={editUser.password}
-                            nChange={handleEditUserChange}
+                            onChange={handleEditUserChange}
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
