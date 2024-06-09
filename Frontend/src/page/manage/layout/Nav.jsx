@@ -9,6 +9,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import PersonIcon from '@mui/icons-material/Person';
 import CategoryIcon from '@mui/icons-material/Category';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
+import ChatIcon from '@mui/icons-material/Chat';
 
 function Nav() {
     const location = useLocation();
@@ -27,6 +28,8 @@ function Nav() {
             return [
                 { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
                 { title: 'Quản lý đơn hàng', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+                { title: 'Nhắn tin với khách hàng', icon: <ChatIcon />, path: '/managehome/chat' },
+
             ];
         } else {
             return [
