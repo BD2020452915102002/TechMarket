@@ -114,7 +114,9 @@ function Login({ login }) {
               Đăng ký tài khoản
             </a>
             <div
-              className={"underline text-md font-medium  hover:text-blue-600"}
+              className={"underline text-md font-medium  hover:text-blue-600"} onClick={()=>{
+                navigate('/forgotpassword')
+            }}
             >
               Quên mật khẩu
             </div>

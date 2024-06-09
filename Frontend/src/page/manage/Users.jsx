@@ -1,175 +1,473 @@
-import * as React from 'react';
-import { useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { TextField, Button, Box, Dialog, DialogActions, DialogContent, DialogTitle, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+    Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Pagination, Select, MenuItem,
+    InputLabel, FormControl, InputAdornment, IconButton
+} from "@mui/material";
+import { userApi } from "../../../api/userApi.js";
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { notify } from "../../utils/toastify.js";
+import {jwtDecode} from "jwt-decode";
 
-const columns = [
-    { field: 'id', headerName: 'ID', width: 70 },
-    { field: 'name', headerName: 'Tên', sortable: false, width: 130 },
-    { field: 'phone', headerName: 'Số điện thoại', type: 'number', sortable: false, width: 130 },
-    { field: 'address', headerName: 'Địa chỉ', type: 'text', sortable: false, width: 150 },
-    { field: 'role', headerName: 'Role', width: 120 }
-];
-
-const initialRows = [
-    { id: 1, name: 'Jon', phone: '123456789', address: 'Winterfell', role: 'Employee' },
-    { id: 2, name: 'Cersei', phone: '987654321', address: 'King\'s Landing', role: 'User' },
-    { id: 3, name: 'Jaime', phone: '123123123', address: 'King\'s Landing', role: 'User' },
-    { id: 4, name: 'Arya', phone: '321321321', address: 'Winterfell', role: 'Employee' },
-    { id: 5, name: 'Daenerys', phone: '456456456', address: 'Dragonstone', role: 'User' },
-    { id: 6, name: 'Tyrion', phone: '654654654', address: 'King\'s Landing', role: 'Employee' },
-    { id: 7, name: 'Sansa', phone: '789789789', address: 'Winterfell', role: 'User' },
-    { id: 8, name: 'Bran', phone: '987987987', address: 'Winterfell', role: 'Employee' },
-    { id: 9, name: 'Robb', phone: '159159159', address: 'Winterfell', role: 'User' }
-];
-
-export default function DataTable() {
-    const [rows, setRows] = useState(initialRows);
-    const [newUser, setNewUser] = useState({ id: '', name: '', phone: '', address: '', role: '' });
+function Users() {
+    const [allUsers, setAllUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [emailFilter, setEmailFilter] = useState("");
+    const [phoneFilter, setPhoneFilter] = useState("");
+    const [roleFilter, setRoleFilter] = useState("");
     const [open, setOpen] = useState(false);
-    const [editMode, setEditMode] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    const [createModalOpen, setCreateModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null);
+    const [newUser, setNewUser] = useState({
+        name: '',
+        email: '',
+        password: '',
+        phone: '',
+        address: '',
+        role: '',
+        avatar: ''
+    });
+    const [editUser, setEditUser] = useState({ name: '', email: '', password: '', phone: '', address: '', role: '' });
+    const [showPassword, setShowPassword] = useState(false);
+    const [page, setPage] = useState(1);
+    const usersPerPage = 5;
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setNewUser({ ...newUser, [name]: value });
-    };
-
-    const handleRoleChange = (e) => {
-        setNewUser({ ...newUser, role: e.target.value });
-    };
-
-    const handleAddUser = () => {
-        if (newUser.name && newUser.phone && newUser.address && newUser.role) {
-            setRows([...rows, { ...newUser, id: rows.length + 1 }]);
-            setNewUser({ id: '', name: '', phone: '', address: '', role: '' });
-            setOpen(false);
-        } else {
-            alert("Please fill in all fields");
+    const fetch = async () => {
+        try {
+            const res = await userApi.getAllUsers();
+            setAllUsers(res.data.data);
+        } catch (e) {
+            console.log(e);
         }
     };
 
-    const handleEditUser = () => {
-        if (newUser.name && newUser.phone && newUser.address && newUser.role) {
-            setRows(rows.map(row => (row.id === newUser.id ? newUser : row)));
-            setNewUser({ id: '', name: '', phone: '', address: '', role: '' });
+    useEffect(() => {
+        fetch();
+    }, []);
+
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleEmailFilterChange = (event) => {
+        setEmailFilter(event.target.value);
+    };
+
+    const handlePhoneFilterChange = (event) => {
+        setPhoneFilter(event.target.value);
+    };
+
+    const handleRoleFilterChange = (event) => {
+        setRoleFilter(event.target.value);
+    };
+
+    const handleDelete = async () => {
+        try {
+            setIsLoading(true);
+            await userApi.deleteUser(selectedUserId);
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        } finally {
+            setIsLoading(false);
+            fetch();
             setOpen(false);
-            setEditMode(false);
-        } else {
-            alert("Please fill in all fields");
         }
     };
 
-    const handleClickOpen = () => {
+    const handleOpen = (userId) => {
+        setSelectedUserId(userId);
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
-        setEditMode(false);
-        setNewUser({ id: '', name: '', phone: '', address: '', role: '' });
     };
 
-    const handleSelectionModelChange = (newSelection) => {
-        setSelectedRows(newSelection);
+    const handlePageChange = (event, value) => {
+        setPage(value);
     };
 
-    const handleEditButtonClick = () => {
-        if (selectedRows.length === 1) {
-            const userToEdit = rows.find(row => row.id === selectedRows[0]);
-            setNewUser(userToEdit);
-            setEditMode(true);
-            setOpen(true);
-        } else {
-            alert("Please select exactly one row to edit");
+    const handleCreateUserOpen = () => {
+        setCreateModalOpen(true);
+    };
+
+    const handleCreateUserClose = () => {
+        setCreateModalOpen(false);
+    };
+
+    const handleEditUserOpen = (user) => {
+        // const decodedUser = jwtDecode(user.token);
+        setEditUser(user);
+        setEditModalOpen(true);
+    };
+
+    const handleEditUserClose = () => {
+        setEditModalOpen(false);
+    };
+
+    const handleCreateUserChange = (event) => {
+        const { name, value } = event.target;
+        setNewUser({ ...newUser, [name]: value });
+    };
+
+    const handleEditUserChange = (event) => {
+        const { name, value } = event.target;
+        setEditUser({ ...editUser, [name]: value });
+    };
+
+    const handleCreateUser = async () => {
+        try {
+            setIsLoading(true);
+            const res = await userApi.createUser(newUser);
+            fetch();
+            if (res?.data?.data) {
+                notify('success', 'Tạo tài khoản thành công');
+            } else {
+                notify('error', res.response.data.error);
+            }
+            setCreateModalOpen(false);
+        } catch (error) {
+            notify('error', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    const handleDeleteButtonClick = () => {
-        if (selectedRows.length > 0) {
-            setRows(rows.filter(row => !selectedRows.includes(row.id)));
-            setSelectedRows([]);
-        } else {
-            alert("Please select rows to delete");
+    const handleEditUser = async () => {
+        try {
+            setIsLoading(true);
+            const res = await userApi.updateUser(editUser, editUser._id);
+            fetch();
+            if (res?.data?.data) {
+                notify('success', 'Thay đổi thông tin thành công!');
+            } else {
+                notify('error', res.response.data.error);
+            }
+            setEditModalOpen(false);
+        } catch (error) {
+            console.error("Error editing user:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
+
+    const handleRoleChange = async (userId, newRole, user) => {
+        try {
+            setIsLoading(true);
+            await userApi.updateUser({
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                phone: user.phone,
+                address: user.address,
+                role: newRole,
+            }, userId);
+            fetch();
+        } catch (error) {
+            console.error("Error updating user role:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const filteredUsers = allUsers.filter(user =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        user.email.toLowerCase().includes(emailFilter.toLowerCase()) &&
+        user.phone.includes(phoneFilter) &&
+        user.role.toLowerCase().includes(roleFilter.toLowerCase())
+    );
+
+    const paginatedUsers = filteredUsers.slice((page - 1) * usersPerPage, page * usersPerPage);
 
     return (
-        <div style={{ height: 500, width: '100%' }}>
-            <Box display="flex" justifyContent="flex-start" mb={2}>
-                <Button variant="contained" color="primary" onClick={handleClickOpen} style={{ marginRight: 8 }}>
-                    Thêm
-                </Button>
-                {/* <Button variant="contained" color="secondary" onClick={handleEditButtonClick} style={{ marginRight: 8 }}>
-                    Actions
-                </Button> */}
+        <div>
+            <h1 className="text-lg font-bold uppercase">Tất cả người dùng</h1>
+            <div className={'grid grid-cols-[75%,25%] my-6'}>
+                <div className={'flex gap-x-4 items-center '}>
+                    <TextField
+                        label="Tìm kiếm theo tên"
+                        type="text"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        fullWidth
+                        variant="outlined"
+                        margin="normal"
+                        className={'bg-white'}
+                    />
+                    <TextField
+                        type="text"
+                        label="Lọc theo email"
+                        value={emailFilter}
+                        onChange={handleEmailFilterChange}
+                        fullWidth
+                        variant="outlined"
+                        margin="normal"
+                        className={'bg-white'}
+                    />
+                    <TextField
+                        type="text"
+                        label="Lọc theo số điện thoại"
+                        value={phoneFilter}
+                        onChange={handlePhoneFilterChange}
+                        fullWidth
+                        variant="outlined"
+                        margin="normal"
+                        className={'bg-white'}
+                    />
+                    <FormControl fullWidth variant="outlined" margin="normal">
+                        <InputLabel>Vai trò</InputLabel>
+                        <Select
+                            value={roleFilter}
+                            onChange={handleRoleFilterChange}
+                            label="Vai trò"
+                            className={'bg-white'}
+                        >
+                            <MenuItem value="">Tất cả</MenuItem>
+                            <MenuItem value="customer">Customer</MenuItem>
+                            <MenuItem value="employee">Employee</MenuItem>
+                            <MenuItem value="manager">Manager</MenuItem>
+                        </Select>
+                    </FormControl>
+                </div>
+                <div className={' flex justify-end items-center'}>
+                    <Button variant="contained" color="primary" onClick={handleCreateUserOpen} size={'large'}
+                            startIcon={<PersonAddAltIcon />}>Thêm mới</Button>
+                </div>
+            </div>
 
-            </Box>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{
-                    pagination: {
-                        paginationModel: { page: 0, pageSize: 5 },
-                    },
-                }}
-                pageSizeOptions={[5, 10]}
-                checkboxSelection
-                onRowSelectionModelChange={(newSelection) => handleSelectionModelChange(newSelection)}
-                rowSelectionModel={selectedRows}
-            />
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>STT</TableCell>
+                            <TableCell>Tên</TableCell>
+                            <TableCell>Email</TableCell>
+                            <TableCell>Số điện thoại</TableCell>
+                            <TableCell>Địa chỉ</TableCell>
+                            <TableCell>Vai trò</TableCell>
+                            <TableCell>Hành động</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {paginatedUsers.length ? paginatedUsers.map((user, index) => (
+                            <TableRow key={user._id}>
+                                <TableCell>{(page - 1) * usersPerPage + index + 1}</TableCell>
+                                <TableCell>{user.name}</TableCell>
+                                <TableCell>{user.email}</TableCell>
+                                <TableCell>{user.phone}</TableCell>
+                                <TableCell>{user.address}</TableCell>
+                                <TableCell>
+                                    <Select
+                                        value={user.role}
+                                        onChange={(e) => handleRoleChange(user._id, e.target.value, user)}
+                                    >
+                                        <MenuItem value="customer">Customer</MenuItem>
+                                        <MenuItem value="employee">Employee</MenuItem>
+                                        <MenuItem value="manager">Manager</MenuItem>
+                                    </Select>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant="contained" color="primary" className={'!mr-2'}
+                                            onClick={() => handleEditUserOpen(user)}>Sửa</Button>
+                                    <Button variant="contained" color="error"
+                                            onClick={() => handleOpen(user._id)}>Xoá</Button>
+                                </TableCell>
+                            </TableRow>
+                        )) : (
+                            <TableRow>
+                                <TableCell colSpan={7} align="center">Không có dữ liệu</TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+            <div className={'flex items-center justify-end'}>
+                <Pagination
+                    count={Math.ceil(filteredUsers.length / usersPerPage)}
+                    page={page}
+                    onChange={handlePageChange}
+                    color="primary"
+                    className="mt-4 "
+                />
+            </div>
+
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>{editMode ? "Edit User" : "Add New User"}</DialogTitle>
+                <DialogTitle>Xác nhận xóa</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Bạn có chắc chắn muốn xóa người dùng này không?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">Hủy</Button>
+                    <Button onClick={handleDelete} color="error" autoFocus disabled={isLoading}>
+                        {isLoading ? <CircularProgress size={24} /> : 'Xoá'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={createModalOpen} onClose={handleCreateUserClose}>
+                <DialogTitle>Tạo người dùng mới</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
                         name="name"
-                        label="Name"
+                        label="Tên"
                         type="text"
                         fullWidth
+                        variant="outlined"
                         value={newUser.name}
-                        onChange={handleInputChange}
+                        onChange={handleCreateUserChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="email"
+                        label="Email"
+                        type="email"
+                        fullWidth
+                        variant="outlined"
+                        value={newUser.email}
+                        onChange={handleCreateUserChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="password"
+                        label="Mật khẩu"
+                        type="password"
+                        fullWidth
+                        variant="outlined"
+                        value={newUser.password}
+                        onChange={handleCreateUserChange}
                     />
                     <TextField
                         margin="dense"
                         name="phone"
-                        label="Phone"
+                        label="Số điện thoại"
                         type="text"
                         fullWidth
+                        variant="outlined"
                         value={newUser.phone}
-                        onChange={handleInputChange}
+                        onChange={handleCreateUserChange}
                     />
                     <TextField
                         margin="dense"
                         name="address"
-                        label="Address"
+                        label="Địa chỉ"
                         type="text"
                         fullWidth
+                        variant="outlined"
                         value={newUser.address}
-                        onChange={handleInputChange}
+                        onChange={handleCreateUserChange}
                     />
-                    <FormControl fullWidth margin="dense">
-                        <InputLabel>Role</InputLabel>
+                    <FormControl fullWidth variant="outlined" margin="dense">
+                        <InputLabel>Vai trò</InputLabel>
                         <Select
                             name="role"
                             value={newUser.role}
-                            onChange={handleRoleChange}
+                            onChange={handleCreateUserChange}
+                            label="Vai trò"
                         >
-                            <MenuItem value="Employee">Employee</MenuItem>
-                            <MenuItem value="User">User</MenuItem>
+                            <MenuItem value="customer">Customer</MenuItem>
+                            <MenuItem value="employee">Employee</MenuItem>
+                            <MenuItem value="manager">Manager</MenuItem>
                         </Select>
                     </FormControl>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="secondary">
-                        Cancel
+                    <Button onClick={handleCreateUserClose} color="primary">Hủy</Button>
+                    <Button onClick={handleCreateUser} color="primary" disabled={isLoading}>
+                        {isLoading ? <CircularProgress size={24} /> : 'Tạo'}
                     </Button>
-                    <Button onClick={editMode ? handleEditUser : handleAddUser} color="primary">
-                        {editMode ? "Save Changes" : "Add User"}
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={editModalOpen} onClose={handleEditUserClose}>
+                <DialogTitle>Sửa thông tin người dùng</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        name="name"
+                        label="Tên"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={editUser.name}
+                        onChange={handleEditUserChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="email"
+                        label="Email"
+                        type="email"
+                        fullWidth
+                        variant="outlined"
+                        value={editUser.email}
+                        onChange={handleEditUserChange}
+                    />
+                    {/*<TextField*/}
+                    {/*    margin="dense"*/}
+                    {/*    name="password"*/}
+                    {/*    label="Mật khẩu"*/}
+                    {/*    type={'password'}*/}
+                    {/*    fullWidth*/}
+                    {/*    variant="outlined"*/}
+                    {/*    value={editUser.password}*/}
+                    {/*    onChange={handleEditUserChange}*/}
+                    {/*/>*/}
+                    <TextField
+                        margin="dense"
+                        name="phone"
+                        label="Số điện thoại"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={editUser.phone}
+                        onChange={handleEditUserChange}
+                    />
+                    <TextField
+                        margin="dense"
+                        name="address"
+                        label="Địa chỉ"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={editUser.address}
+                        onChange={handleEditUserChange}
+                    />
+                    <FormControl fullWidth variant="outlined" margin="dense">
+                        <InputLabel>Vai trò</InputLabel>
+                        <Select
+                            name="role"
+                            value={editUser.role}
+                            onChange={handleEditUserChange}
+                            label="Vai trò"
+                        >
+                            <MenuItem value="customer">Customer</MenuItem>
+                            <MenuItem value="employee">Employee</MenuItem>
+                            <MenuItem value="manager">Manager</MenuItem>
+                        </Select>
+                    </FormControl>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleEditUserClose} color="primary">Hủy</Button>
+                    <Button onClick={handleEditUser} color="primary" disabled={isLoading}>
+                        {isLoading ? <CircularProgress size={24} /> : 'Lưu'}
                     </Button>
                 </DialogActions>
             </Dialog>
         </div>
     );
 }
+
+export default Users;
