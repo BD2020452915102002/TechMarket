@@ -20,6 +20,7 @@ import ConfirmEmail from "../page/customer/ConfirmEmail.jsx";
 import { useDispatch } from "react-redux";
 import { productApi } from "../../api/productApi.js";
 import { fetchData } from "../store/actions/productsAction.js";
+import ForgotPassword from "../page/ForgotPassword.jsx";
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -49,6 +50,7 @@ function AppRouters() {
                 {/* Shared */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/confirmemail" element={<ConfirmEmail />} />
+                <Route path={'/forgotpassword'} element={<ForgotPassword/>} />
                 {/* Customer */}
                 <Route path="/" element={<Home />} />
                 <Route path="/createAccount" element={<CreateAccount />} />
