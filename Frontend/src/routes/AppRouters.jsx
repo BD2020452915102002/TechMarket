@@ -94,19 +94,20 @@ function AppRouters() {
                         </PrivateRoute>
                     }
                 />
-                <Route
-                    path="/chat"
-                    element={
-                        <PrivateRoute roles={['employee']}>
-                            <Chatboard />
-                        </PrivateRoute>
-                    }
-                />
+
                 <Route
                     path="/checkout-success"
                     element={
                         <PrivateRoute roles={['customer']}>
                             <ConfirmCheckout />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/chat"
+                    element={
+                        <PrivateRoute roles={['employee','customer']}>
+                            <Chatboard />
                         </PrivateRoute>
                     }
                 />
@@ -126,6 +127,14 @@ function AppRouters() {
                         element={
                             <PrivateRoute roles={['manager']}>
                                 <Dashboard />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="chat"
+                        element={
+                            <PrivateRoute roles={['employee']}>
+                                <Chatboard />
                             </PrivateRoute>
                         }
                     />
