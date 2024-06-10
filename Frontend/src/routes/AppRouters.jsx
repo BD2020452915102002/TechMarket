@@ -20,7 +20,7 @@ import ConfirmEmail from "../page/customer/ConfirmEmail.jsx";
 import { useDispatch } from "react-redux";
 import { productApi } from "../../api/productApi.js";
 import { fetchData } from "../store/actions/productsAction.js";
-import ForgotPassword from "../page/ForgotPassword.jsx";
+import ForgotPassword from "../page/customer/ForgotPassword.jsx";
 
 function ScrollToTop() {
     const { pathname } = useLocation();

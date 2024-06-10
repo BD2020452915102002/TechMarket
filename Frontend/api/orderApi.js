@@ -34,7 +34,7 @@ export const orderApi = {
     return api.get(url, setHeaders());
   },
   getOrderByUserId(userId) {
-    const url = `/find/${userId}`;
+    const url = `order/find/${userId}`;
     return api.get(url, setHeaders());
   }
 };

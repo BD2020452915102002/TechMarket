@@ -5,7 +5,7 @@ function Comment({productID}) {
     const {userDetails} = JSON.parse(localStorage.getItem('session'))
     return (
         <div>
-            <Comments currentUserId={userDetails._id} productID={productID} />
+            <Comments currentUserId={userDetails._id} productID={productID} userName={userDetails.name}  />
         </div>
     );
 }

@@ -14,8 +14,8 @@ const CommentChild = ({ comment, replies, currentUserId, beReply, replyComment }
     return (
         <div className={`p-2   ${beReply?" border-b":''}`}>
             <div className="flex items-center space-x-2">
-                <Avatar {...stringAvatar(comment?.username)} />
-                <span className="font-bold ">{comment?.username}</span>
+                <Avatar {...stringAvatar(comment?.userName)} />
+                <span className="font-bold ">{comment?.userName}</span>
             </div>
             <p className="ml-12 mt-2">{comment?.comment}</p>
             {currentUserId && beReply && (

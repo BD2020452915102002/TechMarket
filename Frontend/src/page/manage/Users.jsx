@@ -157,6 +157,14 @@ function Users() {
     const handleRoleChange = async (userId, newRole, user) => {
         try {
             setIsLoading(true);
+            console.log({
+                name: user.name,
+                email: user.email,
+                password: user.password,
+                phone: user.phone,
+                address: user.address,
+                role: newRole,
+            })
             await userApi.updateUser({
                 name: user.name,
                 email: user.email,
@@ -270,7 +278,10 @@ function Users() {
                                 <TableCell>
                                     <Select
                                         value={user.role}
-                                        onChange={(e) => handleRoleChange(user._id, e.target.value, user)}
+                                        onChange={(e) => {
+                                            console.log(user._id, e.target.value, user)
+                                            handleRoleChange(user._id, e.target.value, user)
+                                        }}
                                     >
                                         <MenuItem value="customer">Customer</MenuItem>
                                         <MenuItem value="employee">Employee</MenuItem>

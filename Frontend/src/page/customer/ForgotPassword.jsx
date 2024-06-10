@@ -11,46 +11,33 @@ import {
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import eventEmitter from "../utils/eventEmitter.js";
-import {notify} from "../utils/toastify.js";
-import {userApi} from "../../api/userApi.js";
+import eventEmitter from "../../utils/eventEmitter.js";
+import {notify} from "../../utils/toastify.js";
+import {userApi} from "../../../api/userApi.js";
 
 
 export default function ForgotPassword({register}) {
 
     const navigate = useNavigate();
+    const [send, setSend] = useState(false)
     const [email, setEmail] = useState("");
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
 
-    const handleEmailChangeRequest = async()=>{
-       try {
-           const  res = await userApi.forgotPassword(email)
-           console.log(res)
-       }
-       catch (e){
-           console.log(e)
-       }
+    const handleEmailChangeRequest = async () => {
+        try {
+            const res = await userApi.forgotPassword(email)
+            if (res.data.status === 'success') {
+                notify('success', 'Đã gửi mật khẩu mới, Vui lòng kiểm tra email!')
+            } else notify('error', 'Có lỗi xảy ra!')
+            setSend(true)
+        } catch (e) {
+            console.log(e)
+        }
     }
 
-    useEffect(() => {
-        const handleSuccess = () => {
-            notify('success', 'Đăng nhập thành công');
-        };
-        const handleError = (error) => {
-            notify('error', error);
-        };
-
-        eventEmitter.on('success', handleSuccess);
-        eventEmitter.on('error', handleError);
-
-        return () => {
-            eventEmitter.off('success', handleSuccess);
-            eventEmitter.off('error', handleError);
-        };
-    }, []);
 
     return (
         <div className={" w-full h-[100vh] flex justify-center items-center"}>
@@ -70,6 +57,7 @@ export default function ForgotPassword({register}) {
                             variant="contained"
                             className={"!my-4"}
                             onClick={handleEmailChangeRequest}
+                            disabled={send}
                         >
                             Gửi
                         </Button>
