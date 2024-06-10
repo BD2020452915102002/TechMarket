@@ -8,11 +8,11 @@ import {
   OutlinedInput,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Link, redirect, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { getActions } from "../store/actions/authActions.js";
-import {notify} from "../utils/toastify.js";
+import { notify } from "../utils/toastify.js";
 import eventEmitter from "../utils/eventEmitter.js";
 
 function Login({ login }) {
@@ -114,9 +114,9 @@ function Login({ login }) {
               Đăng ký tài khoản
             </a>
             <div
-              className={"underline text-md font-medium  hover:text-blue-600"} onClick={()=>{
+              className={"underline text-md font-medium  hover:text-blue-600"} onClick={() => {
                 navigate('/forgotpassword')
-            }}
+              }}
             >
               Quên mật khẩu
             </div>

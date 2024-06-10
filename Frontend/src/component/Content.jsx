@@ -261,7 +261,7 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                     <div className="flex items-center">
                         <h1 className='font-bold text-xl '>Bộ lọc</h1>
                         <IconButton onClick={() => setDrawerOpen(true)} className="lg:hidden ml-auto">
-                            <MenuIcon className="lg:hidden scale-100" />
+                            <MenuIcon className="lg:!hidden scale-100" />
                         </IconButton>
                     </div>
                     <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
@@ -277,14 +277,15 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                         <input
                             type="text"
                             placeholder="Tìm kiếm tên sản phẩm muốn mua"
-                            className="p-4 w-full"
+                            className="p-4 w-full "
                             onChange={onInputSearch}
                         />
                         <div className="absolute top-1/2 right-0 hover:cursor-pointer translate-y-[-50%] mr-4">
                             <SearchIcon className="text-gray-400" />
                         </div>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
                         {productShow.map((e, i) => (
                             <div key={i} className="mr-1 mb-1">
                                 <Card product={e} />

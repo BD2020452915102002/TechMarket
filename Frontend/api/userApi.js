@@ -1,4 +1,4 @@
-import {api, setHeaders} from "./api.js";
+import { api, setHeaders } from "./api.js";
 
 export const userApi = {
     getAllUsers() {
@@ -35,12 +35,21 @@ export const userApi = {
             // }
             const url = `/user/${userId}`;
             return await api.put(url, {
+<<<<<<< HEAD
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                address: data.address,
+                role: data.role,
+                // password:data.password
+=======
                 name:data.name,
                 email:data.email,
                 phone:data.phone,
                 address:data.address,
                 role:data.role,
                 password:data.password
+>>>>>>> dc8f0f19b9611c5fb40ea4eb0816be1ebbb06da2
             }, setHeaders())
         } catch (error) {
             console.error("Error during updating user:", error);
