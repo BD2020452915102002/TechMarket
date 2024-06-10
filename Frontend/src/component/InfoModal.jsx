@@ -60,7 +60,7 @@ export default function InfoModal() {
 
     function handleInput(e) {
         const {name, value} = e.target;
-        setUpdateData({...updateData, [name]: value});
+        setUpdateData({...infor, [name]: value});
     }
 
   async  function handleUpdatePassword() {
