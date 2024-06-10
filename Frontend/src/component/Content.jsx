@@ -276,12 +276,12 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                     <div className="flex items-center relative w-full outline outline-1 outline-gray-400">
                         <input
                             type="text"
-                            placeholder="Tìm kiếm tên sản phẩm muốn mua"
+                            placeholder="Tìm kiếm sản phẩm"
                             className="p-4 w-full "
                             onChange={onInputSearch}
                         />
                         <div className="absolute top-1/2 right-0 hover:cursor-pointer translate-y-[-50%] mr-4">
-                            <SearchIcon className="text-gray-400 " />
+                            <SearchIcon className="text-gray-400 max-sm:hidden" />
                         </div>
                     </div>
 
