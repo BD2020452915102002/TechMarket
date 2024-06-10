@@ -1,79 +1,57 @@
-import { useState, useEffect } from "react";
-import CommentForm from "./CommentForm";
-import Comment from "./Comment";
-import {
-    getComments as getCommentsApi,
-    createComment as createCommentApi,
-    updateComment as updateCommentApi,
-    deleteComment as deleteCommentApi,
-} from "../../store/actions/commentsProductAction.jsx";
+import { useEffect, useState } from "react";
+import { createComment, getComments, updateComment } from "../../store/actions/commentsProductAction.jsx";
+import CommentForm from "./CommentForm.jsx";
+import CommentChild from "./Comment.jsx";
 
-const Comments = ({ commentsUrl, currentUserId }) => {
-    const [backendComments, setBackendComments] = useState([]);
-    const [activeComment, setActiveComment] = useState(null);
-    const rootComments = backendComments.filter(
-        (backendComment) => backendComment.parentId === null
-    );
-    const getReplies = (commentId) =>
-        backendComments
-            .filter((backendComment) => backendComment.parentId === commentId)
-            .sort(
-                (a, b) =>
-                    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-            );
-    const addComment = (text, parentId) => {
-        createCommentApi(text, parentId).then((comment) => {
-            setBackendComments([comment, ...backendComments]);
-            setActiveComment(null);
-        });
-    };
+const Comments = ({ currentUserId, productID, userName }) => {
+    const [comments, setComments] = useState([]);
 
-    const updateComment = (text, commentId) => {
-        updateCommentApi(text).then(() => {
-            const updatedBackendComments = backendComments.map((backendComment) => {
-                if (backendComment.id === commentId) {
-                    return { ...backendComment, body: text };
-                }
-                return backendComment;
-            });
-            setBackendComments(updatedBackendComments);
-            setActiveComment(null);
-        });
-    };
-    const deleteComment = (commentId) => {
-        if (window.confirm("Are you sure you want to remove comment?")) {
-            deleteCommentApi().then(() => {
-                const updatedBackendComments = backendComments.filter(
-                    (backendComment) => backendComment.id !== commentId
-                );
-                setBackendComments(updatedBackendComments);
-            });
-        }
+    const fetchComments = async () => {
+        const fetchedComments = await getComments(productID);
+        setComments(fetchedComments);
     };
 
     useEffect(() => {
-        getCommentsApi().then((data) => {
-            setBackendComments(data);
-        });
-    }, []);
+        fetchComments();
+    }, [productID]);
+
+    const addComment = async (text) => {
+        const newComment = {
+            userId: currentUserId,
+            comment: text,
+            userName: userName
+        };
+        await createComment(productID, newComment);
+        fetchComments()
+    };
+
+    const replyComment = async (text, commentId) => {
+        const newComment = {
+            userId: currentUserId,
+            comment: text,
+            userName: userName
+        };
+        await updateComment(productID, commentId, newComment);
+        fetchComments();
+    };
+
+    const getReplies = (commentId) => {
+        const comment = comments.find(comment => comment._id === commentId);
+        return comment ? comment.subComments : null;
+    };
 
     return (
-        <div className="comments">
-            <h3 className="comments-title">Comments</h3>
-            <div className="comment-form-title">Write comment</div>
-            <CommentForm submitLabel="Write" handleSubmit={addComment} />
-            <div className="comments-container">
-                {rootComments.map((rootComment) => (
-                    <Comment
-                        key={rootComment.id}
+        <div className="p-4">
+            <CommentForm handleSubmit={addComment} submitLabel="Post" />
+            <div className="mt-4 space-y-4">
+                {comments.map((rootComment) => (
+                    <CommentChild
+                        key={rootComment._id}
                         comment={rootComment}
-                        replies={getReplies(rootComment.id)}
-                        activeComment={activeComment}
-                        setActiveComment={setActiveComment}
-                        addComment={addComment}
-                        deleteComment={deleteComment}
-                        updateComment={updateComment}
+                        replies={getReplies(rootComment._id)}
                         currentUserId={currentUserId}
+                        replyComment={replyComment}
+                        beReply={true}
                     />
                 ))}
             </div>
