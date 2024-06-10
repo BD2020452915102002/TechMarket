@@ -1,7 +1,7 @@
 //feature: apj.js
 import axios from "axios";
 
-export const url = "http://localhost:5000/api";
+export const url = "https://tech-market-zeta.vercel.app/api/";
 
 export const setHeaders = () => {
   return {
