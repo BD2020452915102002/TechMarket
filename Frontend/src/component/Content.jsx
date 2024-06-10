@@ -259,7 +259,7 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
             <div className="grid grid-cols-1 lg:grid-cols-[17%,83%] mt-6">
                 <div className="bg-white w-[95%] p-2">
                     <div className="flex items-center">
-                        <h1 className='font-bold text-xl '>Bộ lọc</h1>
+                        <h1 className='font-bold text-xl max-lg:hidden '>Bộ lọc</h1>
                         <IconButton onClick={() => setDrawerOpen(true)} className="lg:hidden ml-auto">
                             <MenuIcon className="lg:!hidden scale-100" />
                         </IconButton>
@@ -281,7 +281,7 @@ function Content({ brandShow, priceShow, stockShow, saleShow, categoryShow, prod
                             onChange={onInputSearch}
                         />
                         <div className="absolute top-1/2 right-0 hover:cursor-pointer translate-y-[-50%] mr-4">
-                            <SearchIcon className="text-gray-400" />
+                            <SearchIcon className="text-gray-400 " />
                         </div>
                     </div>
 
