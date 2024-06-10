@@ -24,7 +24,7 @@ router.post("/create-checkout-session", async (req, res) => {
     id = userId;
     cart = cartItems;
 
-    line_items = await Promise.all(
+    const line_items = await Promise.all(
       cartItems.map(async (item) => {
         const product = await productService.getProductById(item.id);
         return {
@@ -42,7 +42,13 @@ router.post("/create-checkout-session", async (req, res) => {
         };
       })
     );
-    lineItems = line_items;
+
+    lineItemsData = line_items.map(item => ({
+      id: item.price_data.product_data.metadata.id,
+      quantity: item.quantity
+    }));
+
+    // console.log("lineItems: " + JSON.stringify(lineItems, null, 2));
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -175,14 +181,6 @@ router.post(
 
       const cartItems = JSON.parse(session.metadata.cartItems);
       const cartProductIds = cartItems.map((item) => item.id);
-      console.log(cartProductIds);
-      const updatedCartItems = user.cart.filter(
-        (productId) => !cartProductIds.includes(String(productId))
-      );
-      console.log(updatedCartItems);
-
-      user.cart = updatedCartItems;
-      await user.save();
 
       stripe.customers
         .retrieve(data.customer)
@@ -190,16 +188,27 @@ router.post(
           stripe.checkout.sessions.listLineItems(
             data.id,
             {},
-            function (err, lineItems) {
+            function (err) {
               if (err) {
                 console.log(err);
                 return;
               }
-              createOrder(customer, data, lineItems.data);
+              console.log("lineItemData: " + lineItemsData,);
+              createOrder(customer, data, lineItemsData);
             }
           );
         })
         .catch((err) => console.log(err.message));
+
+
+      // console.log(cartProductIds);
+      // const updatedCartItems = user.cart.filter(
+      //   (productId) => !cartProductIds.includes(String(productId))
+      // );
+      // console.log(updatedCartItems);
+
+      // user.cart = updatedCartItems;
+      // await user.save();
     }
     // Return a 200 response to acknowledge receipt of the event
     res.send().end();
