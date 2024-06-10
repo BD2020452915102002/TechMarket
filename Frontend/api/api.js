@@ -1,8 +1,9 @@
 //feature: apj.js
 import axios from "axios";
-require("dotenv").config();
-
-export const url = process.env.SERVER;
+// import process from "../.eslintrc.cjs";
+// require("dotenv").config();
+const baseURL = import.meta.env.VITE_SERVER;
+export const url = baseURL
 
 export const setHeaders = () => {
   return {
