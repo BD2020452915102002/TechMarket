@@ -6,6 +6,10 @@ export const productApi = {
     const url = "/product";
     return api.get(url, setHeaders());
   },
+  getProductById(id) {
+    const url = `/product/${id}`;
+    return api.get(url, setHeaders());
+  },
   createProduct(data) {
     //   {
     //     "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",
