@@ -1,7 +1,8 @@
 //feature: apj.js
 import axios from "axios";
+require("dotenv").config();
 
-export const url = "https://tech-market-zeta.vercel.app/api/";
+export const url = process.env.SERVER;
 
 export const setHeaders = () => {
   return {
