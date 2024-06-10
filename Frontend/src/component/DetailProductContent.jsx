@@ -47,7 +47,7 @@ function DetailProductContent({ product }) {
                 <Link className="hover:underline" color="inherit" to="/">
                     <div className="flex items-center">
                         <HomeIcon className="mr-2" />
-                        <div>Home</div>
+                        <div>Trang Chủ</div>
                     </div>
                 </Link>
                 <Typography color="text.primary" className="line-clamp-1 w-[300px]">{productShow?.name}</Typography>
@@ -58,7 +58,7 @@ function DetailProductContent({ product }) {
                 </div>
                 <div className="lg:basis-1/2 mt-4 lg:mt-0">
                     <h1 className="font-bold text-2xl lg:text-lg">{productShow?.name}</h1>
-                    <p>Brand: <span>{productShow?.brand}</span></p>
+                    <p>Hãng: <span>{productShow?.brand}</span></p>
                     <Rating name="size-large" defaultValue={productShow?.rate} className="my-6" precision={0.5} readOnly />
                     <p className="text-gray-600 line-clamp-1 italic mb-4">{productShow?.desc}</p>
                     {productShow?.sale ? (
