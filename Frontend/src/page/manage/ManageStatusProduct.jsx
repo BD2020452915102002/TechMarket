@@ -1,11 +1,32 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {Link} from "react-router-dom";
 import {formatNumber} from "../../utils/formatNumber.js";
 import EastIcon from '@mui/icons-material/East';
+import {orderApi} from "../../../api/orderApi.js";
+import {productApi} from "../../../api/productApi.js";
 
-function ManageStatusProduct(props) {
-    const productsWithQuantity = useSelector(state => state.cart.data)
+function ManageStatusProduct() {
+    const [orderProduct,setOrderProduct] = useState()
+    const getImg = async (id)=>{
+        try {
+            const res = await productApi.getProductById(id)
+            console.log('>>>',res.data)
+            return res.data
+        }catch (e){
+            console.log(e)
+        }
+    }
+
+    const fetch = async ()=>{
+        const res = await orderApi.getAllOrder()
+        setOrderProduct(res.data.data)
+        console.log(res.data.data[0].products[0].id)
+       await getImg('66139e04367b3917b84c57c5')
+    }
+    useEffect(()=>{
+        fetch()
+    },[])
 
     const Status = ({stat}) => {
         switch (stat) {
@@ -40,15 +61,15 @@ function ManageStatusProduct(props) {
                     </h1>
                     <div className={'mt-20 h-full'}>
                         <div className={'grid grid-cols-[auto,20%,20%,20%] text-gray-400 place-items-center' }>
-                            <p className={'w-full'}>Sản phẩm</p>
+                            <p className={'w-full'}>Người mua</p>
                             <p>Số lượng đã mua</p>
                             <p>Giá</p>
                             <p>Thành tiền</p>
                         </div>
                         <div className={''}>
                             {
-                                productsWithQuantity?.length !== 0 ?
-                                    productsWithQuantity?.map((e, i) => (
+                                orderProduct?.length !== 0 ?
+                                    orderProduct?.map((e, i) => (
                                         <div key={i}
                                              className={'flex flex-col justify-center items-center mb-10 border-[1px] border-gray-200 bg-white'}>
                                             <div

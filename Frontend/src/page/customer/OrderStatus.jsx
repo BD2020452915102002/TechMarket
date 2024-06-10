@@ -12,7 +12,8 @@ function OrderStatus(props) {
 
     const fetch = async ()=>{
        const res = await orderApi.getOrderByUserId(userID)
-        console.log(res)
+        console.log(res.data)
+        setOrderProduct(res.data)
     }
     useEffect(()=>{
         fetch()
