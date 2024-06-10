@@ -9,7 +9,7 @@ import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { notify } from "../../utils/toastify.js";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 function Users() {
     const [allUsers, setAllUsers] = useState([]);
@@ -239,7 +239,7 @@ function Users() {
                 </div>
                 <div className={' flex justify-end items-center'}>
                     <Button variant="contained" color="primary" onClick={handleCreateUserOpen} size={'large'}
-                            startIcon={<PersonAddAltIcon />}>Thêm mới</Button>
+                        startIcon={<PersonAddAltIcon />}>Thêm mới</Button>
                 </div>
             </div>
 
@@ -276,9 +276,9 @@ function Users() {
                                 </TableCell>
                                 <TableCell>
                                     <Button variant="contained" color="primary" className={'!mr-2'}
-                                            onClick={() => handleEditUserOpen(user)}>Sửa</Button>
+                                        onClick={() => handleEditUserOpen(user)}>Sửa</Button>
                                     <Button variant="contained" color="error"
-                                            onClick={() => handleOpen(user._id)}>Xoá</Button>
+                                        onClick={() => handleOpen(user._id)}>Xoá</Button>
                                 </TableCell>
                             </TableRow>
                         )) : (

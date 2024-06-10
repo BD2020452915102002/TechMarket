@@ -1,4 +1,4 @@
-import {api, setHeaders} from "./api.js";
+import { api, setHeaders } from "./api.js";
 
 export const userApi = {
     getAllUsers() {
@@ -35,11 +35,11 @@ export const userApi = {
             // }
             const url = `/user/${userId}`;
             return await api.put(url, {
-                name:data.name,
-                email:data.email,
-                phone:data.phone,
-                address:data.address,
-                role:data.role,
+                name: data.name,
+                email: data.email,
+                phone: data.phone,
+                address: data.address,
+                role: data.role,
                 // password:data.password
             }, setHeaders())
         } catch (error) {
