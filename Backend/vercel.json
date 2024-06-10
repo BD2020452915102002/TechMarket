@@ -1,5 +1,4 @@
 {
-    "vesion":2,
     "builds":[{"src":"./app.js", "user":"@vercel/node "}],
     "routes":[{"src":"/{(.*)", "dest":"/"}]
 }
