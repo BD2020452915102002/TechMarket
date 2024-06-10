@@ -1,16 +1,18 @@
-const express = require("express")
-const router = express.Router()
-const { createOrder,
-    getAllOrders,
-    getOrderById,
-    updateOrder,
-    deleteOrder,
-    getOrderStats,
-    getIncomeStats,
-    getOneWeekSales,
-    getOrderByUserId, } = require("../controllers/OrderController")
-const { isEmployee, isManager, isCustomer } = require("../middleware/auth")
-const { checkOrderAccess } = require("../middleware/AccessOrder")
+const express = require("express");
+const router = express.Router();
+const {
+  createOrder,
+  getAllOrders,
+  getOrderById,
+  updateOrder,
+  deleteOrder,
+  getOrderStats,
+  getIncomeStats,
+  getOneWeekSales,
+  getOrderByUserId,
+} = require("../controllers/OrderController");
+const { isEmployee, isManager, isCustomer } = require("../middleware/auth");
+const { checkOrderAccess } = require("../middleware/AccessOrder");
 
 router.route("/").get(isEmployee, getAllOrders).post(createOrder);
 
@@ -24,9 +26,12 @@ router.get("/income/stats", isManager, getIncomeStats);
 router.get("/week-sales", isManager, getOneWeekSales);
 
 //GET USER ORDERS
-router.get("/find/:userId", isEmployee, getOrderByUserId);
+router.get("/find/:userId", getOrderByUserId);
 
-
-router.route("/:id").get(isEmployee, getOrderById).put(checkOrderAccess, updateOrder).delete(isEmployee, deleteOrder);
+router
+  .route("/:id")
+  .get(isEmployee, getOrderById)
+  .put(checkOrderAccess, updateOrder)
+  .delete(isEmployee, deleteOrder);
 
 module.exports = router;
