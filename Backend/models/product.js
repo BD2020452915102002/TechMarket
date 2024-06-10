@@ -52,6 +52,7 @@ const productSchema = new mongoose.Schema(
           required: true,
         },
         comment: { type: String, required: true },
+        userName: { type: String, required: true },
         subComments: [
           {
             _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
@@ -61,6 +62,7 @@ const productSchema = new mongoose.Schema(
               required: true,
             },
             comment: { type: String, required: true },
+            userName: { type: String, required: true },
           },
         ],
       },

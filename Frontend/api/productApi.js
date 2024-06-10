@@ -25,8 +25,7 @@ export const productApi = {
     const url = `/product/${productId}`;
     return api.delete(url, setHeaders());
   },
-  updateProduct(data, productId)
-   {
+  updateProduct(data, productId) {
     //   {
     //     "name":"Laptop Lenovo IdeaPad Slim 3 14IAH8 83EQ0005VN",
     //     "alias": "laptop-lenovo-ideapad-slim-3-14iah8-83eq0005vn",
@@ -39,7 +38,7 @@ export const productApi = {
     //     "rate": 2
     // }
     const url = `/product/${productId}`;
-    return api.put(url, data,setHeaders());
+    return api.put(url, data, setHeaders());
   },
   getUserCart(userId) {
     const url = `/user/${userId}/cart/`;
@@ -54,7 +53,7 @@ export const productApi = {
     const url = `/user/${userId}/cart`;
     const res = api.post(url, cartItems, setHeaders());
     console.log(res);
-    return res
+    return res;
   },
 };
 
@@ -92,7 +91,8 @@ export const commentApi = {
   createComment(productId, comment) {
     // {
     //   "userId": "664cc642e3de3cee7ce68cb3",
-    //   "comment": "this product is greate"
+    //   "comment": "this product is greate",
+    //   "userName": "Dat",
     // }
     const url = `/product/${productId}/comment`;
     return api.post(url, comment, setHeaders());
@@ -101,7 +101,8 @@ export const commentApi = {
   reply(productId, commentId, comment) {
     // {
     //   "userId": "664cc642e3de3cee7ce68cb3",
-    //   "comment": "this product is greate"
+    //   "comment": "this product is greate",
+    //   "userName": "Dat",
     // }
     const url = `/product/${productId}/comment/${commentId}`;
     return api.post(url, comment, setHeaders());
