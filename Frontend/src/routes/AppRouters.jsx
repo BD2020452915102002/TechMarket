@@ -20,7 +20,7 @@ import ConfirmEmail from "../page/customer/ConfirmEmail.jsx";
 import { useDispatch } from "react-redux";
 import { productApi } from "../../api/productApi.js";
 import { fetchData } from "../store/actions/productsAction.js";
-import ForgotPassword from "../page/ForgotPassword.jsx";
+import ForgotPassword from "../page/customer/ForgotPassword.jsx";
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -45,12 +45,12 @@ function AppRouters() {
     }, []);
     return (
         <div>
-            <ScrollToTop/>
+            <ScrollToTop />
             <Routes>
                 {/* Shared */}
                 <Route path="/login" element={<Login />} />
                 <Route path="/confirmemail" element={<ConfirmEmail />} />
-                <Route path={'/forgotpassword'} element={<ForgotPassword/>} />
+                <Route path={'/forgotpassword'} element={<ForgotPassword />} />
                 {/* Customer */}
                 <Route path="/" element={<Home />} />
                 <Route path="/createAccount" element={<CreateAccount />} />
@@ -81,7 +81,7 @@ function AppRouters() {
                 <Route
                     path="/products/:productID"
                     element={
-                        <PrivateRoute roles={['customer','employee','manager']}>
+                        <PrivateRoute roles={['customer', 'employee', 'manager']}>
                             <DetailProduct />
                         </PrivateRoute>
                     }
@@ -106,7 +106,7 @@ function AppRouters() {
                 <Route
                     path="/chat"
                     element={
-                        <PrivateRoute roles={['employee','customer']}>
+                        <PrivateRoute roles={['employee', 'customer']}>
                             <Chatboard />
                         </PrivateRoute>
                     }

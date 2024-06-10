@@ -1,55 +1,47 @@
+import { commentApi } from "../../../api/productApi.js";
 
-export const getComments = async () => {
-    return [
-        {
-            id: "1",
-            body: "First comment",
-            username: "Jack",
-            userId: "1",
-            parentId: null,
-            createdAt: "2021-08-16T23:00:33.010+02:00",
-        },
-        {
-            id: "2",
-            body: "Second comment",
-            username: "John",
-            userId: "2",
-            parentId: null,
-            createdAt: "2021-08-16T23:00:33.010+02:00",
-        },
-        {
-            id: "3",
-            body: "First comment first child",
-            username: "John",
-            userId: "2",
-            parentId: "1",
-            createdAt: "2021-08-16T23:00:33.010+02:00",
-        },
-        {
-            id: "4",
-            body: "Second comment second child",
-            username: "John",
-            userId: "2",
-            parentId: "2",
-            createdAt: "2021-08-16T23:00:33.010+02:00",
-        },
-    ];
+export const getComments = async (productId) => {
+    const res = await commentApi.getAllComments(productId);
+    return res.data.data
+    // Lấy thông tin người dùng cho mỗi bình luận
+    // return await Promise.all(
+    //     comments.map(async (comment) => {
+    //         // Lấy thông tin người dùng cho comment chính
+    //         const userRes = await userApi.getUserById(comment.userId);
+    //         const updatedComment = {
+    //             ...comment,
+    //             username: userRes.data.data.name, // Hoặc bất kỳ thuộc tính nào bạn muốn từ dữ liệu người dùng
+    //         };
+    //
+    //         // Lấy thông tin người dùng cho từng subComment
+    //         const updatedSubComments = await Promise.all(
+    //             comment.subComments.map(async (subComment) => {
+    //                 if (subComment.userId) {
+    //                     const subUserRes = await userApi.getUserById(subComment.userId);
+    //                     return {
+    //                         ...subComment,
+    //                         username: subUserRes.data.data.name,
+    //                     };
+    //                 }
+    //                 return subComment;
+    //             })
+    //         );
+    //
+    //         return {
+    //             ...updatedComment,
+    //             subComments: updatedSubComments,
+    //         };
+    //     })
+    // );
 };
 
-export const createComment = async (text, parentId = null) => {
-    return {
-        id: Math.random().toString(36).substr(2, 9),
-        body: text,
-        parentId,
-        userId: "1",
-        username: "John",
-        createdAt: new Date().toISOString(),
-    };
+
+export const createComment = async (productId, comment) => {
+    const res = await commentApi.createComment(productId, comment);
+    return res.data;
 };
 
-export const updateComment = async (text) => {
-    return { text };
-};
-export const deleteComment = async () => {
-    return {};
+export const updateComment = async (productId, commentId, comment) => {
+    const res = await commentApi.reply(productId, commentId, comment);
+    return res.data;
 };
