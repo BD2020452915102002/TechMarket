@@ -108,7 +108,7 @@ function Cart() {
                     <ProductCart />
                 </div>
                 <div className="flex flex-col md:flex-row items-center justify-between mt-10 mb-20">
-                    <div className="flex items-center mb-4 md:mb-0">
+                    <div className="flex items-center mb-4 md:mb-0 gap-2">
                         {
                             isCheckedAll ?
                                 <Button variant="contained" className="mr-3 min-w-[170px]" onClick={handleUnCheckAllItems}>Huỷ chọn tất cả</Button>

@@ -86,7 +86,7 @@ function DetailProductContent({ product }) {
                         <h1 className="ml-4 md:mr-1">Còn: {productShow?.stock}</h1>
                     </div>
                     <div className="hidden md:grid grid-cols-2 mt-8 gap-3 ">
-                        <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count < 1}
+                        <Button variant="contained" startIcon={<AddShoppingCartIcon />}
                             onClick={async () => {
                                 notify('info', 'Added to cart');
                                 await productApi.updateUserCart(userID, productShow._id);
@@ -102,7 +102,7 @@ function DetailProductContent({ product }) {
                             }}>Mua ngay</Button>
                     </div>
                     <div className="grid grid-cols-2 mt-8 gap-3 md:hidden">
-                        <Button variant="contained" startIcon={<AddShoppingCartIcon />} disabled={count < 1}
+                        <Button variant="contained" startIcon={<AddShoppingCartIcon />}
                             onClick={async () => {
                                 notify('info', 'Added to cart');
                                 await productApi.updateUserCart(userID, productShow._id);

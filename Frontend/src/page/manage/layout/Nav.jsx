@@ -16,27 +16,60 @@ function Nav() {
     const session = JSON.parse(localStorage.getItem('session')) || { isLoggedIn: false, userDetails: {} };
     const { userDetails } = session;
     const [menuItems, setMenuItems] = useState([]);
-
     useEffect(() => {
         const { role } = userDetails;
         const items = getMenuItemsByRole(role);
-        setMenuItems(items);
+        const acceptChat = roleChat(userDetails._id);
+        setMenuItems([...items, ...acceptChat]);
     }, []);
+
+    const roleChat = (id) => {
+        if (id === '6631eca7cdb504839a6da6d1') {
+            return [{
+                title: 'Nhắn tin với khách hàng',
+                icon: <ChatIcon />,
+                path: '/managehome/chat'
+            }];
+        }
+        return [];
+    };
 
     const getMenuItemsByRole = (role) => {
         if (role === 'employee') {
             return [
-                { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-                { title: 'Quản lý đơn hàng', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
-                { title: 'Nhắn tin với khách hàng', icon: <ChatIcon />, path: '/managehome/chat' },
-
+                {
+                    title: 'Sản phẩm đăng bán',
+                    icon: <CategoryIcon />,
+                    path: '/managehome/products'
+                },
+                {
+                    title: 'Quản lý đơn hàng',
+                    icon: <FactCheckIcon />,
+                    path: '/managehome/managestatusproduct'
+                }
             ];
         } else {
             return [
-                { title: 'Thống kê', icon: <DashboardIcon />, path: '/managehome/dashboard' },
-                { title: 'Quản lý tài khoản', icon: <PersonIcon />, path: '/managehome/users' },
-                { title: 'Sản phẩm đăng bán', icon: <CategoryIcon />, path: '/managehome/products' },
-                { title: 'Quản lý đơn hàng', icon: <FactCheckIcon />, path: '/managehome/managestatusproduct' },
+                {
+                    title: 'Thống kê',
+                    icon: <DashboardIcon />,
+                    path: '/managehome/dashboard'
+                },
+                {
+                    title: 'Quản lý tài khoản',
+                    icon: <PersonIcon />,
+                    path: '/managehome/users'
+                },
+                {
+                    title: 'Sản phẩm đăng bán',
+                    icon: <CategoryIcon />,
+                    path: '/managehome/products'
+                },
+                {
+                    title: 'Quản lý đơn hàng',
+                    icon: <FactCheckIcon />,
+                    path: '/managehome/managestatusproduct'
+                }
             ];
         }
     };
