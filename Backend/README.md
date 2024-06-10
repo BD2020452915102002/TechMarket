@@ -315,7 +315,7 @@ Kết quả: xem chi tiết order
 Kết quả: cập nhật order
 `Chỉ chỉnh sửa status bao gồm : pending, delivered, rejected`
 
-## Chat
+## Comment
 
 📌 GET `/api/product/:productId/comment`
 Kết quả: Lấy tất cả phần comment của một sản phẩm

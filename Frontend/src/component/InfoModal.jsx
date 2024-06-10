@@ -12,6 +12,7 @@ import {userApi} from "../../api/userApi.js";
 import TextField from "@mui/material/TextField";
 import {notify} from "../utils/toastify.js";
 import eventEmitter from "../utils/eventEmitter.js";
+import KeyIcon from '@mui/icons-material/Key';
 
 const style = {
     position: 'absolute',
@@ -32,6 +33,7 @@ export default function InfoModal() {
     const {userDetails} = JSON.parse(localStorage.getItem('session'))
     const [infor, setInfor] = useState({});
     const [isUpdate, setIsUpdate] = useState(false)
+    const [isUpdatePass, setIsUpdatePass] = useState(false)
     const [updateData, setUpdateData] = useState({})
     const fetchData = async (userId) => {
         try {
@@ -59,6 +61,13 @@ export default function InfoModal() {
     function handleInput(e) {
         const {name, value} = e.target;
         setUpdateData({...updateData, [name]: value});
+    }
+
+    function handleUpdatePassword() {
+        setIsUpdatePass(()=>{
+            return !isUpdatePass
+        })
+
     }
 
     return (
@@ -186,12 +195,85 @@ export default function InfoModal() {
                             </div>
 
                         </div>
-                        <div className={'w-full flex justify-end'}>
+                        <div className={`p-8   ${isUpdatePass? ' ' : ' hidden' }   `}>
+                            <div className={'flex flex-col gap-3'}>
+                                <div className={'flex gap-3 items-center'}>
+                                    <div>
+                                        <PersonIcon/>
+                                    </div>
+                                    <div className={'w-full'}>
+                                        <TextField className={'w-full'} name={'name'} label="Tên" variant="outlined"
+                                                   size={'small'} value={updateData?.name || infor?.name}
+                                                   onChange={handleInput}/>
+                                    </div>
+                                </div>
+                                <div className={'flex gap-3 items-center'}>
+                                    <div>
+                                        <PhoneIphoneIcon/>
+                                    </div>
+                                    <div className={'w-full'}>
+                                        <TextField className={'w-full'} name={'phone'} label="Số điện thoại"
+                                                   variant="outlined" size={'small'}
+                                                   value={updateData?.phone || infor?.phone} onChange={handleInput}/>
+                                    </div>
+                                </div>
+
+                                {/*<div className={'flex gap-3 items-center'}>*/}
+                                {/*    <div>*/}
+                                {/*        <ManIcon />*/}
+                                {/*    </div>*/}
+                                {/*    <div>*/}
+                                {/*        <div className={'text-[#8F90A6]'}>Giới tính</div>*/}
+                                {/*        <div className={'text-[#1C1C28]'}>{infor?.gender}</div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+
+                                <div className={'flex gap-3 items-center'}>
+                                    <div>
+                                        <EmailIcon/>
+                                    </div>
+                                    <div className={'w-full'}>
+                                        <TextField className={'w-full'} name={'email'} label="Email" variant="outlined"
+                                                   size={'small'} value={updateData?.email || infor?.email}
+                                                   onChange={handleInput}/>
+                                    </div>
+                                </div>
+
+                                <div className={'flex gap-3 items-center'}>
+                                    <div>
+                                        <HomeIcon/>
+                                    </div>
+                                    <div className={'w-full'}>
+                                        <TextField className={'w-full'} name={'address'} label="Địa chỉ"
+                                                   variant="outlined" size={'small'}
+                                                   value={updateData?.address || infor?.address}
+                                                   onChange={handleInput}/>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                            <div className={'flex gap-3 items-center'}>
+                                <div>
+                                    <KeyIcon/>
+                                </div>
+                                <div className={'w-full'}>
+                                    <TextField className={'w-full'} name={'password'} label="Mật khẩu"
+                                               variant="outlined" size={'small'}
+                                               value={updateData?.password || ''}
+                                               onChange={handleInput}/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={'w-full flex justify-between'}>
+                            <Button variant={'contained'} color={isUpdatePass ? 'error' : 'info'} className={`${isUpdatePass ? ' hidden' : ' '}`}
+                                    onClick={handleUpdatePassword}>{!isUpdatePass ? 'Đổi mật khẩu' : 'Lưu'}
+                            </Button>
                             <Button variant={'contained'} color={!isUpdate ? 'error' : 'info'}
+                                    className={`${isUpdatePass ? ' hidden' : ' '}`}
                                     onClick={handleUpdate}>{!isUpdate ? 'Chỉnh sửa' : 'Lưu'}
                             </Button>
                         </div>
-                    </div>
                 </Box>
             </Modal>
         </div>

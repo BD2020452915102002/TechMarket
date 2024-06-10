@@ -1,6 +1,8 @@
 const userService = require("../services/UserService");
 const productService = require("../services/ProductService");
 const cloudinary = require("../utils/cloudinary");
+const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 
 exports.createUser = async (req, res) => {
   var avatarPublicId;
@@ -85,11 +87,23 @@ exports.updateUser = async (req, res) => {
         throw new Error("Failed to upload image to cloudinary");
       }
 
+      const { name, email, phone, address, role, password } = req.body;
+      if (password != user.password) {
+        const salt = await bcrypt.genSalt(10);
+        hashPassword = await bcrypt.hash(password, salt);
+        user.password = hashPassword;
+        await user.save();
+      }
+
       const updatedUser = await userService.updateUser(
         req.params.id,
         {
           $set: {
-            ...req.body,
+            name,
+            email,
+            phone,
+            address,
+            role,
             avatar: uploadedResponse,
           },
         },
@@ -98,10 +112,29 @@ exports.updateUser = async (req, res) => {
 
       res.status(200).json({ data: updatedUser, status: "success" });
     } else {
+      user = await userService.getUserById(req.params.id);
+
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const { name, email, phone, address, role, password } = req.body;
+
+      if (password != user.password) {
+        const salt = await bcrypt.genSalt(10);
+        hashPassword = await bcrypt.hash(password, salt);
+        user.password = hashPassword;
+        await user.save();
+      }
+
       const updatedUser = await userService.updateUser(
         req.params.id,
         {
-          $set: req.body,
+          name,
+          email,
+          phone,
+          address,
+          role,
         },
         { new: true }
       );

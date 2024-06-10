@@ -35,7 +35,7 @@ function ChatIcon({ chosenChatDetails, setChosenChatDetails, customers }) {
   const handleOpen = () => {
     setOpen(true);
     setChosenChatDetails(
-      { id: customers[0].id, name: customers[0].name },
+      { id: customers[0]?.id, name: customers[0]?.name },
       chatTypes.DIRECT
     );
     getDirectChatHistory({
