@@ -3,7 +3,7 @@ import Navbar from "../../component/Navbar.jsx";
 import Footer from "../../component/Footer.jsx";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@mui/material";
 import {orderApi} from "../../../api/orderApi.js";
-import OrderProductChild from "../../component/OrderProductChirld.jsx";
+import OrderProductChild from "../../component/OrderProductChild.jsx";
 import {formatNumber} from "../../utils/formatNumber.js";
 
 function ManageStatusProduct() {
