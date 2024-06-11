@@ -1,10 +1,12 @@
 import React from "react";
 import Button from "@mui/material/Button";
-import Avatar from "../../../../component/Avatar";
+// import Avatar from "../../../../component/Avatar";
 import Typography from "@mui/material/Typography";
 import { chatTypes, getActions } from "../../../../store/actions/chatActions";
 import { connect } from "react-redux";
 import OnlineIndicator from "./OnlineIndicator";
+import {Avatar} from "@mui/material";
+import {stringAvatar} from "../../../../utils/avataAbout.js";
 
 const CustomersListItem = ({ id, name, isOnline, setChosenChatDetails }) => {
   const handleChooseActiveConversation = () => {
@@ -26,11 +28,11 @@ const CustomersListItem = ({ id, name, isOnline, setChosenChatDetails }) => {
         position: "relative",
       }}
     >
-      <Avatar username={name} />
+      <Avatar  {...stringAvatar(name)} className={'!w-10 !h-10'} />
       <Typography
         style={{
-          marginLeft: "7px",
-          fontWeight: 700,
+          marginLeft: "4px",
+          fontWeight: 500,
           color: "#8e9297",
         }}
         variant="subtitle1"

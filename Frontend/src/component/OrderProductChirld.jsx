@@ -28,7 +28,7 @@ function OrderProductChild({ products }) {
     }, [products, getFullProductDetails]);
 
     return (
-        <div className={'bg-white'}>
+        <div className={'bg-white mt-4'}>
             <div className="grid py-2 grid-cols-[auto,20%,20%] w-full place-items-center border-b-[1px] border-gray-400 bg-white">
                 <p>Sản phẩm</p>
                 <p>Giá</p>

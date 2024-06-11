@@ -70,6 +70,7 @@ function HomeManage() {
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const {userDetails} = JSON.parse(localStorage.getItem('session'))
     const [infor, setInfor] = useState({});
+    const [chatPage, setChatPage] = useState(false)
     const fetchData = async (userId) => {
         try {
             const res = await userApi.getUserById(userId);
@@ -78,6 +79,9 @@ function HomeManage() {
             console.error('Error fetching user data:', error);
         }
     };
+    const setChat = (val) =>{
+        setChatPage(val)
+    }
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -182,9 +186,9 @@ function HomeManage() {
                 <Divider/>
                 <Nav/>
             </Drawer>
-            <Main open={open} className={'!bg-[#F4F4F4]'}>
+            <Main open={open} className={`!bg-[#F4F4F4] ${chatPage?' !p-0': ' '}`} >
                 <DrawerHeader/>
-                <Outlet/>
+                <Outlet />
             </Main>
         </Box>
     );

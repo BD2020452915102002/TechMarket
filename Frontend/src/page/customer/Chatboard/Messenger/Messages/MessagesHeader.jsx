@@ -1,7 +1,9 @@
 import React from "react";
 import { styled } from "@mui/system";
-import Avatar from "../../../../../component/Avatar";
+// import Avatar from "../../../../../component/Avatar";
 import Typography from "@mui/material/Typography";
+import {stringAvatar} from "../../../../../utils/avataAbout.js";
+import {Avatar} from "@mui/material";
 
 const MainContainer = styled("div")({
   width: "98%",
@@ -13,7 +15,7 @@ const MessagesHeader = ({ name = "" }) => {
   return (
     <MainContainer >
      <div className={'flex items-center '}>
-         <Avatar large username={name} />
+         <Avatar   {...stringAvatar(name)} className={'!w-16 !h-16'}/>
          <Typography
              variant="h6"
              sx={{

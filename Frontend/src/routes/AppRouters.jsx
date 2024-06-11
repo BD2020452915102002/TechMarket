@@ -103,14 +103,6 @@ function AppRouters() {
                         </PrivateRoute>
                     }
                 />
-                <Route
-                    path="/chat"
-                    element={
-                        <PrivateRoute roles={['employee', 'customer']}>
-                            <Chatboard />
-                        </PrivateRoute>
-                    }
-                />
 
                 {/* Employee and Manage */}
                 <Route

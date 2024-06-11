@@ -4,6 +4,7 @@ import Footer from "../../component/Footer.jsx";
 import { Button } from "@mui/material";
 import { orderApi } from "../../../api/orderApi.js";
 import OrderProductChild from "../../component/OrderProductChirld.jsx";
+import {formatNumber} from "../../utils/formatNumber.js";
 
 function OrderStatus() {
     const [orderProducts, setOrderProducts] = useState([]);
@@ -40,9 +41,6 @@ function OrderStatus() {
                                                 <div className="flex items-center justify-between">
                                                     <div>
                                                         <p className="font-bold text-lg">Order ID: {order._id}</p>
-                                                        <p className="text-yellow-500">
-                                                            Trạng thái: {order.delivery_status === "pending" ? "Đang xử lý" : order.delivery_status === "delivered" ? "Đang giao" : "Bị từ chối"}
-                                                        </p>
                                                         <p className="text-green-500">
                                                             Thanh toán: {order.payment_status === "paid" ? "Đã thanh toán" : "Chưa thanh toán"}
                                                         </p>
@@ -54,13 +52,20 @@ function OrderStatus() {
                                                     </div>
                                                 </div>
                                             </div>
-                                            {order.delivery_status === "pending" && (
+                                            {order.delivery_status === "delivered" ? (
                                                 <div className="flex items-center justify-end">
-                                                    <Button variant="contained" color="error">Huỷ đơn hàng</Button>
+                                                    <div className={'bg-green-300 p-4 rounded-full font-bold'}>Giao hàng thành công</div>
                                                 </div>
-                                            )}
+                                            ) : order.delivery_status === "pending" ?
+                                                <div className="flex items-center justify-end">
+                                                    <div className={'bg-yellow-300 p-4 rounded-full font-bold'}>Đơn hàng đang giao</div>
+                                                </div> : <div className="flex items-center justify-end">
+                                                    <div className={'bg-red-400 p-4 rounded-full font-bold'}>Đơn hàng từ chối</div>
+                                                </div>
+                                            }
                                         </div>
-                                        <OrderProductChild products={order.products} />
+                                        <OrderProductChild products={order.products}/>
+                                        <p className={'font-bold text-center mt-2 -mb-4 text-lg'}>Thành tiền: {formatNumber(order?.total)} đ</p>
                                     </div>
                                 ))}
                             </div>

@@ -6,7 +6,6 @@ import Message from "./Message";
 import DateSeparator from "./DateSeparator";
 
 const MainContainer = styled("div")({
-    height: "100%",
     overflowY: "auto",
     display: "flex",
     flexDirection: "column",
@@ -39,7 +38,7 @@ const Messages = ({ chosenChatDetails, messages }) => {
     };
 
     return (
-        <MainContainer ref={messageContainerRef}>
+        <MainContainer ref={messageContainerRef} className={'h-[calc(100vh-200px)]'}>
             <MessagesHeader name={chosenChatDetails?.name} />
             {messages.map((message, index) => {
                 const sameAuthor =

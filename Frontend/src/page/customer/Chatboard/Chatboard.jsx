@@ -6,8 +6,6 @@ import AppBar from "./AppBar/AppBar";
 import { connectWithSocketServer } from "../../../realtimeCommunication/socketConnection";
 
 const Wrapper = styled("div")({
-  width: "100%",
-  height: "100vh",
   display: "flex",
 });
 
@@ -18,7 +16,7 @@ const Chatboard = () => {
   }, []);
 
   return (
-    <Wrapper>
+    <Wrapper className={'!w-full h-[calc(100vh-200px) !bg-white -m-6 '}>
       <CustomersSideBar />
       <Messenger />
       <AppBar />

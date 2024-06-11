@@ -4,18 +4,12 @@ import CustomersTitle from "./CustomersTitle";
 import CustomersList from "./CustomersList";
 
 const MainContainer = styled("div")({
-  width: "224px",
-  height: "100%",
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  backgroundColor: "#2F3136",
 });
 
 const CustomersSideBar = () => {
   return (
-    <MainContainer>
-      <CustomersTitle title="Private Messages" />
+    <MainContainer className={'w-[18vw] flex flex-col p-8 bg-white'}>
+      <CustomersTitle title="Private Messages"/>
       <CustomersList />
     </MainContainer>
   );

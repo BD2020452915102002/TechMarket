@@ -1,7 +1,9 @@
 import React from "react";
 import { styled } from "@mui/system";
-import Avatar from "../../../../../component/Avatar";
+// import Avatar from "../../../../../component/Avatar";
 import Typography from "@mui/material/Typography";
+import {Avatar} from "@mui/material";
+import {stringAvatar} from "../../../../../utils/avataAbout.js";
 
 const MainContainer = styled("div")({
   width: "97%",
@@ -43,7 +45,7 @@ const Message = ({ content, sameAuthor, name, date, sameDay }) => {
   return (
     <MainContainer>
       <AvatarContainer>
-        <Avatar username={name} />
+        <Avatar  {...stringAvatar(name)} />
       </AvatarContainer>
       <MessageContainer>
         <Typography style={{ fontSize: "16px", color: "black" }} className={' flex items-center justify-between w-full'}>
